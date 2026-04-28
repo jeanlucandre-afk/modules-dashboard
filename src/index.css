@@ -1,0 +1,229 @@
+@import "tailwindcss";
+
+/* ============================================================================
+   Theme tokens — dark glassmorphism with violet accent
+   ============================================================================ */
+@theme {
+  --color-background: #0a0a14;
+  --color-foreground: #e9e9f4;
+  --color-muted: #1a1a26;
+  --color-muted-foreground: #8b8ba8;
+  --color-card: #11111c;
+  --color-card-foreground: #e9e9f4;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-input: rgba(255, 255, 255, 0.06);
+  --color-primary: #a78bfa;
+  --color-primary-foreground: #0a0a14;
+  --color-secondary: rgba(255, 255, 255, 0.06);
+  --color-secondary-foreground: #e9e9f4;
+  --color-accent: #ec4899;
+  --color-accent-foreground: #ffffff;
+  --color-violet-glow: #8b5cf6;
+  --color-violet-deep: #5b21b6;
+
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  --font-geist: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  --radius-3xl: 1.5rem;
+  --radius-2xl: 1rem;
+}
+
+/* ============================================================================
+   Base
+   ============================================================================ */
+* { box-sizing: border-box; }
+
+html, body, #root {
+  min-height: 100dvh;
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
+
+body {
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+.font-mono { font-family: var(--font-mono); }
+.font-geist { font-family: var(--font-geist); }
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(167, 139, 250, 0.2);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(167, 139, 250, 0.4); }
+
+/* ============================================================================
+   Animations — fade-slide-in, slide-right, testimonial-in, modal-pop, blob-drift
+   ============================================================================ */
+
+/* Element entrance — used for staggered hero text + form rows */
+.animate-element {
+  opacity: 0;
+  filter: blur(6px);
+  transform: translateY(14px);
+  animation: fadeSlideIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes fadeSlideIn {
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-right {
+  opacity: 0;
+  filter: blur(6px);
+  transform: translateX(30px);
+  animation: slideRightIn 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes slideRightIn {
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateX(0);
+  }
+}
+
+.animate-testimonial {
+  opacity: 0;
+  filter: blur(6px);
+  transform: translateY(20px) scale(0.96);
+  animation: testimonialIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes testimonialIn {
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Card hover — subtle lift + glow */
+.animate-card {
+  opacity: 0;
+  filter: blur(8px);
+  transform: translateY(20px);
+  animation: fadeSlideIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Modal entrance */
+.animate-modal-pop {
+  animation: modalPop 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes modalPop {
+  from { opacity: 0; transform: scale(0.92) translateY(16px); filter: blur(10px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);   filter: blur(0); }
+}
+
+.animate-modal-backdrop {
+  animation: backdropIn 0.3s ease-out forwards;
+}
+@keyframes backdropIn {
+  from { opacity: 0; backdrop-filter: blur(0px); }
+  to   { opacity: 1; backdrop-filter: blur(20px); }
+}
+
+/* Ambient floating gradient blobs */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+  pointer-events: none;
+  animation: blobDrift 22s ease-in-out infinite alternate;
+}
+@keyframes blobDrift {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(40px, -30px) scale(1.15); }
+  100% { transform: translate(-30px, 20px) scale(0.95); }
+}
+
+/* Pulse for the live deadline dot */
+.animate-pulse-soft {
+  animation: pulseSoft 2.4s ease-in-out infinite;
+}
+@keyframes pulseSoft {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.55; transform: scale(1.4); }
+}
+
+/* Progress ring fill */
+@keyframes ringFill {
+  from { stroke-dashoffset: 251.2; }
+}
+
+/* Stagger delay utilities (Tailwind 4 inline) */
+.animate-delay-100 { animation-delay: 0.10s; }
+.animate-delay-200 { animation-delay: 0.20s; }
+.animate-delay-300 { animation-delay: 0.30s; }
+.animate-delay-400 { animation-delay: 0.40s; }
+.animate-delay-500 { animation-delay: 0.50s; }
+.animate-delay-600 { animation-delay: 0.60s; }
+.animate-delay-700 { animation-delay: 0.70s; }
+.animate-delay-800 { animation-delay: 0.80s; }
+.animate-delay-900 { animation-delay: 0.90s; }
+.animate-delay-1000 { animation-delay: 1.00s; }
+.animate-delay-1100 { animation-delay: 1.10s; }
+.animate-delay-1200 { animation-delay: 1.20s; }
+.animate-delay-1300 { animation-delay: 1.30s; }
+.animate-delay-1400 { animation-delay: 1.40s; }
+.animate-delay-1500 { animation-delay: 1.50s; }
+
+/* Glass surface utility */
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.glass-strong {
+  background: rgba(17, 17, 28, 0.72);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+/* Custom checkbox (used in sign-in) */
+.custom-checkbox {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
+}
+.custom-checkbox:checked {
+  background: linear-gradient(135deg, #a78bfa, #ec4899);
+  border-color: transparent;
+}
+.custom-checkbox:checked::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 2px;
+  background: white;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Still — LTV & Pricing Model</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ds-bg-100: hsla(0,0%,100%,1);
+    --ds-bg-200: hsla(0,0%,98%,1);
+    --ds-text-primary: hsla(0,0%,9%,1);
+    --ds-text-secondary: hsla(0,0%,40%,1);
+    --ds-text-tertiary: hsla(0,0%,60%,1);
+    --ds-border: hsla(0,0%,0%,0.08);
+    --ds-border-strong: hsla(0,0%,0%,0.15);
+    --ds-stripe: hsla(0,0%,0%,0.025);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ds-bg-100: hsla(0,0%,4%,1);
+      --ds-bg-200: hsla(0,0%,0%,1);
+      --ds-text-primary: hsla(0,0%,93%,1);
+      --ds-text-secondary: hsla(0,0%,63%,1);
+      --ds-text-tertiary: hsla(0,0%,45%,1);
+      --ds-border: hsla(0,0%,100%,0.14);
+      --ds-border-strong: hsla(0,0%,100%,0.22);
+      --ds-stripe: hsla(0,0%,100%,0.03);
+    }
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--ds-bg-200);
+    color: var(--ds-text-primary);
+    padding: 32px 24px;
+    min-height: 100vh;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .page-title { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
+  .page-sub { font-size: 13px; color: var(--ds-text-secondary); margin-bottom: 28px; }
+
+  .section-label {
+    font-size: 10px; font-weight: 600; letter-spacing: .07em;
+    text-transform: uppercase; color: var(--ds-text-tertiary); margin-bottom: 14px;
+  }
+
+  .card {
+    background: var(--ds-bg-100); border: 1px solid var(--ds-border);
+    border-radius: 10px; padding: 20px 24px; margin-bottom: 16px;
+  }
+
+  .divider { height: 1px; background: var(--ds-border); margin: 24px 0; }
+
+  /* Metric grid */
+  .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 10px; margin-bottom: 0; }
+  .metric { background: var(--ds-bg-200); border-radius: 8px; padding: 14px 16px; border: 1px solid var(--ds-border); }
+  .metric-label { font-size: 11px; color: var(--ds-text-tertiary); margin-bottom: 4px; }
+  .metric-value { font-size: 24px; font-weight: 500; }
+  .metric-sub { font-size: 11px; color: var(--ds-text-secondary); margin-top: 3px; line-height: 1.4; }
+
+  .val-green  { color: #3B6D11; }
+  .val-purple { color: #3C3489; }
+  .val-coral  { color: #712B13; }
+  .val-teal   { color: #085041; }
+
+  @media (prefers-color-scheme: dark) {
+    .val-green  { color: #C0DD97; }
+    .val-purple { color: #CECBF6; }
+    .val-coral  { color: #F5C4B3; }
+    .val-teal   { color: #9FE1CB; }
+  }
+
+  /* Formula boxes */
+  .formula-row { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--ds-text-secondary); flex-wrap: wrap; margin-bottom: 10px; }
+  .fbox { background: var(--ds-bg-200); border: 1px solid var(--ds-border); border-radius: 6px; padding: 4px 10px; font-size: 12px; color: var(--ds-text-primary); font-weight: 500; white-space: nowrap; }
+  .fbox.highlight { background: #EEEDFE; border-color: #AFA9EC; color: #3C3489; }
+  @media (prefers-color-scheme: dark) {
+    .fbox.highlight { background: #26215C; border-color: #534AB7; color: #CECBF6; }
+  }
+  .op { color: var(--ds-text-tertiary); font-size: 14px; }
+
+  /* Bar chart */
+  .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 12px; }
+  .bar-label { min-width: 130px; color: var(--ds-text-secondary); }
+  .bar-track { flex: 1; height: 12px; background: var(--ds-bg-200); border-radius: 6px; overflow: hidden; border: 1px solid var(--ds-border); }
+  .bar-fill { height: 100%; border-radius: 6px; }
+  .bar-val { min-width: 80px; text-align: right; color: var(--ds-text-primary); font-weight: 500; }
+  .bar-tag { font-size: 10px; color: var(--ds-text-tertiary); min-width: 60px; }
+
+  /* Pricing cards */
+  .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 12px; margin-bottom: 16px; }
+  .pricing-card { background: var(--ds-bg-100); border: 1px solid var(--ds-border); border-radius: 10px; padding: 18px 20px; }
+  .pricing-card.featured { border: 2px solid #534AB7; }
+
+  .pricing-badge {
+    display: inline-block; font-size: 9px; font-weight: 700;
+    letter-spacing: .07em; text-transform: uppercase; padding: 2px 8px;
+    border-radius: 99px; margin-bottom: 12px; border: 1px solid;
+  }
+  .badge-trial   { background: #F1EFE8; color: #444441; border-color: #B4B2A9; }
+  .badge-monthly { background: #E1F5EE; color: #085041; border-color: #5DCAA5; }
+  .badge-pro     { background: #EEEDFE; color: #3C3489; border-color: #534AB7; }
+  .badge-best    { background: #EEEDFE; color: #3C3489; border-color: #534AB7; }
+
+  @media (prefers-color-scheme: dark) {
+    .badge-trial   { background: #2C2C2A; color: #D3D1C7; border-color: #5F5E5A; }
+    .badge-monthly { background: #04342C; color: #9FE1CB; border-color: #0F6E56; }
+    .badge-pro     { background: #26215C; color: #CECBF6; border-color: #534AB7; }
+    .badge-best    { background: #26215C; color: #CECBF6; border-color: #7F77DD; }
+  }
+
+  .pricing-price { font-size: 28px; font-weight: 500; margin-bottom: 2px; }
+  .pricing-period { font-size: 13px; font-weight: 400; color: var(--ds-text-secondary); }
+  .pricing-name { font-size: 13px; font-weight: 500; margin: 6px 0 6px; }
+  .pricing-desc { font-size: 11px; color: var(--ds-text-secondary); line-height: 1.55; margin-bottom: 12px; }
+
+  ul.plist { list-style: none; padding: 0; margin-bottom: 12px; }
+  ul.plist li { font-size: 11px; color: var(--ds-text-secondary); padding-left: 14px; position: relative; margin-bottom: 4px; line-height: 1.5; }
+  ul.plist li::before { content: "·"; position: absolute; left: 0; color: var(--ds-text-tertiary); font-weight: 700; }
+
+  .ltv-row { display: flex; justify-content: space-between; align-items: center; padding-top: 10px; border-top: 1px solid var(--ds-border); }
+  .ltv-label { font-size: 10px; color: var(--ds-text-tertiary); text-transform: uppercase; letter-spacing: .05em; }
+  .ltv-value { font-size: 14px; font-weight: 500; }
+
+  /* Argument table */
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  thead { border-bottom: 1px solid var(--ds-border); }
+  thead th { height: 36px; padding: 0 10px; text-align: left; font-size: 10px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ds-text-tertiary); }
+  tbody tr:nth-child(odd) { background: var(--ds-stripe); }
+  tbody tr:hover { background: var(--ds-border); }
+  td { padding: 9px 10px; vertical-align: top; border-bottom: 1px solid var(--ds-border); color: var(--ds-text-secondary); line-height: 1.55; font-size: 12px; }
+  tbody tr:last-child td { border-bottom: none; }
+  td.bold { font-weight: 500; color: var(--ds-text-primary); white-space: nowrap; }
+
+  .pill { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 99px; border: 1px solid; white-space: nowrap; }
+  .pill-green  { background: #EAF3DE; color: #27500A; border-color: #97C459; }
+  .pill-purple { background: #EEEDFE; color: #3C3489; border-color: #AFA9EC; }
+  .pill-amber  { background: #FAEEDA; color: #633806; border-color: #EF9F27; }
+  .pill-gray   { background: #F1EFE8; color: #444441; border-color: #B4B2A9; }
+
+  @media (prefers-color-scheme: dark) {
+    .pill-green  { background: #173404; color: #C0DD97; border-color: #3B6D11; }
+    .pill-purple { background: #26215C; color: #CECBF6; border-color: #534AB7; }
+    .pill-amber  { background: #412402; color: #FAC775; border-color: #854F0B; }
+    .pill-gray   { background: #2C2C2A; color: #D3D1C7; border-color: #5F5E5A; }
+  }
+
+  .source { font-size: 11px; color: var(--ds-text-tertiary); margin-top: 16px; line-height: 1.8; }
+
+  /* Assumptions note */
+  .assumption-row { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 16px; }
+  .assumption { font-size: 11px; color: var(--ds-text-secondary); }
+  .assumption span { font-weight: 500; color: var(--ds-text-primary); }
+</style>
+</head>
+<body>
+
+<div class="page-title">Still — LTV & Pricing Model</div>
+<div class="page-sub">SaaS platform · April 2026 · Based on Disciplined Entrepreneurship Step 17 + Hormozi $100M Offers</div>
+
+<!-- Assumptions -->
+<div class="section-label">Assumptions</div>
+<div class="assumption-row">
+  <div class="assumption">Monthly churn rate: <span>5%</span></div>
+  <div class="assumption">Avg lifespan: <span>20 months</span> (1 ÷ 0.05)</div>
+  <div class="assumption">Pro plan mix: <span>30% of users</span></div>
+  <div class="assumption">Blended ARPU: <span>€130/mo</span></div>
+  <div class="assumption">Gross margin: <span>75%</span></div>
+  <div class="assumption">Trial CAC: <span>€49</span></div>
+</div>
+
+<!-- LTV metrics -->
+<div class="section-label">LTV output — Still SaaS</div>
+<div class="metric-grid" style="margin-bottom:16px">
+  <div class="metric">
+    <div class="metric-label">Monthly LTV (€79/mo)</div>
+    <div class="metric-value val-teal">€1,580</div>
+    <div class="metric-sub">€79 ÷ 5% churn = 20 months avg</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">Pro LTV (€249/mo)</div>
+    <div class="metric-value val-purple">€4,980</div>
+    <div class="metric-sub">€249 ÷ 5% churn = 20 months avg</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">Blended LTV</div>
+    <div class="metric-value val-green">€2,600</div>
+    <div class="metric-sub">70% monthly + 30% Pro blended</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">Gross profit / customer</div>
+    <div class="metric-value val-coral">€1,950</div>
+    <div class="metric-sub">Blended LTV × 75% margin</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">CAC payback</div>
+    <div class="metric-value">0.5 mo</div>
+    <div class="metric-sub">€49 trial ÷ (€130 × 75%)</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">LTV : CAC ratio</div>
+    <div class="metric-value val-green">53 : 1</div>
+    <div class="metric-sub">Target is 3:1 minimum (DE Step 17)</div>
+  </div>
+</div>
+
+<!-- Formula -->
+<div class="card">
+  <div class="section-label">Formula — how LTV is calculated (Disciplined Entrepreneurship Step 17)</div>
+  <div class="formula-row">
+    <span style="min-width:110px;color:var(--ds-text-secondary)">Avg lifespan</span>
+    <span class="op">=</span>
+    <span class="fbox">1</span>
+    <span class="op">÷</span>
+    <span class="fbox">monthly churn rate</span>
+    <span class="op">=</span>
+    <span class="fbox">1 ÷ 0.05</span>
+    <span class="op">=</span>
+    <span class="fbox highlight">20 months</span>
+  </div>
+  <div class="formula-row">
+    <span style="min-width:110px;color:var(--ds-text-secondary)">LTV (monthly)</span>
+    <span class="op">=</span>
+    <span class="fbox">€79/mo</span>
+    <span class="op">×</span>
+    <span class="fbox">20 months</span>
+    <span class="op">=</span>
+    <span class="fbox highlight">€1,580</span>
+  </div>
+  <div class="formula-row">
+    <span style="min-width:110px;color:var(--ds-text-secondary)">LTV (Pro)</span>
+    <span class="op">=</span>
+    <span class="fbox">€249/mo</span>
+    <span class="op">×</span>
+    <span class="fbox">20 months</span>
+    <span class="op">=</span>
+    <span class="fbox highlight">€4,980</span>
+  </div>
+  <div class="formula-row">
+    <span style="min-width:110px;color:var(--ds-text-secondary)">Gross profit</span>
+    <span class="op">=</span>
+    <span class="fbox">LTV</span>
+    <span class="op">×</span>
+    <span class="fbox">75% margin</span>
+  </div>
+  <div class="formula-row">
+    <span style="min-width:110px;color:var(--ds-text-secondary)">LTV : CAC</span>
+    <span class="op">=</span>
+    <span class="fbox">Blended LTV €2,600</span>
+    <span class="op">÷</span>
+    <span class="fbox">CAC €49</span>
+    <span class="op">=</span>
+    <span class="fbox highlight">53 : 1</span>
+  </div>
+
+  <div style="height:16px"></div>
+  <div class="section-label">LTV comparison by plan</div>
+  <div class="bar-row">
+    <span class="bar-label">€49 trial (one-off)</span>
+    <div class="bar-track"><div class="bar-fill" style="width:1%;background:#B4B2A9"></div></div>
+    <span class="bar-val">€49</span>
+    <span class="bar-tag">entry</span>
+  </div>
+  <div class="bar-row">
+    <span class="bar-label">€79/mo monthly</span>
+    <div class="bar-track"><div class="bar-fill" style="width:31.7%;background:#9FE1CB"></div></div>
+    <span class="bar-val">€1,580</span>
+    <span class="bar-tag">32x trial</span>
+  </div>
+  <div class="bar-row">
+    <span class="bar-label">Blended ARPU</span>
+    <div class="bar-track"><div class="bar-fill" style="width:52.2%;background:#5DCAA5"></div></div>
+    <span class="bar-val">€2,600</span>
+    <span class="bar-tag">53x trial</span>
+  </div>
+  <div class="bar-row">
+    <span class="bar-label">€249/mo Pro</span>
+    <div class="bar-track"><div class="bar-fill" style="width:100%;background:#534AB7"></div></div>
+    <span class="bar-val">€4,980</span>
+    <span class="bar-tag">102x trial</span>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- Pricing cards -->
+<div class="section-label">Pricing tiers — Still SaaS</div>
+<div class="pricing-grid">
+
+  <div class="pricing-card">
+    <span class="pricing-badge badge-trial">Attraction offer · decoy</span>
+    <div class="pricing-price">€49</div>
+    <div class="pricing-name">Trial pack</div>
+    <div class="pricing-desc">3 custom AI creatives delivered in 48hrs. No call required. Credited toward any plan. Filters serious buyers.</div>
+    <ul class="plist">
+      <li>3 AI-generated ad creatives</li>
+      <li>48hr delivery</li>
+      <li>Credit toward subscription</li>
+    </ul>
+    <div class="ltv-row">
+      <span class="ltv-label">LTV</span>
+      <span class="ltv-value" style="color:var(--ds-text-secondary)">€49</span>
+    </div>
+  </div>
+
+  <div class="pricing-card featured">
+    <span class="pricing-badge badge-monthly">Subscription · entry</span>
+    <div class="pricing-price">€79<span class="pricing-period">/mo</span></div>
+    <div class="pricing-name">Still monthly</div>
+    <div class="pricing-desc">Self-serve AI creative platform. Generate ad creatives in one click and manage Meta from inside the dashboard.</div>
+    <ul class="plist">
+      <li>20 creatives/month</li>
+      <li>Meta ad integration</li>
+      <li>Performance dashboard</li>
+      <li>Cancel anytime</li>
+    </ul>
+    <div class="ltv-row">
+      <span class="ltv-label">LTV (20 mo avg)</span>
+      <span class="ltv-value val-teal">€1,580</span>
+    </div>
+  </div>
+
+  <div class="pricing-card featured">
+    <span class="pricing-badge badge-best">Highest LTV · target tier</span>
+    <div class="pricing-price">€249<span class="pricing-period">/mo</span></div>
+    <div class="pricing-name">Still Pro</div>
+    <div class="pricing-desc">Unlimited creatives, priority delivery, full Meta account management, and real-time performance tracking. Built for brands scaling fast.</div>
+    <ul class="plist">
+      <li>Unlimited creatives</li>
+      <li>Priority generation queue</li>
+      <li>Full Meta management</li>
+      <li>Real-time performance dashboard</li>
+      <li>Dedicated support</li>
+    </ul>
+    <div class="ltv-row">
+      <span class="ltv-label">LTV (20 mo avg)</span>
+      <span class="ltv-value val-purple">€4,980</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="divider"></div>
+
+<!-- Pricing reasoning -->
+<div class="section-label">Pricing decisions — the reasoning</div>
+<div class="card">
+  <p style="font-size:13px;color:var(--ds-text-secondary);line-height:1.8;margin-bottom:16px">
+    From the start, the plan for Still was to run it as a subscription. The reasoning was straightforward: the agency model resets revenue every month and every new client requires selling from scratch. A subscription means predictable income and a customer that keeps paying without needing to be re-converted. Looking at the numbers, a client on the €249/month Pro plan staying for 20 months generates €4,980 in lifetime value. That is more than 16 times what a one-off €299 agency project brings in. Once we saw that clearly, the subscription model was the only thing that made sense for Still.
+  </p>
+  <p style="font-size:13px;color:var(--ds-text-secondary);line-height:1.8;margin-bottom:16px">
+    For the pricing strategy we went value-based. Agencies doing similar work charge between €2,500 and €15,000 a month. AdCreative.ai, the closest SaaS comparison, charges €189/month but has no human creative layer and no Meta management built in. We are delivering more than both and charging less. The price is set by that gap, not by what things cost us to produce.
+  </p>
+  <p style="font-size:13px;color:var(--ds-text-secondary);line-height:1.8;margin-bottom:16px">
+    The attraction offer took a bit more thinking to land on. Our first instinct was a free trial, which felt like the obvious move. After going through it in class, we realised that free samples tend to pull in people who want something for nothing rather than people with a real problem and a real budget. We switched to the decoy offer: a €49 trial pack of three creatives. Low enough that someone interested will not hesitate, but with just enough commitment that it filters out the wrong people. The €49 also gets credited toward the first month, so the step from trial to subscriber feels like continuing rather than starting over.
+  </p>
+  <p style="font-size:13px;color:var(--ds-text-secondary);line-height:1.8;margin-bottom:0">
+    Looking at all the data together, the case for this pricing structure is solid. At 5% monthly churn the average customer stays 20 months. Blended across monthly and Pro users, LTV sits at €2,600. Gross profit per customer after a 75% margin is €1,950. The LTV to CAC ratio against the €49 trial is 53 to 1, well above the 3 to 1 minimum that Disciplined Entrepreneurship Step 17 uses as a benchmark. The numbers confirm that the real growth lever for Still is not acquiring more customers at the entry price. It is moving customers from the €79/month plan to the €249/month Pro plan, where the lifetime value more than triples.
+  </p>
+</div>
+
+<div class="source">
+  Sources: Disciplined Entrepreneurship Step 17 — LTV (Bill Aulet, MIT) · Alex Hormozi — $100M Offers (2021) · HubSpot — Monetization Playbook · AdCreative.ai pricing Feb 2026 · MTHD Marketing Agency Pricing Guide 2026 · Mango Labs validation sprint data March 2026
+</div>
+
+</body>
+</html>

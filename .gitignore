@@ -3,3 +3,13 @@
 .idea/
 .vscode/
 node_modules/
+.vite/
+.env
+.env.local
+*.log
+# tsc -b artifacts (generated, not source)
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
+vite.config.js.timestamp-*
+# Built output (docs/) IS committed for GitHub Pages — do not ignore
