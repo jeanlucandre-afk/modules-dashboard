@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && rm -rf docs/assets docs/index.html 2>/dev/null; vite build && cp -r deliverables docs/ && touch docs/.nojekyll",
+    "build": "tsc --noEmit && vite build && rm -rf assets && cp -r .build/assets ./assets && cp .build/dev.html ./index.html && touch ./.nojekyll",
     "preview": "vite preview"
   },
   "dependencies": {

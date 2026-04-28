@@ -12,4 +12,7 @@ node_modules/
 vite.config.js
 vite.config.d.ts
 vite.config.js.timestamp-*
-# Built output (docs/) IS committed for GitHub Pages — do not ignore
+# Vite build temp dir (the npm script copies its output to root /assets + /index.html)
+.build/
+# /docs is no longer used — kept around in /docs only briefly, see docs/.nojekyll
+# /assets and /index.html ARE committed (built output served by GH Pages from main / root)

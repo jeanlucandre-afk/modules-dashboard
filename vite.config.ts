@@ -6,8 +6,11 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// GitHub Pages serves the repo at /modules-dashboard/, so we set base accordingly.
-// Build output goes to /docs so Pages can serve from main branch /docs.
+/**
+ * Build outputs to .build/ then the npm script copies the result to repo root
+ * (overwriting index.html + assets/) so GitHub Pages "main / root" serves it
+ * directly. The dev server uses dev.html as the source HTML.
+ */
 export default defineConfig({
   base: '/modules-dashboard/',
   plugins: [react(), tailwindcss()],
@@ -16,11 +19,15 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  server: {
+    open: '/dev.html',
+  },
   build: {
-    outDir: 'docs',
-    // emptyOutDir disabled so we can keep /docs/deliverables/ and /docs/.nojekyll across builds.
-    // The build step in package.json clears /docs/assets and the index.html before rebuild.
-    emptyOutDir: false,
+    outDir: '.build',
+    emptyOutDir: true,
     assetsDir: 'assets',
+    rollupOptions: {
+      input: path.resolve(__dirname, 'dev.html'),
+    },
   },
 });
