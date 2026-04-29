@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react';
 import { ArrowUpRight, Clock } from 'lucide-react';
 import type { ModuleData } from '../../data/modules';
 import { getAccent, moduleProgress, moduleStatusLabel } from '../../data/modules';
@@ -13,6 +14,8 @@ export function ModuleCard({ module: m, index, onOpen }: ModuleCardProps) {
   const accent = getAccent(m);
   const { pct, doneCount, totalCount } = moduleProgress(m);
   const status = moduleStatusLabel(m);
+  const cardRef = useRef<HTMLButtonElement>(null);
+  const [glowPos, setGlowPos] = useState({ x: 50, y: 50 });
 
   const toneClass: Record<typeof status.tone, string> = {
     ok:   'bg-emerald-500/15 text-emerald-300 border-emerald-400/30',
@@ -21,18 +24,48 @@ export function ModuleCard({ module: m, index, onOpen }: ModuleCardProps) {
     todo: 'bg-white/5 text-muted-foreground border-white/10',
   };
 
+  /** 3D tilt on mousemove */
+  const onMouseMove = (e: React.MouseEvent) => {
+    const card = cardRef.current;
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const w = rect.width;
+    const h = rect.height;
+    // Tilt up to 7° — subtle, not a carnival ride
+    const rotY = ((x / w) - 0.5) * 14;
+    const rotX = -((y / h) - 0.5) * 14;
+    card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(0)`;
+    setGlowPos({ x: (x / w) * 100, y: (y / h) * 100 });
+  };
+
+  const onMouseLeave = () => {
+    const card = cardRef.current;
+    if (!card) return;
+    card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) translateZ(0)';
+    setGlowPos({ x: 50, y: 50 });
+  };
+
   return (
     <button
+      ref={cardRef}
       onClick={onOpen}
-      className="animate-card group relative text-left overflow-hidden rounded-3xl glass p-6 transition-all duration-500 hover:-translate-y-1 hover:border-violet-400/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/60"
-      style={{ animationDelay: `${0.2 + index * 0.08}s` }}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
+      className="animate-card group relative text-left overflow-hidden rounded-3xl glass p-6 transition-[border-color,box-shadow,transform] duration-300 hover:border-violet-400/40 hover:shadow-[0_30px_60px_-15px_rgba(167,139,250,0.4)] focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/60"
+      style={{
+        animationDelay: `${0.2 + index * 0.08}s`,
+        transformStyle: 'preserve-3d',
+        willChange: 'transform',
+      }}
     >
-      {/* Accent edge gradient that brightens on hover */}
+      {/* Cursor-aware accent glow */}
       <div
         aria-hidden
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
         style={{
-          background: `radial-gradient(800px circle at 0% 0%, ${accent.from}22, transparent 40%)`,
+          background: `radial-gradient(800px circle at ${glowPos.x}% ${glowPos.y}%, ${accent.from}30, transparent 40%)`,
         }}
       />
       {/* Top stripe */}

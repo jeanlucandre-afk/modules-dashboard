@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Calendar, GitBranch, LogOut, Sparkles, Target, AlertTriangle, ArrowRight } from 'lucide-react';
 import { data, moduleProgress, type ModuleData } from '../../data/modules';
 import { daysBetween, today } from '../../lib/utils';
+import { CountUp } from '../CountUp';
 import { ModuleCard } from './ModuleCard';
 import { ModuleModal } from './ModuleModal';
 
@@ -71,14 +72,30 @@ export function Dashboard({ onSignOut }: DashboardProps) {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-7">
           <StatChip
             label="Days left"
-            value={daysLeft}
+            value={<CountUp to={daysLeft} duration={1200} delay={300} />}
             sub={`until ${data.deadline}`}
             tone={daysLeft < 7 ? 'crit' : daysLeft < 14 ? 'warn' : 'default'}
             delay={500}
           />
-          <StatChip label="Modules" value={data.modules.length} sub={`${totalEcts} ECTS in scope`} delay={600} />
-          <StatChip label="Avg. progress" value={`${overallPct}%`} sub="across all 8 modules" delay={700} />
-          <StatChip label="Open decisions" value={openDecisions} sub={openDecisions ? 'click to expand' : 'all clear'} tone={openDecisions > 2 ? 'warn' : 'default'} delay={800} />
+          <StatChip
+            label="Modules"
+            value={<CountUp to={data.modules.length} duration={1100} delay={400} />}
+            sub={`${totalEcts} ECTS in scope`}
+            delay={600}
+          />
+          <StatChip
+            label="Avg. progress"
+            value={<CountUp to={overallPct} duration={1500} delay={500} suffix="%" />}
+            sub="across all 8 modules"
+            delay={700}
+          />
+          <StatChip
+            label="Open decisions"
+            value={<CountUp to={openDecisions} duration={1000} delay={600} />}
+            sub={openDecisions ? 'click to expand' : 'all clear'}
+            tone={openDecisions > 2 ? 'warn' : 'default'}
+            delay={800}
+          />
         </div>
       </header>
 
@@ -183,7 +200,7 @@ function StatChip({
   delay,
 }: {
   label: string;
-  value: string | number;
+  value: React.ReactNode;
   sub?: string;
   tone?: 'default' | 'warn' | 'crit';
   delay: number;

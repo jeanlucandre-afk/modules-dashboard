@@ -1,5 +1,8 @@
 import { useEffect } from 'react';
-import { X, FileText, ExternalLink, Check, Minus, HelpCircle, AlertCircle, Sparkles, BookOpen } from 'lucide-react';
+import {
+  X, FileText, ExternalLink, Check, Minus, HelpCircle,
+  AlertCircle, Sparkles, BookOpen, Target, Trophy,
+} from 'lucide-react';
 import type { ModuleData, DeliverableStatus } from '../../data/modules';
 import { getAccent, moduleProgress, moduleStatusLabel } from '../../data/modules';
 
@@ -36,10 +39,14 @@ export function ModuleModal({ module: m, onClose }: ModuleModalProps) {
   const fileHref = (deliverableFile?: string, deliverableUrl?: string) => {
     if (deliverableUrl) return deliverableUrl;
     if (!deliverableFile) return undefined;
-    // deliverables live next to dist root
     const base = import.meta.env.BASE_URL || '/';
     return `${base}deliverables/${m.id}/${deliverableFile}`;
   };
+
+  // Level-3 plan progress
+  const planDone = m.level3Plan.filter(s => s.done === true).length;
+  const planTotal = m.level3Plan.length;
+  const planPct = Math.round((planDone / planTotal) * 100);
 
   return (
     <div
@@ -54,7 +61,7 @@ export function ModuleModal({ module: m, onClose }: ModuleModalProps) {
           boxShadow: `0 25px 80px -10px ${accent.from}40, 0 0 0 1px rgba(255,255,255,0.08)`,
         }}
       >
-        {/* Accent header */}
+        {/* Accent header glow */}
         <div
           aria-hidden
           className="absolute inset-x-0 top-0 h-32 opacity-30 rounded-t-3xl pointer-events-none"
@@ -72,7 +79,7 @@ export function ModuleModal({ module: m, onClose }: ModuleModalProps) {
 
         <div className="relative p-7 md:p-10">
           {/* HEADER */}
-          <div className="flex items-start gap-6 flex-wrap mb-8">
+          <div className="flex items-start gap-6 flex-wrap mb-6">
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-3 flex-wrap">
                 <span className="font-mono text-[11px] tracking-widest uppercase text-muted-foreground">{m.code}</span>
@@ -81,9 +88,6 @@ export function ModuleModal({ module: m, onClose }: ModuleModalProps) {
                   style={{ background: accent.chip, color: accent.from, borderColor: `${accent.from}33` }}
                 >
                   {m.ects} ECTS
-                </span>
-                <span className="font-mono text-[10px] tracking-widest uppercase text-muted-foreground">
-                  · Target Level {m.targetLevel}
                 </span>
               </div>
               <h2 className="text-3xl md:text-4xl font-semibold tracking-tight mb-2">{m.title}</h2>
@@ -115,8 +119,21 @@ export function ModuleModal({ module: m, onClose }: ModuleModalProps) {
             </div>
           </div>
 
+          {/* PATH CHIP — explicit display of standard / level 3 path */}
+          <div
+            className="animate-element animate-delay-100 mb-7 inline-flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-mono tracking-widest uppercase"
+            style={{
+              background: `linear-gradient(135deg, ${accent.from}15, ${accent.to}10)`,
+              borderColor: `${accent.from}40`,
+              color: accent.from,
+            }}
+          >
+            <Trophy className="w-3.5 h-3.5" />
+            <span>Path: {m.assessmentPath}</span>
+          </div>
+
           {/* NEXT ACTION — hero callout */}
-          <Section icon={<Sparkles className="w-4 h-4" />} title="Next action" delay={100}>
+          <Section icon={<Sparkles className="w-4 h-4" />} title="Next action" delay={150}>
             <div
               className="rounded-2xl p-4 border text-foreground/90"
               style={{ background: accent.chip, borderColor: `${accent.from}33` }}
@@ -125,16 +142,71 @@ export function ModuleModal({ module: m, onClose }: ModuleModalProps) {
             </div>
           </Section>
 
+          {/* LEVEL 3 PLAN — the explicit step-by-step "what it takes for a 3" */}
+          <Section
+            icon={<Target className="w-4 h-4" />}
+            title={`What it takes for a 3 — ${planDone}/${planTotal} done (${planPct}%)`}
+            delay={250}
+          >
+            <ol className="space-y-2.5 relative pl-1">
+              {m.level3Plan.map((step, i) => {
+                const isDone = step.done === true;
+                const isPending = step.done === null;
+                return (
+                  <li
+                    key={i}
+                    className="rounded-2xl border bg-white/[0.025] p-4 transition-all hover:bg-white/[0.045]"
+                    style={{
+                      borderColor: isDone ? '#10b98140' : isPending ? '#f59e0b30' : 'rgba(255,255,255,0.08)',
+                    }}
+                  >
+                    <div className="flex items-start gap-3">
+                      <span
+                        className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-mono font-medium"
+                        style={{
+                          background: isDone
+                            ? 'rgba(16, 185, 129, 0.2)'
+                            : isPending
+                            ? 'rgba(245, 158, 11, 0.15)'
+                            : `linear-gradient(135deg, ${accent.from}30, ${accent.to}20)`,
+                          color: isDone ? '#6ee7b7' : isPending ? '#fcd34d' : accent.from,
+                          border: `1px solid ${isDone ? '#10b98180' : isPending ? '#f59e0b40' : `${accent.from}40`}`,
+                        }}
+                      >
+                        {isDone ? <Check className="w-3.5 h-3.5" /> : i + 1}
+                      </span>
+                      <div className="flex-1 min-w-0">
+                        <div className={`text-sm md:text-[15px] leading-snug ${isDone ? 'text-foreground/55 line-through' : 'text-foreground/95'}`}>
+                          {step.step}
+                        </div>
+                        {step.why && (
+                          <div className="mt-1 text-xs text-muted-foreground italic">
+                            <span className="text-foreground/50">why:</span> {step.why}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </li>
+                );
+              })}
+            </ol>
+          </Section>
+
           {/* DELIVERABLES */}
-          <Section icon={<FileText className="w-4 h-4" />} title="Deliverables" delay={200}>
+          <Section icon={<FileText className="w-4 h-4" />} title="Deliverables" delay={350}>
             <ul className="space-y-2">
               {m.deliverables.map((d, i) => {
                 const href = fileHref(d.file, d.url);
                 const meta = statusMeta[d.status];
+                const isStarred = d.name.startsWith('⭐');
                 return (
                   <li
                     key={i}
-                    className="group rounded-2xl border border-white/8 bg-white/[0.025] hover:bg-white/[0.05] transition-colors p-4"
+                    className={`group rounded-2xl border transition-colors p-4 ${
+                      isStarred
+                        ? 'border-violet-400/40 bg-violet-500/5 hover:bg-violet-500/10'
+                        : 'border-white/8 bg-white/[0.025] hover:bg-white/[0.05]'
+                    }`}
                   >
                     <div className="flex items-start gap-4 flex-wrap">
                       <span className={`flex-shrink-0 text-[10px] font-mono tracking-widest px-2 py-1 rounded-full border ${meta.cls}`}>
@@ -162,7 +234,7 @@ export function ModuleModal({ module: m, onClose }: ModuleModalProps) {
           </Section>
 
           {/* CHECKLIST */}
-          <Section icon={<Check className="w-4 h-4" />} title="Checklist" delay={300}>
+          <Section icon={<Check className="w-4 h-4" />} title="Granular checklist" delay={450}>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
               {m.checklist.map((c, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm">
@@ -176,7 +248,7 @@ export function ModuleModal({ module: m, onClose }: ModuleModalProps) {
           </Section>
 
           {/* KEY RULES */}
-          <Section icon={<AlertCircle className="w-4 h-4" />} title="Key rules" delay={400}>
+          <Section icon={<AlertCircle className="w-4 h-4" />} title="Key rules" delay={550}>
             <ul className="space-y-1.5 text-sm text-foreground/85">
               {m.keyRules.map((r, i) => (
                 <li key={i} className="flex items-start gap-2">
@@ -189,7 +261,7 @@ export function ModuleModal({ module: m, onClose }: ModuleModalProps) {
 
           {/* NOTES */}
           {m.notes && (
-            <Section icon={<BookOpen className="w-4 h-4" />} title="Notes" delay={500}>
+            <Section icon={<BookOpen className="w-4 h-4" />} title="Notes" delay={650}>
               <p className="text-sm text-muted-foreground leading-relaxed">{m.notes}</p>
             </Section>
           )}
