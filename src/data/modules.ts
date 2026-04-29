@@ -15,6 +15,12 @@ export interface Deliverable {
   file?: string;
   /** External URL (Drive, Notion, etc.) */
   url?: string;
+  /** Click-to-expand: explicit requirements for this deliverable (bulleted) */
+  requirements?: string[];
+  /** Click-to-expand: ordered sub-tasks to complete this deliverable */
+  subTodos?: ChecklistItem[];
+  /** Optional longer paragraph of context */
+  detail?: string;
 }
 
 export interface ChecklistItem {
@@ -29,6 +35,8 @@ export interface Level3Step {
   /** Optional extra context */
   why?: string;
   done: boolean | null;
+  /** Click-to-expand: longer guidance / sub-bullets */
+  detail?: string[];
 }
 
 export interface ModuleData {
@@ -116,9 +124,64 @@ export const data: DashboardData = {
         'Submit via Google Form',
       ],
       deliverables: [
-        { name: 'Single PDF — slide deck covering all 6 knowledge areas',  status: 'inprogress', notes: 'Pitch deck + BMC + traction cards already cover much of this', file: '../shared/01_pitch_deck.pdf' },
-        { name: '"Better Products" presentation (10 min)',                 status: 'todo',       notes: '6 examples — one per knowledge area' },
-        { name: 'Oral exam (15-min Q&A)',                                  status: 'todo',       notes: 'Synthesizes findings across the 6 knowledge areas' },
+        {
+          name: 'Single PDF — slide deck covering all 6 knowledge areas',
+          status: 'inprogress',
+          notes: 'Click to expand. Pitch deck + BMC + traction cards already cover ~70% of L1 content.',
+          file: '../shared/01_pitch_deck.pdf',
+          requirements: [
+            'Single PDF',
+            'Covers all 6 knowledge areas (one example per area)',
+            '≥5 user interviews/surveys in appendix',
+            'AI-use statement on the deck',
+            'Submitted via Google Form',
+          ],
+          detail: 'The deck IS the hand-in. The 25-min oral exam (10 talk + 15 Q&A) walks through it. The 6 knowledge areas are: Problem ID, Customer Discovery & Market, Solution Ideation, Collaborative Design & Prototyping, Solution Validation, MVP + Build-Measure-Learn.',
+          subTodos: [
+            { label: 'Section 1 — Problem/Opportunity identification + definition', done: true },
+            { label: 'Section 2 — Customer Discovery & Market Research (incl. ≥5 interviews in appendix)', done: false },
+            { label: 'Section 3 — Solution ideation + creativity techniques', done: true },
+            { label: 'Section 4 — Collaborative design + prototyping', done: false },
+            { label: 'Section 5 — Solution validation (DUFVS + SWOT)', done: false },
+            { label: 'Section 6 — MVP + Build-Measure-Learn cycle', done: true },
+            { label: 'Appendix — ≥5 user interview transcripts', done: false },
+            { label: 'AI-use statement on the deck', done: false },
+            { label: 'Export to single PDF + submit via Google Form', done: false },
+          ],
+        },
+        {
+          name: '"Better Products" presentation (10 min)',
+          status: 'todo',
+          notes: 'Click to expand. 6 examples — one per knowledge area + reflection',
+          requirements: [
+            'Exactly 10 minutes',
+            'One example per knowledge area (6 total)',
+            'Reflection on what you applied + what you learned',
+            'Live (no remote assessment allowed)',
+          ],
+          subTodos: [
+            { label: 'Slide pacing rehearsed to ~1.5 min per knowledge area', done: false },
+            { label: 'Each KA: example → method used → outcome → reflection', done: false },
+            { label: 'Closing slide: top-level reflection on the discovery journey', done: false },
+            { label: 'Rehearse with timer at least 3 times', done: false },
+          ],
+        },
+        {
+          name: 'Oral exam (15-min Q&A)',
+          status: 'todo',
+          notes: 'Click to expand. Synthesizes findings across the 6 knowledge areas',
+          requirements: [
+            '15 minutes of Q&A from Swantje',
+            'Synthesizes findings — be ready to compare/contrast across knowledge areas',
+            'Defend choices made (why this beachhead, why these personas, etc.)',
+          ],
+          subTodos: [
+            { label: 'Mock Q&A: drill each KA with 3 likely questions', done: false },
+            { label: 'Prep "synthesis" answers — how KAs connect to each other', done: false },
+            { label: 'Prep "what would you do differently" reflection answer', done: false },
+            { label: 'Practice 30-second versions of each section', done: false },
+          ],
+        },
         { name: 'AI-use statement on the deck',                            status: 'todo',       notes: 'Declare every Claude usage' },
         { name: 'Level-3 add-on: Reflection Essay',                        status: 'todo',       notes: 'LOCKED (chose essay over community article / workshop). Confirm length + prompt with Swantje.' },
         { name: 'Pitch Deck (Mango Lab) — reference asset',                status: 'done',       file: '../shared/01_pitch_deck.pdf' },
@@ -196,8 +259,75 @@ export const data: DashboardData = {
         'Submit via Google Form',
       ],
       deliverables: [
-        { name: 'Marketing Report (~18 pages, single PDF, with citations)',       status: 'inprogress', notes: 'Campaign Plan HTML covers most content; needs academic framing + citations' },
-        { name: 'Sales Report — enablement deck (Cold Outreach template)',         status: 'todo',       notes: 'LOCKED: cold outreach. Persona + buyer persona + value prop + cold-email template + sample sales funnel' },
+        {
+          name: 'Marketing Report (~18 pages, single PDF, with citations)',
+          status: 'inprogress',
+          notes: 'Click to expand the full 18-page structure + sub-tasks. Campaign Plan HTML covers most content; needs academic framing + citations.',
+          file: '../shared/08_engine001_campaign_plan.html',
+          requirements: [
+            '~18 pages total including charts/images',
+            'Single PDF file',
+            'Academic writing standards throughout',
+            'CITATIONS REQUIRED — no citations = automatic fail (Roland\'s explicit rule)',
+            'Reflects on RESULTS + NEXT STEPS for the methods/tools applied',
+            'Project = ENGINE_001 / Mango Lab Meta Ads sprint',
+            'Submit via Google Form alongside the Sales Report',
+          ],
+          detail: 'The Marketing Report is the academic version of the existing Campaign Plan HTML. The 12 sections of that HTML map almost 1:1 onto the report sections below — 80% of the content already exists, the gap is academic framing + citations + post-campaign results section.',
+          subTodos: [
+            // Front matter (~2 pages)
+            { label: '§1 Cover page + Table of Contents (1 page)',                                            done: false },
+            { label: '§2 Executive Summary — campaign goal, hypothesis, headline result (1 page)',            done: false },
+            // Body (~14 pages, mapped to Campaign Plan HTML sections)
+            { label: '§3 Introduction: Mango Lab + Still SaaS context, why this campaign (1 page)',           done: false },
+            { label: '§4 Methodology + theoretical frameworks applied — Lean, AARRR, Y Combinator etc. (1–2 pages, citations)', done: false },
+            { label: '§5 Customer Lifecycle + Target Audience (Pain Signal + Ad Set Configuration) (1–2 pages)', done: false },
+            { label: '§6 Consumer Behavior Analysis (1 page, citations)',                                     done: false },
+            { label: '§7 Channel Strategy: Meta Ads (Two-Phase Sprint + Conversion Funnel) (2 pages)',        done: false },
+            { label: '§8 Creative Strategy: Human/Technical duality + Brand Compliance (1 page)',             done: false },
+            { label: '§9 Landing Surface (mango-lab.de) — Page Anatomy + Tracking Stack (1 page)',            done: false },
+            { label: '§10 Budget Allocation + DACH B2B SaaS benchmarks (1 page, citations on benchmarks)',    done: false },
+            { label: '§11 14-day Sprint Calendar (1 page)',                                                    done: false },
+            { label: '§12 KPIs + Success Metrics (1 page)',                                                    done: false },
+            { label: '§13 Risk Analysis + Mitigations (1 page)',                                              done: false },
+            // Results section — the post-campaign reflection
+            { label: '§14 Results — actual campaign performance vs. KPIs (2 pages, charts)',                  done: false },
+            { label: '§15 Reflection on methods/tools applied — what worked, what didn\'t, why (1–2 pages)',  done: false },
+            { label: '§16 Next Steps — what to do post-sprint (1 page)',                                       done: false },
+            // Back matter
+            { label: '§17 References (APA-style citations) (1 page)',                                          done: false },
+            { label: 'Pass: every claim in §4, §6, §10 backed by a citation',                                 done: false },
+            { label: 'Final: export as single PDF, file size sanity check',                                   done: false },
+          ],
+        },
+        {
+          name: 'Sales Report — enablement deck (Cold Outreach template)',
+          status: 'todo',
+          notes: 'Click to expand. LOCKED: cold outreach. Click to see the deck structure.',
+          requirements: [
+            'Enablement deck/presentation format (slides, not prose)',
+            'User persona — who is the user',
+            'Buyer persona — who signs the cheque',
+            'Value-based product proposition',
+            'Cold outreach template (you picked this — was vs. objection handling)',
+            'Sample sales funnel showing qualified leads moving through stages',
+          ],
+          detail: 'NOT YET STARTED — biggest blank in PM_23. The deck is enablement-style, meant to be handed to a salesperson to use.',
+          subTodos: [
+            { label: 'Slide 1: Cover — Mango Lab / Still B2B sales enablement',                done: false },
+            { label: 'Slide 2: User persona (the ad buyer/marketing lead at the SMB)',         done: false },
+            { label: 'Slide 3: Buyer persona (founder/CMO who approves the spend)',            done: false },
+            { label: 'Slide 4: Pain points + jobs-to-be-done',                                 done: false },
+            { label: 'Slide 5: Value-based product proposition (outcomes, not features)',      done: false },
+            { label: 'Slide 6: Cold outreach — Subject line variants (3+)',                    done: false },
+            { label: 'Slide 7: Cold outreach — Email body template',                           done: false },
+            { label: 'Slide 8: Cold outreach — Follow-up #1 (3 days)',                         done: false },
+            { label: 'Slide 9: Cold outreach — Follow-up #2 (7 days)',                         done: false },
+            { label: 'Slide 10: Sample sales funnel — stages with example qualified leads',    done: false },
+            { label: 'Slide 11: Qualification criteria (BANT or similar)',                     done: false },
+            { label: 'Slide 12: KPIs + success metrics for sales',                             done: false },
+          ],
+        },
         { name: 'Roland check-in (module-specific, project-phase)',                 status: 'todo',       notes: 'MANDATORY — confirm booked' },
         { name: 'Consulting sessions — active participation',                       status: 'todo',       notes: 'MANDATORY — track attendance' },
         { name: 'Run the actual Meta Ads campaign (€400, 14 days)',                 status: 'todo',       notes: 'Target 30–60 sign-ups @ ≤€15 CPS' },
@@ -273,10 +403,53 @@ export const data: DashboardData = {
         'Submit via Google Form',
       ],
       deliverables: [
-        { name: 'Portfolio PDF — 8 questions with applied Mango Lab examples', status: 'todo', notes: 'Each Q answered with concrete, applied example (not theory)' },
-        { name: 'Runnable LLM prompt (assessor must be able to run it)',       status: 'todo', notes: 'Real prompt from Mango Lab ops, not a toy' },
-        { name: 'Reflections per response (≤2,000 words total)',               status: 'todo', notes: 'Reflect on value creation potential + risks per Q' },
-        { name: 'GenAI usage statement',                                       status: 'todo', notes: 'Disclose every Claude/AI usage during creation' },
+        {
+          name: 'Portfolio PDF — 8 questions with applied Mango Lab examples',
+          status: 'todo',
+          notes: 'Click to expand. Each Q answered with concrete, applied example (not theory).',
+          requirements: [
+            'Single PDF',
+            'All 8 knowledge-area questions answered',
+            'Applied (not theoretical) examples — Mango Lab as the running example',
+            'Each Q: example + reflection on value + reflection on risks',
+            'Includes the runnable LLM prompt as a separate section (or appendix)',
+            'AI-use statement at the front',
+          ],
+          detail: 'Knowledge areas: (1) Chat tools for PM, (2) Data Culture, (3) AI-enabled Products. The Q numbers map to the 8 specific questions across these 3 areas.',
+          subTodos: [
+            { label: 'Q1 — Getting most out of LLMs (Mango Lab example)',         done: null },
+            { label: 'Q2 — LLM tools in product ops (Mango Lab example)',          done: null },
+            { label: 'Q3 — Data infrastructure components in Mango Lab',           done: null },
+            { label: 'Q4 — Data culture components in Mango Lab',                  done: null },
+            { label: 'Q5 — Approach to data ethics (Mango Lab specific)',          done: null },
+            { label: 'Q6 — Where genAI could add user value in Mango Lab',         done: null },
+            { label: 'Q7 — Ensuring ethical use of genAI',                         done: null },
+            { label: 'Q8 — Measuring success of AI-enabled features',              done: null },
+            { label: 'Reflections (cumulative ≤2,000 words)',                      done: null },
+            { label: 'AI-use statement included',                                  done: null },
+            { label: 'Compile to single PDF',                                      done: null },
+          ],
+        },
+        {
+          name: 'Runnable LLM prompt (assessor must be able to run it)',
+          status: 'todo',
+          notes: 'Click to expand. Real prompt from Mango Lab ops, not a toy.',
+          requirements: [
+            'Detailed, product/operations-related prompt',
+            'Must be reproducible by the assessor (they have to be able to copy-paste and run it)',
+            'Specify which LLM (model + version)',
+            'Include expected output format',
+          ],
+          subTodos: [
+            { label: 'Pick the real Mango Lab use case (creative gen / market research / ops)', done: null },
+            { label: 'Write the prompt with clear context, role, examples, output spec', done: null },
+            { label: 'Run it yourself in the chosen LLM, verify it works', done: null },
+            { label: 'Note the model + version + any system prompts needed', done: null },
+            { label: 'Include in the Portfolio PDF or as a linked file', done: null },
+          ],
+        },
+        { name: 'Reflections per response (≤2,000 words total)', status: 'todo', notes: 'Counted in the Portfolio PDF — focus on value + risks per Q' },
+        { name: 'GenAI usage statement', status: 'todo', notes: 'Disclose every Claude/AI usage during creation' },
       ],
       level3Plan: [
         { step: 'Pick Mango Lab as the single running example for all 8 questions', why: 'Action plan §5 says "applied not theoretical" — one consistent project beats 8 toy examples', done: false },
@@ -334,8 +507,34 @@ export const data: DashboardData = {
         // ⭐ Main doc = the actual Google Doc Jean-Luc is working in
         { name: '⭐ Main doc (Q2–Q21, all parts) — opens in Google Docs',
           status: 'inprogress',
-          notes: '~80% drafted. Part 4 (Q14–Q19) still needs filling.',
+          notes: '~80% drafted. Part 4 (Q14–Q19) still needs filling. Click to see the full Q-by-Q breakdown.',
           url: 'https://docs.google.com/document/d/1vmkpRvypoWiZZHVhAvnnkhWK246ff_Jl-dNFZ8wdNgo/edit?usp=sharing',
+          requirements: [
+            'Document covers Q2–Q21 across 4 parts (Why, Venture, Personal Reflection, Hand-in)',
+            'Parts 1–3 = the substance. Part 4 = personal reflection.',
+            'Q20 (genAI usage) and Q21 (original-work certification) are mandatory closers',
+            'Export as PDF; ZIP with /artifacts folder; submit via Google Form',
+          ],
+          subTodos: [
+            { label: 'Q2 Why in entrepreneurship',                              done: true  },
+            { label: 'Q3 Entrepreneurship definition',                          done: true  },
+            { label: 'Q4 Project type (CODE project: Mango Lab)',               done: true  },
+            { label: 'Q5–Q8 Venture / positioning / traction test',             done: true  },
+            { label: 'Q9 Risk Ledger reflection (Risks 4–6 written)',           done: true  },
+            { label: 'Q10 Six-month problem (capacity)',                        done: true  },
+            { label: 'Q11 Cross-cultural perception',                           done: true  },
+            { label: 'Q12 Moat / defensibility',                                done: true  },
+            { label: 'Q13 Innovation as competitive advantage',                 done: true  },
+            { label: 'Q14 — needs check (verify written or fill)',              done: null  },
+            { label: 'Q15 — needs check (verify written or fill)',              done: null  },
+            { label: 'Q16 Personal non-negotiables',                            done: false },
+            { label: 'Q17 Legal entity choice (GmbH vs UG vs sole prop)',       done: false },
+            { label: 'Q18 Most important thing/person to learn from in Berlin', done: false },
+            { label: 'Q19 Reflection on the journey',                           done: false },
+            { label: 'Q20 GenAI usage statement (mandatory closer)',            done: false },
+            { label: 'Q21 Original-work certification (mandatory closer)',      done: false },
+            { label: 'Final: export Doc as PDF',                                done: false },
+          ],
         },
         { name: 'Part 4 drafts (Q14–Q19) — Claude scratchpad',          status: 'inprogress', notes: 'Working notes for the Google Doc', file: 'PM_16_Part4_Drafts.md' },
         { name: 'Artifact 1 — TAM/SAM/SOM (PDF, 1 page)',               status: 'inprogress', notes: 'Numbers exist in the pitch deck — needs 1-pg export' },
