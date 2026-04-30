@@ -82,11 +82,11 @@ export const data: DashboardData = {
   lastUpdated: '2026-05-01',
 
   todayFocus: [
-    'PM_16 — Build TAM/SAM/SOM 1-page PDF (Artifact 1, only artifact still open)',
-    'PM_16 — Write the 4 Challenge reflections (10 pts) — send Claude the prompts',
+    'PM_16 — Build TAM/SAM/SOM 1-page PDF (Artifact 1 — last artifact open)',
+    'PM_16 — Send Claude the 4 Challenge briefs to draft reflections (10 pts)',
+    'PM_16 — Add Drive links for Unit Economics + Pitch Deck artifacts',
     'PM_16 — Export Google Doc as PDF + ZIP for Google Form submission',
-    'PM_22 — schedule + run ≥5 user interviews (Level 1 minimum requirement)',
-    'PM_23 — confirm Roland approves the €400 ENGINE_001 budget',
+    'PM_22 — schedule + run ≥5 user interviews (Level 1 hard gate)',
   ],
 
   decisions: [
@@ -539,10 +539,10 @@ export const data: DashboardData = {
         },
         { name: 'Part 4 drafts (Q14–Q21) — Claude scratchpad',          status: 'done',       notes: 'All 7 answers finalised + saved as ✅ FINAL drafts (humanise-text skill, 2026-04-30)', file: 'PM_16_Part4_Drafts.md' },
         { name: 'Artifact 1 — TAM/SAM/SOM (PDF, 1 page)',               status: 'todo',       notes: 'ONLY ARTIFACT STILL OPEN. Numbers exist in pitch deck (TAM $356B / SAM $47B / SOM $480M). Need a 1-page summary PDF.' },
-        { name: 'Artifact 2 — Lean Canvas (PDF, 1 page)',               status: 'done',       notes: 'Existing in shared assets', file: '../shared/02_business_model_canvas.pdf' },
-        { name: 'Artifact 3 — Risk Ledger (PDF, 1 page)',               status: 'done',       file: '../shared/03_risk_ledger.pdf' },
-        { name: 'Artifact 4 — Unit Economics (PDF, 1 page)',            status: 'done',       notes: 'Includes LTV/pricing model as supporting calculation', file: '../shared/04_unit_economics.xlsx' },
-        { name: 'Artifact 5 — Pitch Deck (PDF)',                        status: 'done',       file: '../shared/01_pitch_deck.pdf' },
+        { name: 'Artifact 2 — Lean Canvas (PDF, 1 page)',               status: 'done',       notes: 'Google Drive link below', file: '../shared/02_business_model_canvas.pdf', url: 'https://drive.google.com/file/d/1mNPxyINgK2RJGubYwwEuFIZRhJVdaWkg/view?usp=sharing' },
+        { name: 'Artifact 3 — Risk Ledger (PDF, 1 page)',               status: 'done',       notes: 'Google Drive link below', file: '../shared/03_risk_ledger.pdf', url: 'https://drive.google.com/file/d/1IBsmRDtxQ4-4d2sAznmjYdJWtf8Y8ozi/view?usp=sharing' },
+        { name: 'Artifact 4 — Unit Economics (PDF, 1 page)',            status: 'done',       notes: 'still_unit_economics.xlsx — add Drive link when available', file: '../shared/04_unit_economics.xlsx' },
+        { name: 'Artifact 5 — Pitch Deck (PDF)',                        status: 'done',       notes: 'Mango Lab Pitch Deck.pdf — add Drive link when available', file: '../shared/01_pitch_deck.pdf' },
         { name: 'Bonus — LTV/Pricing Model (HTML)',                     status: 'done',       notes: 'Supporting calculation behind the unit economics artifact', file: '../shared/05_ltv_pricing.html' },
         { name: 'Challenge 1/4 reflection',                             status: 'todo',       notes: 'Send Claude the challenge brief and what you submitted' },
         { name: 'Challenge 2/4 reflection',                             status: 'todo',       notes: 'Send Claude the challenge brief and what you submitted' },
