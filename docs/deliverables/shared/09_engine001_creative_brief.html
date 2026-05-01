@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGINE_001 — Creative Brief — Mango Lab SaaS</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@300;400;700&family=Inter:wght@400;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root{
+    --orange:#FC5816;
+    --black:#000000;
+    --cream:#EFEED6;
+    --cream-dark:#E2E0C2;
+    --ink:#1a1a1a;
+  }
+
+  body{
+    font-family:'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--black);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .container{ max-width:1080px; margin:0 auto; padding: 32px 24px 64px; }
+
+  .protocol-bar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-top:2px solid var(--black);
+    border-bottom:2px solid var(--black);
+    padding:10px 16px;
+    margin-bottom:24px;
+    font-family:'JetBrains Mono', monospace;
+    font-weight:300;
+    font-size:11px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+  }
+  .protocol-bar .right{display:flex;gap:24px}
+  .protocol-bar .dot{display:inline-block;width:8px;height:8px;background:var(--orange);border-radius:50%;margin-right:8px;vertical-align:middle}
+
+  .hero{
+    background: var(--black);
+    color: var(--cream);
+    padding: 56px 44px 48px;
+    border:3px solid var(--black);
+    position:relative;
+    overflow:hidden;
+    margin-bottom:32px;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    top:18px; right:24px;
+    width:46px; height:46px;
+    background:var(--orange);
+  }
+  .hero::after{
+    content:"PROTOCOL_ACTIVE";
+    position:absolute;
+    bottom:14px; right:24px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.2em;
+    color:var(--orange);
+  }
+  .hero-tag{
+    display:inline-block;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--orange);
+    border:1px solid var(--orange);
+    padding:6px 14px;
+    margin-bottom:22px;
+  }
+  .hero h1{
+    font-family:'Archivo Black', sans-serif;
+    font-weight:900;
+    font-size:50px;
+    line-height:0.96;
+    letter-spacing:0.02em;
+    text-transform:uppercase;
+    margin-bottom:18px;
+  }
+  .hero h1 .mark{ color:var(--orange); }
+  .hero p{
+    font-size:15px;
+    line-height:1.65;
+    max-width:660px;
+    color:var(--cream);
+    opacity:0.92;
+  }
+
+  .section{
+    background: var(--cream);
+    border:2px solid var(--black);
+    padding: 36px 36px 32px;
+    margin-bottom:22px;
+  }
+  .section-head{
+    display:flex;
+    align-items:flex-start;
+    gap:18px;
+    margin-bottom:22px;
+    padding-bottom:18px;
+    border-bottom:2px solid var(--black);
+  }
+  .section-num{
+    flex-shrink:0;
+    width:54px;
+    height:54px;
+    background:var(--orange);
+    color:var(--black);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Archivo Black', sans-serif;
+    font-size:20px;
+    letter-spacing:0.04em;
+  }
+  .section-meta{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    opacity:0.7;
+    margin-bottom:6px;
+  }
+  .section h2{
+    font-family:'Archivo Black', sans-serif;
+    font-weight:900;
+    font-size:26px;
+    line-height:1.05;
+    letter-spacing:0.02em;
+    text-transform:uppercase;
+  }
+  .section h3{
+    font-family:'Archivo Black', sans-serif;
+    font-size:15px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    margin: 24px 0 12px;
+    border-left:6px solid var(--orange);
+    padding-left:12px;
+  }
+  .section p{ margin-bottom:12px; color: var(--ink); font-size:14.5px; }
+
+  .mono{ font-family:'JetBrains Mono', monospace; font-weight:400; letter-spacing:0.02em; background:var(--cream-dark); padding:1px 6px; font-size:13px; }
+
+  .specs-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(190px, 1fr));
+    gap:0;
+    margin: 16px 0;
+    border:2px solid var(--black);
+  }
+  .spec-card{
+    padding:20px 18px;
+    border-right:2px solid var(--black);
+    background:var(--cream);
+  }
+  .spec-card:last-child{ border-right:none; }
+  .spec-card.dark{ background:var(--black); color:var(--cream); }
+  .spec-card.orange{ background:var(--orange); }
+  .spec-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    margin-bottom:8px;
+    opacity:0.9;
+  }
+  .spec-value{
+    font-family:'Archivo Black', sans-serif;
+    font-size:24px;
+    line-height:1;
+    letter-spacing:0.02em;
+  }
+  .spec-sub{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    margin-top:8px;
+    opacity:0.85;
+  }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin: 14px 0;
+    font-size:13.5px;
+    border:2px solid var(--black);
+  }
+  thead th{
+    background:var(--black);
+    color:var(--orange);
+    padding: 12px 14px;
+    text-align:left;
+    font-family:'JetBrains Mono', monospace;
+    font-weight:300;
+    font-size:11px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    border-right:1px solid var(--orange);
+  }
+  thead th:last-child{ border-right:none; }
+  tbody td{
+    padding:12px 14px;
+    border-bottom:1px solid var(--black);
+    border-right:1px solid var(--black);
+    vertical-align:top;
+    color:var(--ink);
+    background:var(--cream);
+  }
+  tbody td:last-child{ border-right:none; }
+  tbody tr:last-child td{ border-bottom:none; }
+
+  .alert{
+    background:var(--orange);
+    color:var(--black);
+    padding:18px 22px;
+    border:2px solid var(--black);
+    margin: 18px 0;
+    font-size:14px;
+  }
+  .alert::before{
+    content:"⬢ ABSOLUTE RULE";
+    display:block;
+    font-family:'JetBrains Mono', monospace;
+    font-weight:700;
+    font-size:10px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  .note{
+    background:var(--cream);
+    color:var(--black);
+    padding:18px 22px;
+    border:2px solid var(--black);
+    border-left:8px solid var(--orange);
+    margin: 18px 0;
+    font-size:14px;
+  }
+  .note::before{
+    content:"◊ NODE";
+    display:block;
+    font-family:'JetBrains Mono', monospace;
+    font-weight:700;
+    font-size:10px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    margin-bottom:8px;
+    color:var(--orange);
+  }
+
+  .creative{
+    border:3px solid var(--black);
+    background:var(--cream);
+    margin: 28px 0;
+    overflow:hidden;
+  }
+  .creative-header{
+    background:var(--black);
+    color:var(--cream);
+    padding: 18px 24px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .creative-id{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.22em;
+    color:var(--orange);
+  }
+  .creative-title{
+    font-family:'Archivo Black', sans-serif;
+    font-size:18px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    color: var(--cream);
+  }
+  .creative-tag{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    padding: 4px 10px;
+    border:1px solid var(--orange);
+    color:var(--orange);
+  }
+  .creative-tag.machine{ border-color:var(--cream); color:var(--cream); }
+
+  .creative-body{
+    display:grid;
+    grid-template-columns: 5fr 7fr;
+    gap:0;
+  }
+  .creative-mock{
+    background:var(--cream-dark);
+    padding:24px;
+    border-right:3px solid var(--black);
+  }
+  .creative-meta{
+    padding:24px 28px;
+  }
+
+  .ad-frame{
+    background:var(--cream);
+    border:2px solid var(--black);
+    overflow:hidden;
+  }
+  .ad-frame-top{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding: 12px 14px;
+    border-bottom:1px solid var(--black);
+    background:var(--cream);
+  }
+  .ad-avatar{
+    width:32px; height:32px;
+    background:var(--black);
+    color:var(--orange);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Archivo Black', sans-serif;
+    font-size:11px;
+    letter-spacing:0.05em;
+  }
+  .ad-handle{
+    font-family:'Inter', sans-serif;
+    font-weight:700;
+    font-size:13px;
+    line-height:1.1;
+    color: var(--black);
+  }
+  .ad-sub{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.1em;
+    opacity:0.8;
+    color: var(--black);
+  }
+  .ad-caption{
+    padding: 12px 14px;
+    font-size:13px;
+    border-bottom:1px solid var(--black);
+    line-height:1.45;
+    color: var(--black);
+  }
+
+  .ad-image{
+    aspect-ratio: 4/5;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding: 24px;
+  }
+  .ad-image.story{ aspect-ratio: 9/16; }
+
+  .img-bg-orange{ background:var(--orange); color:var(--black); }
+  .img-bg-black{ background:var(--black); color:var(--cream); }
+  .img-bg-cream{ background:var(--cream); color:var(--black); }
+
+  .img-protocol{
+    font-family:'JetBrains Mono', monospace;
+    font-size:9px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    opacity:0.9;
+  }
+  .img-headline{
+    font-family:'Archivo Black', sans-serif;
+    font-size:30px;
+    line-height:0.96;
+    letter-spacing:0.02em;
+    text-transform:uppercase;
+  }
+  .img-headline.lg{ font-size:40px; }
+  .img-headline.sm{ font-size:22px; }
+  .img-sub{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.12em;
+    margin-top:10px;
+    opacity:0.9;
+  }
+  .img-stamp{
+    display:inline-block;
+    background:var(--black);
+    color:var(--orange);
+    padding: 6px 12px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+  }
+  .img-stamp.orange{ background:var(--orange); color:var(--black); }
+  .img-stamp.cream{ background:var(--cream); color:var(--black); }
+
+  .img-data-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0;
+    border-top:2px solid currentColor;
+    margin-top:16px;
+  }
+  .img-data-cell{
+    padding: 12px 0 0;
+    border-right:2px solid currentColor;
+  }
+  .img-data-cell:last-child{border-right:none; padding-left:14px;}
+  .img-data-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:9px;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    opacity:0.9;
+  }
+  .img-data-value{
+    font-family:'Archivo Black', sans-serif;
+    font-size:24px;
+    line-height:1;
+    margin-top:4px;
+  }
+
+  .img-corner-mascot{
+    position:absolute;
+    bottom:14px; right:14px;
+    width:30px; height:30px;
+    background: currentColor;
+    border-radius: 60% 60% 55% 55% / 70% 70% 45% 45%;
+    opacity:0.9;
+  }
+  .img-corner-mascot::before{
+    content:"";
+    position:absolute;
+    top:-6px; left:50%;
+    transform:translateX(-50%);
+    width:4px; height:8px;
+    background: currentColor;
+  }
+
+  .ad-cta{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding: 12px 14px;
+    background:var(--cream);
+  }
+  .ad-cta-text{ font-size:11px; opacity:0.7; font-family:'JetBrains Mono', monospace; letter-spacing:0.1em; text-transform:uppercase; color: var(--black); }
+  .ad-cta-btn{
+    background:var(--black);
+    color:var(--orange);
+    padding: 8px 16px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    font-weight:700;
+  }
+
+  .meta-block{ margin-bottom: 18px; }
+  .meta-block .label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    background: var(--black);
+    color: var(--orange);
+    display:inline-block;
+    padding: 3px 10px;
+    margin-bottom:6px;
+  }
+  .meta-block .body{
+    font-size:14px;
+    line-height:1.55;
+    color:var(--ink);
+  }
+  .meta-block.copy .body{
+    background:var(--cream-dark);
+    border-left:4px solid var(--orange);
+    padding: 12px 14px;
+    font-size:13.5px;
+  }
+  .meta-block.copy .headline{
+    font-family:'Archivo Black', sans-serif;
+    font-size:16px;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    margin-bottom:8px;
+    line-height:1.15;
+    color: var(--black);
+  }
+  .meta-block.copy .body-text{
+    font-size:13.5px;
+    color:var(--ink);
+    margin-bottom:8px;
+    line-height:1.5;
+  }
+  .meta-block.copy .body-text strong{ color:var(--black); font-weight:700; }
+  .meta-block.copy .cta{
+    display:inline-block;
+    background:var(--black);
+    color:var(--orange);
+    padding:5px 14px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    font-weight:700;
+    margin-top:6px;
+  }
+
+  .prompt-block{
+    background: var(--black);
+    color: var(--cream);
+    padding: 16px 18px;
+    margin: 10px 0;
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    line-height:1.6;
+    border-left:6px solid var(--orange);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  .ig-caption{
+    background:var(--cream-dark);
+    border:2px solid var(--black);
+    padding: 14px 16px;
+    margin: 10px 0;
+    font-size:13px;
+    color: var(--ink);
+  }
+  .ig-caption .label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--orange);
+    background:var(--black);
+    display:inline-block;
+    padding:3px 10px;
+    margin-bottom:8px;
+  }
+
+  .doc-footer{
+    text-align:center;
+    padding:32px 0 0;
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--black);
+    border-top:2px solid var(--black);
+    margin-top:24px;
+  }
+  .doc-footer .mark{color:var(--orange);}
+
+  @media (max-width: 800px){
+    .creative-body{ grid-template-columns:1fr; }
+    .creative-mock{ border-right:none; border-bottom:3px solid var(--black); }
+    .hero h1{ font-size: 36px; }
+    .section{ padding: 26px 22px; }
+    .section h2{ font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- PROTOCOL BAR -->
+  <div class="protocol-bar">
+    <div><span class="dot"></span>MANGO-LAB.DE</div>
+    <div class="right">
+      <span>PROTOCOL_1.1</span>
+      <span>NODE_52°30'N_13°24'E</span>
+      <span>STATUS_LIVE</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-tag">CREATIVE_BRIEF / META_ADS / SAAS_5_CREATIVES</div>
+    <h1>ENGINE_<span class="mark">001</span><br>CREATIVE<br>BRIEF</h1>
+    <p>Five Meta creatives, one ad set, one mission: get the right marketer to tap "Get the Meter" and sign up at mango-lab.de. Three lead with the human element — the pain of the Friday reporting ritual, the four-tab dashboard tax, the SaaS-anxiety of "is this thing actually working." Two lead with the technical element — proof that Mango Lab measured its own campaign in real time. Together they teach Meta's algorithm what a Mango Lab user looks like.</p>
+  </div>
+
+  <!-- 0. OVERVIEW -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-num">00</div>
+      <div>
+        <div class="section-meta">SECTION_00 / OVERVIEW</div>
+        <h2>The Five Creatives</h2>
+      </div>
+    </div>
+
+    <div class="specs-grid">
+      <div class="spec-card dark">
+        <div class="spec-label">Ad Set</div>
+        <div class="spec-value">1 SET</div>
+        <div class="spec-sub">€400 / 14 days</div>
+      </div>
+      <div class="spec-card orange">
+        <div class="spec-label">Creatives</div>
+        <div class="spec-value">5</div>
+        <div class="spec-sub">3 HUMAN_ + 2 TECHNICAL_</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-label">Formats</div>
+        <div class="spec-value">3</div>
+        <div class="spec-sub">Static, Carousel, Reel</div>
+      </div>
+      <div class="spec-card dark">
+        <div class="spec-label">Conversion</div>
+        <div class="spec-value">SIGN-UP</div>
+        <div class="spec-sub">→ mango-lab.de</div>
+      </div>
+    </div>
+
+    <div class="alert">
+      <strong>The brand-book absolutes apply to every pixel:</strong> only #FC5816, #000000, #EFEED6 — no navy, no gradients, no pure white. The logo always reads as stamped. The mascot lives in a corner and never dominates. Display type is Monument Extended (Archivo Black web fallback). Mono is JetBrains. If a creative looks "polished and corporate," it has failed the brief.
+    </div>
+
+    <h3>Format Specs</h3>
+    <table>
+      <thead><tr><th>Format</th><th>Size</th><th>Ratio</th><th>Placement</th></tr></thead>
+      <tbody>
+        <tr><td>Feed Image</td><td>1080 × 1350 px</td><td>4:5</td><td>FB Feed, IG Feed</td></tr>
+        <tr><td>Story / Reel Image</td><td>1080 × 1920 px</td><td>9:16</td><td>Stories, Reels</td></tr>
+        <tr><td>Reel Video</td><td>1080 × 1920 px</td><td>9:16</td><td>Reels, Stories, Feed (auto)</td></tr>
+        <tr><td>Carousel slide</td><td>1080 × 1080 px</td><td>1:1</td><td>FB + IG Feed</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Hook Mix Across the Set</h3>
+    <table>
+      <thead><tr><th>ID</th><th>Voice</th><th>Hook Type</th><th>Format</th><th>Primary Pain Addressed</th></tr></thead>
+      <tbody>
+        <tr><td><strong>HUMAN_01</strong></td><td>Human</td><td>Marketer pain → solution</td><td>Static 4:5</td><td>"My ads dashboard isn't telling me the truth."</td></tr>
+        <tr><td><strong>HUMAN_02</strong></td><td>Human</td><td>Anti-manual workflow</td><td>Static 4:5</td><td>"I open Meta Ads Manager 11 times a day and still don't trust it."</td></tr>
+        <tr><td><strong>HUMAN_03</strong></td><td>Human</td><td>Reel rant — Friday ritual</td><td>Reel 9:16, 15s</td><td>"My weekly reporting hour actually takes an hour."</td></tr>
+        <tr><td><strong>TECHNICAL_01</strong></td><td>Machine</td><td>Self-referential proof card</td><td>Static 4:5</td><td>"Show me proof. Show me a dashboard."</td></tr>
+        <tr><td><strong>TECHNICAL_02</strong></td><td>Machine</td><td>Direct offer — 60 sec to insight</td><td>Static 4:5 + Story 9:16</td><td>"Just tell me what's free and what it costs later."</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============================ -->
+  <!-- HUMAN_01 -->
+  <!-- ============================ -->
+  <div class="creative">
+    <div class="creative-header">
+      <div>
+        <div class="creative-id">CREATIVE_001 / HUMAN_01 / FEED_4:5</div>
+        <div class="creative-title">"Dashboard Truth"</div>
+      </div>
+      <div class="creative-tag">HOOK · MARKETER_PAIN</div>
+    </div>
+    <div class="creative-body">
+      <div class="creative-mock">
+        <div class="ad-frame">
+          <div class="ad-frame-top">
+            <div class="ad-avatar">ML</div>
+            <div>
+              <div class="ad-handle">Mango Lab</div>
+              <div class="ad-sub">SPONSORED · BERLIN</div>
+            </div>
+          </div>
+          <div class="ad-caption">Most marketers spend €5K+/month on ads and still can't answer "what worked." We built the meter that does. ↓</div>
+          <div class="ad-image img-bg-cream">
+            <div>
+              <div class="img-protocol">PROTOCOL_1.1 · NODE_BERLIN</div>
+            </div>
+            <div>
+              <div class="img-stamp">FOR_MARKETERS</div>
+              <div class="img-headline lg" style="margin-top:14px;">YOUR ADS DASHBOARD ISN'T TELLING YOU THE <span style="color:var(--orange)">TRUTH</span>.</div>
+              <div class="img-sub">MANGO LAB IS THE METER THAT DOES.</div>
+            </div>
+            <div class="img-corner-mascot"></div>
+          </div>
+          <div class="ad-cta">
+            <div class="ad-cta-text">mango-lab.de</div>
+            <div class="ad-cta-btn">Get the Meter</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="creative-meta">
+        <div class="meta-block copy">
+          <div class="label">PRIMARY COPY</div>
+          <div class="body">
+            <div class="headline">Your ads dashboard isn't telling you the truth.</div>
+            <div class="body-text">You spend €5K+/month on Meta and Google. You open four tabs to find one number. The number you find is from yesterday. Sometimes from last week.<br><br>Mango Lab is the <strong>fully automated ads meter</strong>. Connect your accounts once, and the dashboard builds itself. Every metric. Every channel. Every anomaly — surfaced the second it happens.<br><br><strong>Free during beta.</strong> Built in Berlin. GDPR-native.</div>
+            <div class="cta">Get the Meter →</div>
+          </div>
+        </div>
+
+        <div class="meta-block">
+          <div class="label">NANO BANANA 2 PROMPT</div>
+          <div class="prompt-block">A high-contrast brutalist editorial poster, cream background (#EFEED6), composed with a heavy black typographic block. The phrase "YOUR ADS DASHBOARD ISN'T TELLING YOU THE TRUTH" set in Monument Extended Ultrabold, all caps, with the word "TRUTH" in vivid orange (#FC5816). Letterpress texture — visible ink bleed and analog grain on the type. Small JetBrains Mono caption "PROTOCOL_1.1 · NODE_BERLIN" top-left. A small solid-black mango-shaped mascot stamped in the bottom-right corner at ~5% canvas scale. Aspect ratio 4:5 (1080×1350). No gradients. No additional colors. No pure white — cream only.</div>
+        </div>
+
+        <div class="meta-block">
+          <div class="label">IG / LINKEDIN CAPTION</div>
+          <div class="ig-caption">
+            Your ads dashboard isn't telling you the truth.<br><br>
+            Most performance marketers spend Friday afternoon copy-pasting numbers between Meta, Google, and a Google Sheet. Mango Lab is the meter that kills that ritual — connect once, the dashboard runs itself. Free during beta. Link in bio.<br><br>
+            <span style="color:var(--orange)">#IndustrialStrengthAI</span> · #PerformanceMarketing · #Adtech
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================ -->
+  <!-- HUMAN_02 -->
+  <!-- ============================ -->
+  <div class="creative">
+    <div class="creative-header">
+      <div>
+        <div class="creative-id">CREATIVE_002 / HUMAN_02 / FEED_4:5</div>
+        <div class="creative-title">"Stop Opening Ads Manager"</div>
+      </div>
+      <div class="creative-tag">HOOK · ANTI_MANUAL</div>
+    </div>
+    <div class="creative-body">
+      <div class="creative-mock">
+        <div class="ad-frame">
+          <div class="ad-frame-top">
+            <div class="ad-avatar">ML</div>
+            <div>
+              <div class="ad-handle">Mango Lab</div>
+              <div class="ad-sub">SPONSORED · BERLIN</div>
+            </div>
+          </div>
+          <div class="ad-caption">Connect your ad accounts once. The meter does the rest — continuously. Your Friday afternoon is yours again. ↓</div>
+          <div class="ad-image img-bg-orange">
+            <div>
+              <div class="img-protocol">PROTOCOL_1.1</div>
+            </div>
+            <div>
+              <div class="img-headline lg">STOP<br>OPENING<br><span style="background:var(--black);color:var(--orange);padding:0 10px;display:inline-block;margin-top:6px;">ADS MANAGER.</span></div>
+              <div class="img-sub">— THE METER DOES IT NOW. MANGO LAB.</div>
+            </div>
+            <div class="img-corner-mascot"></div>
+          </div>
+          <div class="ad-cta">
+            <div class="ad-cta-text">mango-lab.de</div>
+            <div class="ad-cta-btn">Get the Meter</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="creative-meta">
+        <div class="meta-block copy">
+          <div class="label">PRIMARY COPY</div>
+          <div class="body">
+            <div class="headline">Stop opening Meta Ads Manager. The meter does it now.</div>
+            <div class="body-text">You don't need another reporting tool. You need to stop building reports.<br><br>Connect your Meta and Google ad accounts to Mango Lab once. The meter pulls every metric continuously, surfaces what changed, and tells you when something needs your attention. <strong>The rest of the time it doesn't bother you.</strong><br><br>Free during beta. €29/month after launch — about 1/30th of what Triple Whale charges to do less.</div>
+            <div class="cta">Get the Meter →</div>
+          </div>
+        </div>
+
+        <div class="meta-block">
+          <div class="label">NANO BANANA 2 PROMPT</div>
+          <div class="prompt-block">A brutalist 4:5 ad poster, full-bleed orange background (#FC5816), heavy black typographic system. The phrase "STOP OPENING" set in Monument Extended Ultrabold all caps in pure black, with a second block "ADS MANAGER." reversed out — orange text on a solid black rectangle, like a stamp pressed onto the orange ground. Visible letterpress ink texture and analog noise on all type. Tiny "PROTOCOL_1.1" label in JetBrains Mono Light top-left, almost a footnote. Solid black mango mascot stamped bottom-right corner at 5% canvas scale. No gradient, no shading, no third color, no pure white, no shadows. Aspect ratio 4:5 (1080×1350).</div>
+        </div>
+
+        <div class="meta-block">
+          <div class="label">IG / LINKEDIN CAPTION</div>
+          <div class="ig-caption">
+            Stop opening Meta Ads Manager. The meter does it now.<br><br>
+            Mango Lab is the fully automated ads meter — connect Meta + Google once, get a dashboard that runs itself. Built in Berlin for marketers managing €2K–€50K/month in spend. Free during beta. €29/month at launch. Link in bio.<br><br>
+            <span style="color:var(--orange)">#IndustrialStrengthAI</span> · #BerlinStartups · #MarketingOps
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================ -->
+  <!-- HUMAN_03 — REEL -->
+  <!-- ============================ -->
+  <div class="creative">
+    <div class="creative-header">
+      <div>
+        <div class="creative-id">CREATIVE_003 / HUMAN_03 / REEL_9:16 · 15s</div>
+        <div class="creative-title">"Friday Reporting Ritual"</div>
+      </div>
+      <div class="creative-tag">HOOK · RELATABLE_RANT</div>
+    </div>
+    <div class="creative-body">
+      <div class="creative-mock">
+        <div class="ad-frame">
+          <div class="ad-frame-top">
+            <div class="ad-avatar">ML</div>
+            <div>
+              <div class="ad-handle">Mango Lab</div>
+              <div class="ad-sub">SPONSORED · REEL · 15s</div>
+            </div>
+          </div>
+          <div class="ad-image story img-bg-black">
+            <div>
+              <div class="img-protocol" style="color:var(--orange)">REEL_001 · 00:00 → 00:15</div>
+            </div>
+            <div>
+              <div class="img-headline" style="color:var(--cream); font-size:24px;">"IF YOUR<br>WEEKLY<br>REPORTING<br>HOUR<br>ACTUALLY<br>TAKES<br><span style="color:var(--orange)">AN HOUR...</span><br><br>WE BUILT<br>THE METER<br>FOR YOU."</div>
+              <div class="img-sub" style="color:var(--orange)">FOUNDER VOICEOVER · CUT FAST · CAPTIONS ON</div>
+            </div>
+            <div class="img-corner-mascot" style="color:var(--orange)"></div>
+          </div>
+          <div class="ad-cta">
+            <div class="ad-cta-text">mango-lab.de</div>
+            <div class="ad-cta-btn">Get the Meter</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="creative-meta">
+        <div class="meta-block copy">
+          <div class="label">SCRIPT — 15 SEC</div>
+          <div class="body">
+            <div class="body-text">
+              <strong>00:00–00:03 / Hook:</strong> Founder on camera, eye-level, plain background. Pulls up four browser tabs visibly on a laptop. "If your weekly 'reporting hour' actually takes an hour..."<br><br>
+              <strong>00:03–00:08 / Pain:</strong> Cuts to fast montage — Meta Ads Manager loading spinner, Google Ads grid, GA4, a Google Sheet with copy-pasted numbers. "...you're not reporting. You're transcribing."<br><br>
+              <strong>00:08–00:12 / Solution:</strong> Cut to Mango Lab dashboard appearing on screen with one OAuth click, real numbers populating. "Mango Lab is the meter. Connect once. It runs itself."<br><br>
+              <strong>00:12–00:15 / CTA:</strong> Hard cut to brutalist orange end-card. "Free during beta. mango-lab.de." Text on screen: <strong>GET THE METER</strong>.
+            </div>
+          </div>
+        </div>
+
+        <div class="meta-block copy">
+          <div class="label">CAPTION (REEL OVERLAY)</div>
+          <div class="body">
+            <div class="body-text">If your weekly reporting hour actually takes an hour, you're not reporting. You're transcribing. Free meter, no transcribing. ↓</div>
+            <div class="cta">Get the Meter</div>
+          </div>
+        </div>
+
+        <div class="meta-block">
+          <div class="label">PRODUCTION NOTES</div>
+          <div class="prompt-block">Shoot vertical 9:16 on iPhone, hard mid-day light or tungsten — no soft beauty look. Cut every 1.2–1.8 seconds. Screen-record the dashboard montage at 2× speed. CapCut: Inter Bold all-caps captions, orange (#FC5816) on black bar, anchored bottom 30% so the IG UI does not eat them. End-card: solid orange #FC5816 background, "GET THE METER" Monument Extended Ultrabold black, "MANGO-LAB.DE" JetBrains Mono Light underneath, mascot stamp bottom-right. Audio: founder voice raw, no music. Optional: a single 0.3-sec analog camera click between cuts.</div>
+        </div>
+
+        <div class="meta-block">
+          <div class="label">IG / LINKEDIN CAPTION</div>
+          <div class="ig-caption">
+            If your weekly reporting hour takes an actual hour, you're not reporting — you're transcribing.<br><br>
+            We built Mango Lab because we were tired of the Friday ritual. Connect your Meta + Google ad accounts once, the meter does the rest. Free during beta. Link in bio.<br><br>
+            <span style="color:var(--orange)">#IndustrialStrengthAI</span> · #MarketingOps · #BuildInPublic
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================ -->
+  <!-- TECHNICAL_01 -->
+  <!-- ============================ -->
+  <div class="creative">
+    <div class="creative-header">
+      <div>
+        <div class="creative-id">CREATIVE_004 / TECHNICAL_01 / FEED_4:5</div>
+        <div class="creative-title">"The Meter Measured Itself"</div>
+      </div>
+      <div class="creative-tag machine">PROOF · DATA_CARD</div>
+    </div>
+    <div class="creative-body">
+      <div class="creative-mock">
+        <div class="ad-frame">
+          <div class="ad-frame-top">
+            <div class="ad-avatar">ML</div>
+            <div>
+              <div class="ad-handle">Mango Lab</div>
+              <div class="ad-sub">SPONSORED · BERLIN</div>
+            </div>
+          </div>
+          <div class="ad-caption">We pointed Mango Lab at our own ads. The meter ran the whole campaign. The dashboard is what you'll see when you sign up. ↓</div>
+          <div class="ad-image img-bg-black">
+            <div>
+              <div class="img-protocol" style="color:var(--orange)">ENGINE_001 / METER_LIVE</div>
+            </div>
+            <div>
+              <div class="img-stamp orange">PROOF</div>
+              <div class="img-headline lg" style="color:var(--cream); margin-top:14px;">14 DAYS.<br>€400.<br><span style="color:var(--orange)">MEASURED LIVE</span>.</div>
+              <div class="img-data-grid" style="color:var(--cream);">
+                <div class="img-data-cell">
+                  <div class="img-data-label">CPM</div>
+                  <div class="img-data-value">€11.40</div>
+                </div>
+                <div class="img-data-cell">
+                  <div class="img-data-label">CPS</div>
+                  <div class="img-data-value" style="color:var(--orange)">€13</div>
+                </div>
+              </div>
+              <div class="img-sub" style="color:var(--orange); margin-top:14px;">// LIVE NUMBERS — FROM THE METER ITSELF</div>
+            </div>
+            <div class="img-corner-mascot" style="color:var(--orange)"></div>
+          </div>
+          <div class="ad-cta">
+            <div class="ad-cta-text">mango-lab.de</div>
+            <div class="ad-cta-btn">See the Dashboard</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="creative-meta">
+        <div class="meta-block copy">
+          <div class="label">PRIMARY COPY</div>
+          <div class="body">
+            <div class="headline">14 days. €400. Measured by the meter itself.</div>
+            <div class="body-text">We pointed Mango Lab at our own ad account. The meter ran the whole campaign — every cost-per-result, every audience signal, every creative-level performance breakdown — without a human opening Meta Ads Manager once.<br><br>The dashboard above is the same one you'll see <strong>60 seconds after you sign up</strong>. Connect your Meta account, the meter pulls 12 months of history, and the first anomaly surfaces before you've finished your coffee.<br><br>Free during beta.</div>
+            <div class="cta">See the Dashboard →</div>
+          </div>
+        </div>
+
+        <div class="meta-block">
+          <div class="label">NANO BANANA 2 PROMPT</div>
+          <div class="prompt-block">A brutalist 4:5 ad-card composition, solid coal-black background (#000000). Two giant headline blocks set in Monument Extended Ultrabold cream (#EFEED6): "14 DAYS." and "€400." on consecutive lines, then "MEASURED LIVE." with the words "MEASURED LIVE" in vivid orange (#FC5816). Below the headline, a strict 2-column data table with thin orange borders showing "CPM / €11.40" and "CPS / €13" set in JetBrains Mono Light. Small orange "PROOF" stamp top-left. Bottom-right: small solid-orange mango mascot stamp at 5% canvas scale. Letterpress / ink-bleed texture on all type. No gradient, no extra color, no shading, no white. Aspect ratio 4:5 (1080×1350). The composition should read like a printed factory receipt or a Bauhaus dashboard print-out.</div>
+        </div>
+
+        <div class="meta-block">
+          <div class="label">IG / LINKEDIN CAPTION</div>
+          <div class="ig-caption">
+            14 days. €400. Measured by the meter itself.<br><br>
+            We pointed Mango Lab at our own Meta Ads campaign. The meter ran the reporting in real time — these are the actual numbers. The dashboard you see is the one every new sign-up gets within 60 seconds of connecting their account. Free during beta. Link in bio.<br><br>
+            <span style="color:var(--orange)">#IndustrialStrengthAI</span> · #BuildInPublic · #PerformanceMarketing
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================ -->
+  <!-- TECHNICAL_02 -->
+  <!-- ============================ -->
+  <div class="creative">
+    <div class="creative-header">
+      <div>
+        <div class="creative-id">CREATIVE_005 / TECHNICAL_02 / FEED_4:5 + STORY_9:16</div>
+        <div class="creative-title">"60 Seconds to First Insight"</div>
+      </div>
+      <div class="creative-tag machine">DIRECT_OFFER</div>
+    </div>
+    <div class="creative-body">
+      <div class="creative-mock">
+        <div class="ad-frame">
+          <div class="ad-frame-top">
+            <div class="ad-avatar">ML</div>
+            <div>
+              <div class="ad-handle">Mango Lab</div>
+              <div class="ad-sub">SPONSORED · BERLIN</div>
+            </div>
+          </div>
+          <div class="ad-caption">Connect a Meta account. The meter pulls 12 months of history and surfaces the first anomaly in under a minute. Free during beta. ↓</div>
+          <div class="ad-image img-bg-cream">
+            <div>
+              <div class="img-protocol">PROTOCOL_1.1 / OFFER_001</div>
+            </div>
+            <div>
+              <div class="img-headline lg">FREE.<br>60 SEC.<br>ONE<br>DASHBOARD.</div>
+              <div class="img-data-grid" style="margin-top:18px;">
+                <div class="img-data-cell">
+                  <div class="img-data-label">SETUP</div>
+                  <div class="img-data-value">60 SEC</div>
+                </div>
+                <div class="img-data-cell">
+                  <div class="img-data-label">PRICE</div>
+                  <div class="img-data-value" style="color:var(--orange)">€0</div>
+                </div>
+              </div>
+              <div class="img-stamp" style="margin-top:14px;">DURING BETA · DACH+EU · OAUTH-ONLY</div>
+            </div>
+            <div class="img-corner-mascot"></div>
+          </div>
+          <div class="ad-cta">
+            <div class="ad-cta-text">mango-lab.de</div>
+            <div class="ad-cta-btn">Connect Now</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="creative-meta">
+        <div class="meta-block copy">
+          <div class="label">PRIMARY COPY</div>
+          <div class="body">
+            <div class="headline">Free. 60 seconds. One dashboard.</div>
+            <div class="body-text">Sign up at <strong>mango-lab.de</strong>. Connect your Meta account with one OAuth click. The meter pulls 12 months of history and surfaces the first anomaly in under a minute.<br><br>No credit card. No call with sales. No 90-day implementation. <strong>Read-only access — the meter never writes to your account.</strong><br><br>Free during beta. €29/month at launch. Built in Berlin, hosted in Frankfurt, GDPR-native.</div>
+            <div class="cta">Connect Now →</div>
+          </div>
+        </div>
+
+        <div class="meta-block">
+          <div class="label">STORY 9:16 VARIANT</div>
+          <div class="prompt-block">Same composition vertically extended for 9:16 (1080×1920). The "FREE. / 60 SEC. / ONE / DASHBOARD." stack scales up to fill upper two-thirds. Data grid sits center. Bottom one-quarter: solid orange (#FC5816) bar with "CONNECT NOW →" in Monument Extended Ultrabold black, plus mango-lab.de URL in JetBrains Mono Light underneath. Story sticker call-to-action: "Connect Now" linking to mango-lab.de.</div>
+        </div>
+
+        <div class="meta-block">
+          <div class="label">NANO BANANA 2 PROMPT</div>
+          <div class="prompt-block">A brutalist 4:5 ad-card, cream background (#EFEED6), composed as a printed offer slip. Four giant stacked words "FREE. / 60 SEC. / ONE / DASHBOARD." set in Monument Extended Ultrabold pure black, all caps, with letterpress ink-bleed texture. Below, a 2-column data grid with thin black borders: "SETUP / 60 SEC" and "PRICE / €0" — the "€0" rendered in vivid orange (#FC5816), oversized. A black stamp tag at the bottom reads "DURING BETA · DACH+EU · OAUTH-ONLY" in JetBrains Mono Light cream-on-black. Mango mascot stamped bottom-right corner at 5% canvas scale, solid black silhouette. No gradient, no extra color, no white, no shading. Aspect ratio 4:5 (1080×1350). Should read like a Bauhaus admission ticket.</div>
+        </div>
+
+        <div class="meta-block">
+          <div class="label">IG / LINKEDIN CAPTION</div>
+          <div class="ig-caption">
+            Free. 60 seconds. One dashboard.<br><br>
+            Connect your Meta account to Mango Lab. The meter pulls 12 months of history and surfaces your first anomaly in under a minute. Read-only OAuth — the meter never writes to your account.<br><br>
+            DACH + EU marketers. Free during beta. €29/month at launch.<br><br>
+            <span style="color:var(--orange)">#IndustrialStrengthAI</span> · #FreeBeta · #SaaS
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================ -->
+  <!-- LANDING / SIGN-UP FORM -->
+  <!-- ============================ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-num">06</div>
+      <div>
+        <div class="section-meta">SECTION_06 / LANDING_FORM</div>
+        <h2>Sign-up Form Spec — mango-lab.de</h2>
+      </div>
+    </div>
+
+    <p>The landing surface is mango-lab.de. The form is the single CTA above the fold — three fields, ~15-second completion. The third field captures the qualification signal we'll use to filter the class report.</p>
+
+    <table>
+      <thead><tr><th>#</th><th>Field</th><th>Type</th><th>Required</th></tr></thead>
+      <tbody>
+        <tr><td>01</td><td>Work email</td><td>Email</td><td>Yes</td></tr>
+        <tr><td>02</td><td>Company URL</td><td>Short text</td><td>Yes</td></tr>
+        <tr><td>03</td><td>Monthly ad spend tier</td><td>Single-select: €0–1K · €1–5K · €5–25K · €25K+</td><td>Yes</td></tr>
+      </tbody>
+    </table>
+
+    <div class="note">
+      Field 3 is the qualification stack in one click. A user who selects "€5–25K" is a real prospect; "€0–1K" is a curious learner — still valid for the audience pixel, less weight in the CPS calculation when the class report filters to "qualified" tier only.
+    </div>
+
+    <h3>Above-the-Fold Headline</h3>
+    <div class="prompt-block">STOP OPENING ADS MANAGER.
+THE METER DOES IT NOW.
+
+Connect your ad accounts once. Mango Lab measures, monitors, and surfaces what's working — continuously, in one dashboard. Free during beta.
+
+[ work email ] [ company url ] [ ad spend tier ▾ ]
+
+→ GET THE METER</div>
+
+    <h3>Post-Sign-up Confirmation Screen</h3>
+    <div class="prompt-block">// METER_INITIALIZED
+
+Welcome. Now connect your first ad account — that's where the dashboard starts.
+
+[ Connect Meta Ads (read-only) ]
+[ Connect Google Ads (read-only) ]
+
+— mango-lab.de</div>
+  </div>
+
+  <!-- ============================ -->
+  <!-- ACTIVATION FLOW -->
+  <!-- ============================ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-num">07</div>
+      <div>
+        <div class="section-meta">SECTION_07 / ACTIVATION</div>
+        <h2>Activation — Sign-up to First Insight</h2>
+      </div>
+    </div>
+
+    <p>Activation is the real conversion. A sign-up that doesn't connect an ad account is a bounce in disguise. The activation flow has to compress the path from email-submitted to first-insight-delivered into 60 seconds.</p>
+
+    <h3>Step 1 — Immediate (Post-form-submit)</h3>
+    <div class="prompt-block">User lands on the OAuth screen by default. No "welcome page," no "tour," no "verify your email first."
+
+The single visible CTA: "Connect Meta Ads (read-only)."
+
+A small footer line: "We never write to your account. SOC 2 in progress. GDPR-native."</div>
+
+    <h3>Step 2 — Post-OAuth (Within 60 sec)</h3>
+    <div class="prompt-block">Meter pulls 12 months of historical performance from the connected ad account.
+
+Dashboard renders with: spend trend, top-performing creative, the single biggest week-over-week change, and one "anomaly card" highlighting something the user probably didn't know.
+
+The anomaly card is the activation moment. It's the proof.</div>
+
+    <h3>Step 3 — Activation Reminder (For users who sign up but don't connect)</h3>
+    <div class="prompt-block">+2h email: "You signed up but the meter is empty. Connect a Meta account here — takes 30 seconds, read-only. → mango-lab.de/connect"
+
++24h email: "Quick reminder. The dashboard is waiting. Connect here, see the first anomaly inside a minute. → mango-lab.de/connect"
+
++72h: stop. Don't be that SaaS.</div>
+
+    <div class="alert">
+      <strong>The meter has to surprise the user inside their first session.</strong> If the first anomaly card is generic ("CPM increased 12% week-over-week"), the user thinks "I knew that." If it's specific ("Your highest-CTR creative had its frequency capped on day 9 — costing you ~€420 in missed conversions"), the user thinks "Holy shit." That's the difference between a sign-up and an activated user.
+    </div>
+  </div>
+
+  <!-- ============================ -->
+  <!-- BRAND COMPLIANCE -->
+  <!-- ============================ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-num">08</div>
+      <div>
+        <div class="section-meta">SECTION_08 / QA</div>
+        <h2>Brand Compliance Checklist</h2>
+      </div>
+    </div>
+
+    <p>Every creative ships through this gate before it goes live in Meta Ads Manager. If any answer is "no," the creative gets sent back.</p>
+
+    <table>
+      <thead><tr><th>Check</th><th>Pass criterion</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Color palette</strong></td><td>Only #FC5816, #000000, #EFEED6 visible. No navy. No tints, no gradients, no transparency blends. No pure white anywhere.</td></tr>
+        <tr><td><strong>Logo treatment</strong></td><td>Reads as stamped — visible ink bleed, analog noise. Never a clean digital render. Mascot never separated from wordmark in the official lockup.</td></tr>
+        <tr><td><strong>Mascot scale</strong></td><td>Corner element only, &lt;15% canvas. Never centered, never the dominant element, never recolored, never outlined.</td></tr>
+        <tr><td><strong>Typography</strong></td><td>Display = Monument Extended Ultrabold (Archivo Black web fallback). Technical = JetBrains Mono Light. Body = DejaVu Sans Bold (Inter 700 fallback). No mixing of weights or roles.</td></tr>
+        <tr><td><strong>Tracking</strong></td><td>Display: +60 (0.06em). Mono: +180 (0.18em). Body: +80 (0.08em). All caps on display + technical layers.</td></tr>
+        <tr><td><strong>Voice axis</strong></td><td>Creative reads as either HUMAN or TECHNICAL — not both, not neither. If it's "kind of both," it's neither.</td></tr>
+        <tr><td><strong>Stamp aesthetic</strong></td><td>Whole composition feels printed, not screened. Letterpress-quality ink imperfection on type.</td></tr>
+        <tr><td><strong>CTA terminology</strong></td><td>Button copy is "Get the Meter" / "Connect Now" / "See the Dashboard" — never "Learn More," never "Sign Up Today," never "Schedule a Demo."</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="doc-footer">
+    MANGO <span class="mark">LAB</span> · ENGINE_001 / CREATIVE_BRIEF · MANGO-LAB.DE · BERLIN<br>
+    <span style="opacity:0.5">NO NAVY · NO GRADIENTS · NO COMPROMISE</span>
+  </div>
+
+</div>
+</body>
+</html>
