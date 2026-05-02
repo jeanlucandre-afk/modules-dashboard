@@ -83,9 +83,10 @@ export const data: DashboardData = {
 
   todayFocus: [
     'PM_16 — SUBMITTED ✓ (2026-05-02)',
-    'PM_22 — Schedule + run ≥5 user interviews (Level 1 hard gate)',
-    'PM_22 — Fill L1 gaps: journey map, VPC, PESTLE, SWOT, user story map',
-    'PM_22 — Start reflection essay (Level 3 add-on)',
+    'PM_23 — ACTIVE: Marketing Report §3–§13 (content exists in Campaign Plan HTML — needs academic framing + citations)',
+    'PM_23 — ACTIVE: Sales Report deck (12 slides, cold outreach template — biggest blank)',
+    'PM_23 — ACTIVE: Leveling-up report ≤3,000 words (unlocks Level 3)',
+    'PM_23 — CONFIRM: Roland mandatory check-in booked',
   ],
 
   decisions: [
