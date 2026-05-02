@@ -338,22 +338,64 @@
     .tier.pro .tier-desc { color: #aaa; }
     .tier.pro .tier-price { color: #fff; }
 
-    /* ── FOOTER ─────────────────────────────── */
-    .footer-strip {
-      margin-top: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 11px;
-      color: #888;
-      padding-top: 12px;
-      border-top: 1px solid #d4cfbf;
+    /* ── PAGE 2 — RATIONALE ─────────────────── */
+    .page-2 {
+      page-break-before: always;
+      padding-top: 20px;
     }
 
-    .footer-strip .right {
-      font-style: italic;
-      color: #aaa;
+    .page-2-title {
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      margin-bottom: 6px;
+      line-height: 1.1;
     }
+
+    .page-2-sub {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 30px;
+      max-width: 820px;
+      line-height: 1.5;
+    }
+
+    .essay {
+      column-count: 3;
+      column-gap: 36px;
+      column-rule: 1px solid #d4cfbf;
+      font-size: 13px;
+      line-height: 1.7;
+      color: #2a2a2a;
+    }
+
+    .essay h3 {
+      font-size: 14px;
+      font-weight: 800;
+      color: #1a1a1a;
+      margin-top: 14px;
+      margin-bottom: 6px;
+      letter-spacing: -0.1px;
+      break-after: avoid;
+    }
+
+    .essay h3:first-child { margin-top: 0; }
+
+    .essay h3 .accent {
+      color: #c64b00;
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      font-size: 17px;
+      margin-left: 4px;
+    }
+
+    .essay p {
+      margin-bottom: 12px;
+      orphans: 3;
+      widows: 3;
+    }
+
+    .essay p strong { color: #1a1a1a; font-weight: 700; }
 
     @media print {
       @page { size: A3 landscape; margin: 0; }
@@ -638,10 +680,49 @@
 
   </div>
 
-  <!-- FOOTER -->
-  <div class="footer-strip">
-    <span><strong>Mango Lab → Still</strong> · Growth Model · PM_16 · Artifact 7</span>
-    <span class="right">based on Disciplined Entrepreneurship Step 17 · Hormozi $100M Offers · Lean Startup</span>
+  <!-- ─────────── PAGE 2 — THE THINKING ─────────── -->
+  <div class="page-2">
+
+    <!-- TOP STRIP (repeated for second page) -->
+    <div class="topbar">
+      <span>PM_16 / BM_16  ·  May 2026  ·  Jean-Luc Navarro</span>
+      <span class="topbar-right">CODE</span>
+    </div>
+
+    <h1 class="page-2-title">The thinking <span class="hw">behind this</span></h1>
+    <p class="page-2-sub">This page is here to explain how we get from where Mango Lab is now to a seed-ready company. Most decks I have read kind of skip this part, so I'm going to walk through the four stages, the flywheel, the unit economics, and why I think the order matters as much as the numbers do.</p>
+
+    <div class="essay">
+
+      <h3>Why I built this</h3>
+      <p>Most decks I have read talk about market size and pricing but skip the part where they walk you through how the company actually grows from one stage to the next. This artifact is the part most decks skip.</p>
+      <p>I also built it for myself first, honestly. Building it forced me to be honest about where Mango Lab is and where it is not. The flywheel is set up but it is not spinning yet. The unit economics check out but they are based on small samples. Saying that out loud on the page is more useful than pretending otherwise.</p>
+
+      <h3>The four stages <span class="accent">triggers</span></h3>
+      <p><strong>Stage 1 is now.</strong> We have agency clients in Bet & Babes and meetDWIGHT, €750 a month in profit, and ENGINE_001 running on €400 of META ad spend.</p>
+      <p><strong>Stage 2</strong> is the point where ENGINE_001 paid conversion goes above 2% and we have 50 trial subscribers. That gets us to a target MRR of €3,950.</p>
+      <p><strong>Stage 3</strong> is 12 months out. Those 50 subscribers are still around in cohort 3 and the MRR range is between €7,900 and €12,450. First Berlin agency clients won, seed conversations open.</p>
+      <p><strong>Stage 4</strong> is the €10K MRR mark. That is when seed conversations stop being talk and start being a round.</p>
+      <p>The reason the stages are written this way is that triggers are honest and timelines are kind of fiction. Saying "we will hit X in Y months" is hope. Saying "we move forward when ENGINE_001 hits 2%" is testable. The triggers also force discipline. We do not move to stage 2 because I want to. We move when the data says we have earned it.</p>
+
+      <h3>The flywheel <span class="accent">compounds</span></h3>
+      <p>This is the part I am most proud of, honestly. Agency revenue funds Still development. Better Still produces better creative output. Better creative gets us more subscribers. More subscribers feed more campaign data back into the model. The model gets better. The agency wins more clients on the strength of better creative. The loop compounds.</p>
+      <p>Right now the flywheel is set up but it is not spinning yet. The agency revenue is real but small. Still does not exist as a real product, only as the manual version Alberto and I run between us. The whole point of stage 2 is basically to get one full turn of the flywheel before we run out of bootstrapped runway.</p>
+
+      <h3>Unit economics <span class="accent">the math</span></h3>
+      <p>The math check, basically. CAC €49 against blended LTV €2,600 is a 53 to 1 ratio. The minimum acceptable ratio in any growth-stage business is 3 to 1, so we are 17 times above the floor. The reason it works is that the agency carries most of the operational load while the SaaS layer is mostly margin. Gross margin is 75%, payback period half a month.</p>
+      <p>The numbers are conservative on purpose. If I had used the Pro tier LTV of €4,980 instead of the blended one, the ratio would be even higher. The 53 to 1 is the floor case, not the best case.</p>
+
+      <h3>Pricing ladder <span class="accent">offer design</span></h3>
+      <p>The pricing was not random. €49 trial filters out the people who were never going to pay. €79 monthly is the real product, the tier most subscribers will land on. €249 Pro is the price point that funds the company.</p>
+      <p>I read Hormozi's <em>$100M Offers</em> the year before starting Mango Lab and it changed how I thought about offer design completely. The trial is not really an entry product. It is a decoy that makes the €79 monthly look like the obvious choice. The whole ladder is basically built around making the next tier feel cheap.</p>
+
+      <h3>Why this matters</h3>
+      <p>If I am pitching to an investor in 12 months, this is the page I want on the table first. Not the brand, not the team, not the pretty deck. This. Because everything else is opinion and this is math.</p>
+      <p>The flywheel is the strategy. The unit economics are the proof the strategy is not delusional. The four stages are the order in which we earn the right to keep going. The €10K MRR trigger is honestly the only number I really care about right now.</p>
+
+    </div>
+
   </div>
 
 </body>

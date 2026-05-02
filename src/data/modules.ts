@@ -79,11 +79,11 @@ export const data: DashboardData = {
   semester: 'SS26',
   student: 'Jean-Luc',
   project: 'Mango Lab → Still',
-  lastUpdated: '2026-05-02',
+  lastUpdated: '2026-05-02 (evening)',
 
   todayFocus: [
-    'PM_16 — Export Google Doc as PDF + ZIP for Google Form submission (last step)',
-    'PM_16 — Print Artifact 1 TAM/SAM/SOM HTML to PDF, then ZIP all artifacts',
+    'PM_16 — Fix 7 critical doc issues (Q3 broken ref, Q13 "claude made it pretty", €40→€49, €499 verify, Q19 double-period, Mango Lab/Labs, gross margin 89% vs 75%)',
+    'PM_16 — Export Google Doc as PDF + ZIP all 7 artifacts + submit Google Form',
     'PM_22 — schedule + run ≥5 user interviews (Level 1 hard gate)',
   ],
 
@@ -595,8 +595,8 @@ export const data: DashboardData = {
         { label: 'All files zipped',                                       done: false },
         { label: 'Submitted via Google Form',                              done: false },
       ],
-      nextAction: 'Open PM_16_Artifact1_TAM_SAM_SOM.html in browser → Print → Save as PDF. Then export Google Doc as PDF, ZIP all 5 artifacts, submit via Google Form.',
-      notes: 'All 21 questions done. All 4 Challenge reflections done (2026-05-02). 5/5 artifacts built (Artifact 1 = HTML, needs PDF print). 2 bonus artifacts generated (Framework Map + Growth Model). Final steps: PDF prints + ZIP + form submit.',
+      nextAction: 'Fix 7 critical doc issues (see PM_16_Doc_Review_Issues.md), print TAM/SAM/SOM HTML to PDF, ZIP all 7 artifacts (5 required + 2 bonus + bonus note .md), submit Google Form.',
+      notes: 'All 21 questions done. All 4 Challenge reflections done. 5/5 required artifacts built. 2 bonus artifacts done as 2-page PDFs (Framework Map + Growth Model — clean Miro-style HTML rendered, with rationale essay on page 2 in JL voice). Bonus note (.md) drafted to paste into Doc end. STILL OPEN: 7 critical doc fixes + ZIP + submit. Trial price = €49 everywhere (some places say €40 = typo). Gross margin: 89% in Q15 contradicts 75% in Growth Model — reconcile.',
     },
 
     /* ============================================================

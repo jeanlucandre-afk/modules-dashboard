@@ -183,22 +183,64 @@
       color: #c64b00;
     }
 
-    /* ── BOTTOM ROW ─────────────────────────── */
-    .footer-strip {
-      margin-top: 18px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 11px;
-      color: #888;
-      padding-top: 12px;
-      border-top: 1px solid #d4cfbf;
+    /* ── PAGE 2 — RATIONALE ─────────────────── */
+    .page-2 {
+      page-break-before: always;
+      padding-top: 20px;
     }
 
-    .footer-strip .right {
-      font-style: italic;
-      color: #aaa;
+    .page-2-title {
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      margin-bottom: 6px;
+      line-height: 1.1;
     }
+
+    .page-2-sub {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 30px;
+      max-width: 820px;
+      line-height: 1.5;
+    }
+
+    .essay {
+      column-count: 3;
+      column-gap: 36px;
+      column-rule: 1px solid #d4cfbf;
+      font-size: 13px;
+      line-height: 1.7;
+      color: #2a2a2a;
+    }
+
+    .essay h3 {
+      font-size: 14px;
+      font-weight: 800;
+      color: #1a1a1a;
+      margin-top: 14px;
+      margin-bottom: 6px;
+      letter-spacing: -0.1px;
+      break-after: avoid;
+    }
+
+    .essay h3:first-child { margin-top: 0; }
+
+    .essay h3 .accent {
+      color: #c64b00;
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      font-size: 17px;
+      margin-left: 4px;
+    }
+
+    .essay p {
+      margin-bottom: 12px;
+      orphans: 3;
+      widows: 3;
+    }
+
+    .essay p strong { color: #1a1a1a; font-weight: 700; }
 
     @media print {
       @page { size: A3 landscape; margin: 0; }
@@ -341,10 +383,46 @@
 
   </div>
 
-  <!-- FOOTER -->
-  <div class="footer-strip">
-    <span><strong>Mango Lab → Still</strong> · Framework Application Map · PM_16 · Artifact 6</span>
-    <span class="right">adapted from Ries · Aulet · Graham · Fitzpatrick</span>
+  <!-- ─────────── PAGE 2 — THE THINKING ─────────── -->
+  <div class="page-2">
+
+    <!-- TOP STRIP (repeated for second page) -->
+    <div class="topbar">
+      <span>PM_16 / BM_16  ·  May 2026  ·  Jean-Luc Navarro</span>
+      <span class="topbar-right">CODE</span>
+    </div>
+
+    <h1 class="page-2-title">The thinking <span class="hw">behind this</span></h1>
+    <p class="page-2-sub">This page is here to walk through why every decision in Mango Lab was made the way it was. The main document has all the moves in it but the reasoning behind each one kind of gets lost in the prose, so I'm going to explain the connections directly.</p>
+
+    <div class="essay">
+
+      <h3>Why I built this</h3>
+      <p>This document explains why we charged €49 instead of giving the trial away for free. Why Bet & Babes was the first client we onboarded, even though we had not pitched anyone yet. Why we ran paid META ads before there was even a product to sell. From the outside, most of those decisions probably looked random. They were not.</p>
+      <p>Each one was tied back to a framework I had been reading or watching at the time, and this map is basically my attempt to fix the gap between what we did and why we did it. On each panel, the label on the sticky note is the principle, and the text underneath is the actual move. Theory on one side, the move on the other, so the connection is visible.</p>
+
+      <h3>Lean Startup <span class="accent">Ries</span></h3>
+      <p>When we started Mango Lab I was going through Eric Ries at the same time, and what kept coming back was that building anything before testing the demand was kind of insane. So before Alberto and I built a single thing, we ran a paid META sprint with €400. The idea was simple. If no one clicks on the ad, no one wants the product, and we save ourselves three months of building. People clicked. That gave us permission to keep going.</p>
+      <p>The Wizard-of-Oz delivery for our first paying client came from the same place, basically. He transferred €500 thinking AI ran the workflow. It did not. Alberto and I ran it manually because we wanted to see what the actual job looked like before we tried to automate it. The agency is the MVP, kind of. We are not faking it. We are doing the job by hand until the data tells us what to automate first.</p>
+
+      <h3>Disciplined Entrepreneurship <span class="accent">Aulet</span></h3>
+      <p>Aulet's 24 steps are the structure I wish I had had at the start. I came to the book later but it gave me a way to organise the things we had already done. Step 1 is market segmentation, and the reason iGaming became the beachhead is because Bet & Babes came to us through a referral, paid for delivery, and came back. That is what step 1 looks like in practice, basically a customer who came back twice.</p>
+      <p>Step 4 is market sizing, which gave us TAM $356B, SAM $47B, SOM $480M at 0.1% capture. Step 17 is the unit economics one. LTV €2,600 against CAC €49 is a 53 to 1 ratio, and the minimum threshold is 3 to 1. I checked the number three times because I did not believe it. It works because the agency carries most of the operational cost while the SaaS layer is high margin.</p>
+
+      <h3>Y Combinator <span class="accent">Graham</span></h3>
+      <p>The YC essays were what kept me grounded when things felt slow. The two ideas I keep coming back to are "do things that don't scale" and "charge from day one". The first is why Alberto and I are still personally handling every brief. We could automate it badly right now. We chose not to. Doing it by hand is what shows us what to build.</p>
+      <p>The second one is why the trial is €49 and not free. A free trial filters nothing. A €49 trial filters out the people who were never going to pay anyway. Default alive is the third one I keep using, and it is honestly the reason I can sleep at night. Agency profit is €750 a month and that funds Still development, which means zero runway risk while we are still validating.</p>
+
+      <h3>The Mom Test <span class="accent">Fitzpatrick</span></h3>
+      <p>The Mom Test is the book I underestimated when I read it. I thought I knew how to interview people. Fatema's interview at CODE University showed me I did not, kind of completely. The question I asked was just "what is your hardest task this week?" Her answer was posting stories. Not running ads. Real pain, completely unprompted, and honestly not at all what I would have expected if I had pitched her instead.</p>
+      <p>That same kind of question is why the LinkedIn outreach worked. Instead of pitching the product I asked "last time you needed creatives, how did you handle it?" Past behaviour is testable. Future opinions are not. The 25% reply rate on cold outreach was mostly because of that one question.</p>
+
+      <h3>Why this matters</h3>
+      <p>The point of putting all four on one page is to make every decision in Mango Lab explainable. If an investor asks me why we charge for the trial, I do not have to say "because we decided to". I can say it is because Graham and Hormozi both write about decoy pricing, and €49 is what filters out the people who were never going to pay anyway.</p>
+      <p>The frameworks are not abstract for me. They are basically the reason every decision in this document looks the way it does.</p>
+
+    </div>
+
   </div>
 
 </body>
