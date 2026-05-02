@@ -83,7 +83,7 @@ export const data: DashboardData = {
 
   todayFocus: [
     'PM_16 — SUBMITTED ✓ (2026-05-02)',
-    'PM_22 — NEARLY DONE ✓ — deck ready + Better Products delivered + reflection essay done — submit via Google Form',
+    'PM_22 — SUBMITTED ✓ (2026-05-03) — deck + Better Products + reflection essay all done',
     'PM_23 — ACTIVE: Marketing Report §3–§13 (content exists in Campaign Plan HTML — needs academic framing + citations)',
     'PM_23 — ACTIVE: Sales Report deck (12 slides, cold outreach template — biggest blank)',
     'PM_23 — ACTIVE: Leveling-up report ≤3,000 words (unlocks Level 3)',
@@ -148,7 +148,7 @@ export const data: DashboardData = {
             { label: 'Section 6 — MVP + Build-Measure-Learn cycle', done: true },
             { label: 'Appendix — ≥5 user interview transcripts', done: true },
             { label: 'AI-use statement on the deck', done: true },
-            { label: 'Export to single PDF + submit via Google Form', done: false },
+            { label: 'Export to single PDF + submit via Google Form', done: true },
           ],
         },
         {
@@ -197,7 +197,7 @@ export const data: DashboardData = {
         { step: 'Confirm reflection-essay spec (length, prompt, citation style) with Swantje', why: 'PDFs cut off — exact spec not in scraped material', done: true },
         { step: 'Rehearse the 10-min talk + Q&A drill on every knowledge area', why: '15-min Q&A weighs as much as the talk', done: true },
         { step: 'Compile single PDF: deck + appendix (≥5 interviews) + AI-use statement', why: 'Single-PDF rule', done: true },
-        { step: 'Submit via Google Form by 2026-05-04', done: false },
+        { step: 'Submit via Google Form by 2026-05-04', done: true },
       ],
       checklist: [
         // Level 1 minimum content (from action plan §3)
@@ -230,8 +230,8 @@ export const data: DashboardData = {
         { label: 'L3 — Reflection essay drafted',                          done: true  },
         { label: 'L3 — Reflection essay reviewed for clarity + depth',     done: true  },
       ],
-      nextAction: 'Submit via Google Form (manual) + prep 25-min oral exam Q&A',
-      notes: 'Deck shipped + Better Products delivered + Reflection Essay done (2026-05-03). Only remaining: Google Form submission + oral exam prep.',
+      nextAction: 'SUBMITTED ✓ — prep 25-min oral exam Q&A when date is confirmed',
+      notes: 'COMPLETE (2026-05-03). Deck submitted via Google Form. Better Products delivered. Reflection Essay done. Oral exam date TBC with Swantje.',
     },
 
     /* ============================================================
