@@ -83,8 +83,7 @@ export const data: DashboardData = {
 
   todayFocus: [
     'PM_16 — SUBMITTED ✓ (2026-05-02)',
-    'PM_22 — DECK READY ✓ (2026-05-03) — submit via Google Form manually',
-    'PM_22 — ACTIVE: L3 reflection essay (confirm length + prompt with Swantje, then draft)',
+    'PM_22 — NEARLY DONE ✓ — deck ready + Better Products delivered + reflection essay done — submit via Google Form',
     'PM_23 — ACTIVE: Marketing Report §3–§13 (content exists in Campaign Plan HTML — needs academic framing + citations)',
     'PM_23 — ACTIVE: Sales Report deck (12 slides, cold outreach template — biggest blank)',
     'PM_23 — ACTIVE: Leveling-up report ≤3,000 words (unlocks Level 3)',
@@ -154,8 +153,8 @@ export const data: DashboardData = {
         },
         {
           name: '"Better Products" presentation (10 min)',
-          status: 'todo',
-          notes: 'Click to expand. 6 examples — one per knowledge area + reflection',
+          status: 'done',
+          notes: 'Delivered ✓ (2026-05-03)',
           requirements: [
             'Exactly 10 minutes',
             'One example per knowledge area (6 total)',
@@ -163,10 +162,10 @@ export const data: DashboardData = {
             'Live (no remote assessment allowed)',
           ],
           subTodos: [
-            { label: 'Slide pacing rehearsed to ~1.5 min per knowledge area', done: false },
-            { label: 'Each KA: example → method used → outcome → reflection', done: false },
-            { label: 'Closing slide: top-level reflection on the discovery journey', done: false },
-            { label: 'Rehearse with timer at least 3 times', done: false },
+            { label: 'Slide pacing rehearsed to ~1.5 min per knowledge area', done: true },
+            { label: 'Each KA: example → method used → outcome → reflection', done: true },
+            { label: 'Closing slide: top-level reflection on the discovery journey', done: true },
+            { label: 'Rehearse with timer at least 3 times', done: true },
           ],
         },
         {
@@ -186,7 +185,7 @@ export const data: DashboardData = {
           ],
         },
         { name: 'AI-use statement on the deck',                            status: 'done',       notes: 'Included in deck — slide 48' },
-        { name: 'Level-3 add-on: Reflection Essay',                        status: 'todo',       notes: 'LOCKED (chose essay over community article / workshop). Confirm length + prompt with Swantje.' },
+        { name: 'Level-3 add-on: Reflection Essay',                        status: 'done',       notes: 'Drafted 2026-05-03. ~2,050 words. Word doc exported to Downloads.' },
         { name: 'Pitch Deck (Mango Lab) — reference asset',                status: 'done',       file: '../shared/01_pitch_deck.pdf' },
         { name: 'Validation Plan v3 — reference asset',                    status: 'done',       file: '../shared/06_validation_plan_v3.pdf' },
         { name: 'Traction Test Cards — reference asset',                   status: 'done',       file: '../shared/07_traction_test_cards.html' },
@@ -194,9 +193,9 @@ export const data: DashboardData = {
       level3Plan: [
         { step: 'Level 1 — deliver every Level-1 minimum content item below in the slide deck', why: 'No L1 → no L3', done: true },
         { step: 'Level 2 — add Lean Canvas, trend-scenario analysis, Solution-Impact Board', why: 'L2 is the gateway to L3', done: true },
-        { step: 'Level 3 — write the reflection essay (locked choice)', why: 'You chose essay over community article / workshop', done: false },
-        { step: 'Confirm reflection-essay spec (length, prompt, citation style) with Swantje', why: 'PDFs cut off — exact spec not in scraped material', done: null },
-        { step: 'Rehearse the 10-min talk + Q&A drill on every knowledge area', why: '15-min Q&A weighs as much as the talk', done: false },
+        { step: 'Level 3 — write the reflection essay (locked choice)', why: 'You chose essay over community article / workshop', done: true },
+        { step: 'Confirm reflection-essay spec (length, prompt, citation style) with Swantje', why: 'PDFs cut off — exact spec not in scraped material', done: true },
+        { step: 'Rehearse the 10-min talk + Q&A drill on every knowledge area', why: '15-min Q&A weighs as much as the talk', done: true },
         { step: 'Compile single PDF: deck + appendix (≥5 interviews) + AI-use statement', why: 'Single-PDF rule', done: true },
         { step: 'Submit via Google Form by 2026-05-04', done: false },
       ],
@@ -228,11 +227,11 @@ export const data: DashboardData = {
         { label: 'L2 — Trend-scenario analysis',                           done: true  },
         { label: 'L2 — Solution-Impact Board',                             done: true  },
         // Level 3 add-on
-        { label: 'L3 — Reflection essay drafted',                          done: false },
-        { label: 'L3 — Reflection essay reviewed for clarity + depth',     done: false },
+        { label: 'L3 — Reflection essay drafted',                          done: true  },
+        { label: 'L3 — Reflection essay reviewed for clarity + depth',     done: true  },
       ],
-      nextAction: 'L3 reflection essay — confirm spec + length with Swantje, then draft',
-      notes: 'Deck shipped 2026-05-03. L1 + L2 complete. Reflection essay (L3) is the only remaining deliverable before oral exam prep.',
+      nextAction: 'Submit via Google Form (manual) + prep 25-min oral exam Q&A',
+      notes: 'Deck shipped + Better Products delivered + Reflection Essay done (2026-05-03). Only remaining: Google Form submission + oral exam prep.',
     },
 
     /* ============================================================
