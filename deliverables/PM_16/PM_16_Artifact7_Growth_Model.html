@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mango Lab Growth Model</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, 'Helvetica Neue', sans-serif;
+      background: #f5f5f3;
+      color: #111;
+      padding: 48px 60px 40px;
+    }
+
+    /* ── HEADER ─────────────────────────────── */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding-bottom: 26px;
+      margin-bottom: 28px;
+      border-bottom: 1.5px solid #ddd;
+    }
+
+    .header-left h1 {
+      font-size: 27px;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      color: #111;
+      line-height: 1.1;
+    }
+
+    .header-left .desc {
+      font-size: 13px;
+      color: #888;
+      margin-top: 7px;
+    }
+
+    .header-right {
+      font-size: 11px;
+      color: #bbb;
+      text-align: right;
+      line-height: 1.9;
+      white-space: nowrap;
+      padding-left: 24px;
+    }
+
+    /* ── STAGE TIMELINE ──────────────────────── */
+    .timeline {
+      display: grid;
+      grid-template-columns: 1fr 28px 1fr 28px 1fr 28px 1fr;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 22px;
+    }
+
+    .stage {
+      background: #fff;
+      border: 1px solid #e3e3e3;
+      border-radius: 10px;
+      padding: 16px 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stage::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+
+    .stage-1::before { background: #d97706; }
+    .stage-2::before { background: #059669; }
+    .stage-3::before { background: #7c3aed; }
+    .stage-4::before { background: #1d4ed8; }
+
+    .stage-badge {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 3px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    .stage-1 .stage-badge { background: #fef3c7; color: #92400e; }
+    .stage-2 .stage-badge { background: #d1fae5; color: #065f46; }
+    .stage-3 .stage-badge { background: #ede9fe; color: #5b21b6; }
+    .stage-4 .stage-badge { background: #eff6ff; color: #1e40af; }
+
+    .stage-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      color: #111;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .stage-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .stage-list li {
+      font-size: 11px;
+      color: #555;
+      line-height: 1.45;
+      padding-left: 10px;
+      position: relative;
+    }
+
+    .stage-list li::before {
+      content: '·';
+      position: absolute;
+      left: 0;
+      color: #ccc;
+    }
+
+    .stage-list li strong {
+      font-weight: 600;
+      color: #222;
+    }
+
+    .arrow-col {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ccc;
+      font-size: 18px;
+    }
+
+    /* ── FLYWHEEL ────────────────────────────── */
+    .flywheel-section {
+      background: #fff;
+      border: 1px solid #e3e3e3;
+      border-radius: 10px;
+      padding: 24px 32px;
+      margin-bottom: 22px;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .flywheel-label {
+      flex-shrink: 0;
+    }
+
+    .flywheel-label h2 {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #aaa;
+      margin-bottom: 6px;
+    }
+
+    .flywheel-label p {
+      font-size: 12px;
+      color: #555;
+      line-height: 1.6;
+      max-width: 160px;
+    }
+
+    .flywheel-diagram {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Flywheel: 5 nodes in a horizontal loop */
+    .loop {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      width: 100%;
+    }
+
+    .loop-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+    }
+
+    .loop-row + .loop-row {
+      margin-top: -1px;
+    }
+
+    .loop-node {
+      background: #f8f8f6;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      padding: 8px 14px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #222;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .loop-center-node {
+      background: #111;
+      color: #fff;
+      border-color: #111;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 7px 13px;
+    }
+
+    .loop-arrow {
+      font-size: 13px;
+      color: #bbb;
+      padding: 0 6px;
+      flex-shrink: 0;
+    }
+
+    .loop-arrow-down {
+      display: flex;
+      justify-content: center;
+      font-size: 13px;
+      color: #bbb;
+      padding: 4px 0;
+    }
+
+    .loop-arrow-down.right { justify-content: flex-end; padding-right: 80px; }
+    .loop-arrow-down.left  { justify-content: flex-start; padding-left: 80px; }
+
+    /* ── BOTTOM CARDS ────────────────────────── */
+    .bottom-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid #e3e3e3;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 13px 18px 12px;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-stripe {
+      width: 3px;
+      height: 28px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .card-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #111;
+    }
+
+    .card-body {
+      padding: 14px 18px 16px;
+    }
+
+    /* Channels */
+    .channel-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .channel-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 12px;
+      color: #333;
+    }
+
+    .channel-list li span {
+      font-size: 11px;
+      font-weight: 600;
+      color: #059669;
+    }
+
+    /* Unit Economics */
+    .econ-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 16px;
+    }
+
+    .econ-item {}
+
+    .econ-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #aaa;
+      margin-bottom: 2px;
+    }
+
+    .econ-value {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #111;
+      line-height: 1;
+    }
+
+    .econ-value.highlight {
+      color: #059669;
+    }
+
+    /* Pricing */
+    .tier-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .tier {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 8px 10px;
+      border-radius: 6px;
+      background: #f8f8f6;
+      border: 1px solid #ececea;
+    }
+
+    .tier-name {
+      font-size: 11px;
+      font-weight: 700;
+      color: #111;
+      margin-bottom: 2px;
+    }
+
+    .tier-desc {
+      font-size: 10px;
+      color: #888;
+    }
+
+    .tier-price {
+      font-size: 14px;
+      font-weight: 800;
+      color: #111;
+      letter-spacing: -0.3px;
+      white-space: nowrap;
+    }
+
+    /* ── FOOTER ──────────────────────────────── */
+    .footer {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid #e3e3e3;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-brand { font-size: 12px; font-weight: 700; color: #111; }
+    .footer-meta  { font-size: 11px; color: #bbb; }
+
+    @media print {
+      @page { size: A4 landscape; margin: 0; }
+      body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        background: #f5f5f3 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="header-left">
+      <h1>Mango Lab — Growth Model</h1>
+      <p class="desc">Agency-first bootstrapping strategy → SaaS validation → seed-ready scale. Four stages, one flywheel, three acquisition channels.</p>
+    </div>
+    <div class="header-right">
+      Mango Lab → Still<br>
+      PM_16 / BM_16 · Artifact 7<br>
+      Jean-Luc Navarro · SS26
+    </div>
+  </div>
+
+  <!-- STAGE TIMELINE -->
+  <div class="timeline">
+
+    <div class="stage stage-1">
+      <div class="stage-badge">Now</div>
+      <div class="stage-title">Bootstrapped Agency</div>
+      <ul class="stage-list">
+        <li><strong>Clients:</strong> Bet & Babes, meetDWIGHT</li>
+        <li><strong>Profit:</strong> €750/month agency margin</li>
+        <li><strong>Team:</strong> Jean-Luc + Alberto</li>
+        <li><strong>Test:</strong> ENGINE_001 — €400 META sprint running</li>
+      </ul>
+    </div>
+
+    <div class="arrow-col">→</div>
+
+    <div class="stage stage-2">
+      <div class="stage-badge">90 Days</div>
+      <div class="stage-title">Validation Complete</div>
+      <ul class="stage-list">
+        <li><strong>Trigger:</strong> ENGINE_001 conversion &gt; 2%</li>
+        <li>50 trial subscribers acquired</li>
+        <li>Still MVP shipped by Alberto</li>
+        <li><strong>Target MRR:</strong> €3,950</li>
+      </ul>
+    </div>
+
+    <div class="arrow-col">→</div>
+
+    <div class="stage stage-3">
+      <div class="stage-badge">12 Months</div>
+      <div class="stage-title">Early Traction</div>
+      <ul class="stage-list">
+        <li>50 subscribers retained past month 3</li>
+        <li><strong>MRR:</strong> €7,900 – €12,450</li>
+        <li>First 3 Berlin agency clients won</li>
+        <li>Seed round conversations begin</li>
+      </ul>
+    </div>
+
+    <div class="arrow-col">→</div>
+
+    <div class="stage stage-4">
+      <div class="stage-badge">24 Months</div>
+      <div class="stage-title">Seed-Ready</div>
+      <ul class="stage-list">
+        <li><strong>Trigger:</strong> €10K MRR milestone</li>
+        <li>SOM target: 160K subscribers yr 3</li>
+        <li>SOM potential: $480M</li>
+        <li>Seed round closes</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- FLYWHEEL -->
+  <div class="flywheel-section">
+
+    <div class="flywheel-label">
+      <h2>The Flywheel</h2>
+      <p>Agency revenue self-funds the platform. Better platform output attracts more subscribers. More subscribers generate more campaign data. Data makes the platform better. The loop compounds.</p>
+    </div>
+
+    <div class="flywheel-diagram">
+      <div class="loop">
+        <div class="loop-row">
+          <div class="loop-node">Agency revenue</div>
+          <div class="loop-arrow">→</div>
+          <div class="loop-node">Funds Still development</div>
+          <div class="loop-arrow">→</div>
+          <div class="loop-node loop-center-node">STILL PLATFORM</div>
+          <div class="loop-arrow">→</div>
+          <div class="loop-node">Better AI creative output</div>
+          <div class="loop-arrow">→</div>
+          <div class="loop-node">More subscribers</div>
+        </div>
+        <div style="display:flex; justify-content:space-between; padding: 3px 0;">
+          <div style="font-size:13px;color:#bbb;padding-left:60px;">↑</div>
+          <div style="font-size:13px;color:#bbb;padding-right:30px;">↓</div>
+        </div>
+        <div class="loop-row" style="justify-content: space-between; padding: 0 6px;">
+          <div style="font-size:11px;font-weight:600;color:#333;background:#f8f8f6;border:1px solid #e0e0e0;border-radius:6px;padding:8px 14px;">More campaign data</div>
+          <div style="font-size:11px;color:#bbb;">← ←</div>
+          <div style="font-size:11px;font-weight:600;color:#333;background:#f8f8f6;border:1px solid #e0e0e0;border-radius:6px;padding:8px 14px;">More subscribers retained</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM CARDS -->
+  <div class="bottom-grid">
+
+    <!-- CHANNELS -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-stripe" style="background:#d97706;"></div>
+        <div class="card-title">Acquisition Channels</div>
+      </div>
+      <div class="card-body">
+        <ul class="channel-list">
+          <li>
+            Warm referral outreach
+            <span>3× conversion vs. cold</span>
+          </li>
+          <li>
+            Cold LinkedIn (Mom Test framing)
+            <span>25% reply rate</span>
+          </li>
+          <li>
+            META ads — ENGINE_001 sprint
+            <span>€400 · 14 days</span>
+          </li>
+          <li>
+            Organic LinkedIn content
+            <span>Alberto's network converted after posts</span>
+          </li>
+          <li>
+            Trial referral ask
+            <span>Not yet systemised — biggest open lever</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- UNIT ECONOMICS -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-stripe" style="background:#7c3aed;"></div>
+        <div class="card-title">Unit Economics</div>
+      </div>
+      <div class="card-body">
+        <div class="econ-grid">
+          <div class="econ-item">
+            <div class="econ-label">CAC</div>
+            <div class="econ-value">€49</div>
+          </div>
+          <div class="econ-item">
+            <div class="econ-label">Blended LTV</div>
+            <div class="econ-value">€2,600</div>
+          </div>
+          <div class="econ-item">
+            <div class="econ-label">LTV : CAC</div>
+            <div class="econ-value highlight">53 : 1</div>
+          </div>
+          <div class="econ-item">
+            <div class="econ-label">Gross Margin</div>
+            <div class="econ-value">75%</div>
+          </div>
+          <div class="econ-item">
+            <div class="econ-label">Monthly LTV</div>
+            <div class="econ-value">€1,580</div>
+          </div>
+          <div class="econ-item">
+            <div class="econ-label">Payback Period</div>
+            <div class="econ-value">0.5 mo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRICING -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-stripe" style="background:#1d4ed8;"></div>
+        <div class="card-title">Pricing Ladder</div>
+      </div>
+      <div class="card-body">
+        <div class="tier-list">
+          <div class="tier">
+            <div>
+              <div class="tier-name">Trial</div>
+              <div class="tier-desc">3 AI creatives · 48hr delivery · Filters buyers</div>
+            </div>
+            <div class="tier-price">€49</div>
+          </div>
+          <div class="tier">
+            <div>
+              <div class="tier-name">Monthly</div>
+              <div class="tier-desc">20 creatives · META integration · Dashboard</div>
+            </div>
+            <div class="tier-price">€79<span style="font-size:11px;font-weight:500;">/mo</span></div>
+          </div>
+          <div class="tier" style="background:#111;border-color:#111;">
+            <div>
+              <div class="tier-name" style="color:#fff;">Pro</div>
+              <div class="tier-desc" style="color:#888;">Unlimited · Full META management · Priority</div>
+            </div>
+            <div class="tier-price" style="color:#fff;">€249<span style="font-size:11px;font-weight:500;">/mo</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span class="footer-brand">Mango Lab — Growth Model</span>
+    <span class="footer-meta">PM_16 / BM_16 · How to Start a Startup · Artifact 7 · Jean-Luc Navarro · SS26</span>
+  </div>
+
+</body>
+</html>
