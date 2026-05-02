@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mango Lab Growth Model</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Caveat:wght@500;600;700&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      font-family: 'Inter', -apple-system, 'Helvetica Neue', sans-serif;
+      background: #efece4;
+      color: #1a1a1a;
+    }
+
+    body {
+      width: 1600px;
+      min-height: 1080px;
+      padding: 38px 44px 32px;
+      margin: 0 auto;
+    }
+
+    /* ── HEADER STRIP ───────────────────────── */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      color: #6a6a6a;
+      font-weight: 600;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #d4cfbf;
+    }
+
+    .topbar-right {
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: #1a1a1a;
+      font-size: 13px;
+    }
+
+    /* ── TITLE BLOCK ────────────────────────── */
+    .title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 18px;
+    }
+
+    .title-row h1 {
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      color: #1a1a1a;
+      line-height: 1.05;
+    }
+
+    .title-row .purpose {
+      max-width: 560px;
+    }
+
+    .title-row .purpose .lbl {
+      font-size: 13px;
+      font-weight: 800;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+
+    .title-row .purpose .txt {
+      font-size: 12px;
+      color: #4a4a4a;
+      line-height: 1.5;
+    }
+
+    .hw {
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      color: #c64b00;
+    }
+
+    /* ── BOARD GRID ─────────────────────────── */
+    .board {
+      background: #d4cfbf;
+      padding: 8px;
+      border-radius: 2px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .row {
+      display: grid;
+      gap: 8px;
+    }
+
+    .row-stages { grid-template-columns: repeat(4, 1fr); }
+    .row-flywheel { grid-template-columns: 1fr; }
+    .row-bottom { grid-template-columns: 1fr 1fr 1fr; }
+
+    .panel {
+      background: #f6f4ec;
+      padding: 18px 18px 22px;
+      position: relative;
+      min-height: 250px;
+    }
+
+    .panel-tall { min-height: 320px; }
+    .panel-flywheel { min-height: 280px; padding: 22px 26px; }
+
+    .panel-header {
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed #bdb5a0;
+    }
+
+    .panel-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #1a1a1a;
+      letter-spacing: -0.2px;
+    }
+
+    .panel-question {
+      font-size: 11.5px;
+      color: #888;
+      margin-top: 3px;
+    }
+
+    /* ── STAGE BADGE ────────────────────────── */
+    .stage-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 2px;
+      margin-bottom: 8px;
+    }
+
+    .b-amber  { background: #ffd966; color: #5c3d00; }
+    .b-mint   { background: #c5e8c1; color: #2d5a2a; }
+    .b-violet { background: #d6c2e8; color: #4a2d6e; }
+    .b-blue   { background: #b6d7e8; color: #1d4861; }
+
+    /* ── STICKY NOTES ───────────────────────── */
+    .stickies {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .sticky {
+      padding: 11px 13px 12px;
+      box-shadow:
+        0 1px 1px rgba(0,0,0,0.05),
+        0 2px 4px rgba(0,0,0,0.06),
+        0 6px 14px rgba(0,0,0,0.04);
+      font-size: 11.5px;
+      line-height: 1.45;
+      color: #1a1a1a;
+      position: relative;
+      border-radius: 1px;
+    }
+
+    .sticky-key {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #6a6a4a;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .sticky-yellow { background: #ffe875; }
+    .sticky-cream  { background: #fff5b8; }
+    .sticky-amber  { background: #ffd966; }
+    .sticky-mint   { background: #c5e8c1; }
+    .sticky-mint .sticky-key { color: #2d5a2a; }
+    .sticky-blue   { background: #b6d7e8; }
+    .sticky-blue .sticky-key { color: #1d4861; }
+    .sticky-pink   { background: #f5c2c7; }
+    .sticky-pink .sticky-key { color: #6e2229; }
+    .sticky-violet { background: #d6c2e8; }
+    .sticky-violet .sticky-key { color: #4a2d6e; }
+    .sticky-white  { background: #fefefe; border: 1px solid #e0dccc; }
+
+    .stickies .sticky:nth-child(1) { transform: rotate(-0.8deg); }
+    .stickies .sticky:nth-child(2) { transform: rotate(0.6deg); }
+    .stickies .sticky:nth-child(3) { transform: rotate(-0.4deg); }
+    .stickies .sticky:nth-child(4) { transform: rotate(1.0deg); }
+
+    /* ── FLYWHEEL ───────────────────────────── */
+    .flywheel-layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .flywheel-text h3 {
+      font-size: 14px;
+      font-weight: 800;
+      color: #1a1a1a;
+      margin-bottom: 6px;
+      letter-spacing: -0.2px;
+    }
+
+    .flywheel-text p {
+      font-size: 11.5px;
+      color: #555;
+      line-height: 1.55;
+    }
+
+    .flywheel-svg {
+      width: 100%;
+      height: 240px;
+    }
+
+    /* ── BOTTOM CARDS — channels list ───────── */
+    .channel-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .channel-list li {
+      background: #fff;
+      border: 1px solid #e8e3d3;
+      padding: 9px 12px;
+      font-size: 11.5px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: baseline;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.03);
+    }
+
+    .channel-list li .ch-label { color: #1a1a1a; font-weight: 500; }
+    .channel-list li .ch-stat  {
+      font-size: 10.5px;
+      font-weight: 800;
+      color: #c64b00;
+      white-space: nowrap;
+      letter-spacing: -0.1px;
+    }
+
+    /* ── UNIT ECONOMICS ─────────────────────── */
+    .econ-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+
+    .econ-cell {
+      background: #fff;
+      border: 1px solid #e8e3d3;
+      padding: 11px 13px;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.03);
+    }
+
+    .econ-cell.feature {
+      background: #ffe875;
+      border-color: #d9bc4f;
+    }
+
+    .econ-label {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 3px;
+    }
+
+    .econ-cell.feature .econ-label { color: #6a4a00; }
+
+    .econ-value {
+      font-size: 22px;
+      font-weight: 900;
+      color: #1a1a1a;
+      letter-spacing: -0.6px;
+      line-height: 1;
+    }
+
+    /* ── PRICING ────────────────────────────── */
+    .tiers {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .tier {
+      background: #fff;
+      border: 1px solid #e8e3d3;
+      padding: 10px 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.03);
+    }
+
+    .tier-name {
+      font-size: 11px;
+      font-weight: 800;
+      color: #1a1a1a;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+
+    .tier-desc {
+      font-size: 10.5px;
+      color: #777;
+      line-height: 1.4;
+      max-width: 220px;
+    }
+
+    .tier-price {
+      font-size: 19px;
+      font-weight: 900;
+      color: #1a1a1a;
+      letter-spacing: -0.5px;
+      white-space: nowrap;
+    }
+
+    .tier.pro {
+      background: #1a1a1a;
+      border-color: #1a1a1a;
+    }
+    .tier.pro .tier-name { color: #ffe875; }
+    .tier.pro .tier-desc { color: #aaa; }
+    .tier.pro .tier-price { color: #fff; }
+
+    /* ── FOOTER ─────────────────────────────── */
+    .footer-strip {
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #888;
+      padding-top: 12px;
+      border-top: 1px solid #d4cfbf;
+    }
+
+    .footer-strip .right {
+      font-style: italic;
+      color: #aaa;
+    }
+
+    @media print {
+      @page { size: A3 landscape; margin: 0; }
+      html, body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        background: #efece4 !important;
+      }
+      body { width: 100%; min-height: auto; padding: 30px 36px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP STRIP -->
+  <div class="topbar">
+    <span>PM_16 / BM_16  ·  May 2026  ·  Jean-Luc Navarro</span>
+    <span class="topbar-right">CODE</span>
+  </div>
+
+  <!-- TITLE -->
+  <div class="title-row">
+    <h1>Mango Lab — <span class="hw">Growth Model</span></h1>
+    <div class="purpose">
+      <div class="lbl">Purpose</div>
+      <div class="txt">Bootstrapped agency funds the SaaS validation. Validated SaaS hits a flywheel. Flywheel triggers seed-readiness at €10K MRR. Four stages, one self-reinforcing loop, three honest acquisition channels. No fundraising before product-market fit.</div>
+    </div>
+  </div>
+
+  <!-- BOARD -->
+  <div class="board">
+
+    <!-- ROW 1 — STAGE TIMELINE -->
+    <div class="row row-stages">
+
+      <div class="panel">
+        <span class="stage-badge b-amber">Stage 1 · Now</span>
+        <div class="panel-header">
+          <div class="panel-title">Bootstrapped Agency</div>
+          <div class="panel-question">How do you fund the build?</div>
+        </div>
+        <div class="stickies">
+          <div class="sticky sticky-yellow">
+            <span class="sticky-key">Clients</span>
+            Bet & Babes, meetDWIGHT — both retained, both referrals.
+          </div>
+          <div class="sticky sticky-cream">
+            <span class="sticky-key">Profit</span>
+            €750 / month agency margin. Self-funds Still development.
+          </div>
+          <div class="sticky sticky-amber">
+            <span class="sticky-key">Live Test</span>
+            ENGINE_001 — €400 META sprint running right now.
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <span class="stage-badge b-mint">Stage 2 · 90 Days</span>
+        <div class="panel-header">
+          <div class="panel-title">Validation Complete</div>
+          <div class="panel-question">What unlocks the next stage?</div>
+        </div>
+        <div class="stickies">
+          <div class="sticky sticky-mint">
+            <span class="sticky-key">Trigger</span>
+            ENGINE_001 paid conversion above 2%.
+          </div>
+          <div class="sticky sticky-mint">
+            <span class="sticky-key">Subscribers</span>
+            50 trial subscribers acquired through trial tier.
+          </div>
+          <div class="sticky sticky-mint">
+            <span class="sticky-key">MVP Live</span>
+            Still v1 shipped by Alberto · Target MRR €3,950.
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <span class="stage-badge b-violet">Stage 3 · 12 Months</span>
+        <div class="panel-header">
+          <div class="panel-title">Early Traction</div>
+          <div class="panel-question">When do you talk to investors?</div>
+        </div>
+        <div class="stickies">
+          <div class="sticky sticky-violet">
+            <span class="sticky-key">Retention</span>
+            50 subscribers retained past month 3 (cohort).
+          </div>
+          <div class="sticky sticky-violet">
+            <span class="sticky-key">MRR Range</span>
+            €7,900 → €12,450 monthly recurring.
+          </div>
+          <div class="sticky sticky-violet">
+            <span class="sticky-key">Berlin Wedge</span>
+            First 3 Berlin agency clients · Seed talks open.
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <span class="stage-badge b-blue">Stage 4 · 24 Months</span>
+        <div class="panel-header">
+          <div class="panel-title">Seed-Ready</div>
+          <div class="panel-question">What is the headline number?</div>
+        </div>
+        <div class="stickies">
+          <div class="sticky sticky-blue">
+            <span class="sticky-key">Trigger</span>
+            €10K MRR milestone hit.
+          </div>
+          <div class="sticky sticky-blue">
+            <span class="sticky-key">Year-3 Target</span>
+            160K subscribers · SOM potential $480M.
+          </div>
+          <div class="sticky sticky-pink">
+            <span class="sticky-key">★ Outcome</span>
+            Seed round closes on real metrics, not slides.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ROW 2 — FLYWHEEL -->
+    <div class="row row-flywheel">
+      <div class="panel panel-flywheel">
+
+        <div class="flywheel-layout">
+
+          <div class="flywheel-text">
+            <h3>The Self-Funding Flywheel</h3>
+            <p>Agency revenue funds Still development. Better Still attracts more subscribers. More subscribers feed more campaign data back into the model. The model gets better. Agency wins more clients. The loop compounds.</p>
+          </div>
+
+          <svg class="flywheel-svg" viewBox="0 0 920 240" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#888"/>
+              </marker>
+            </defs>
+
+            <!-- TOP ROW: 3 sticky-style boxes -->
+            <g transform="translate(40,30)">
+              <rect width="200" height="56" rx="2" fill="#ffe875" filter="url(#sh)"/>
+              <text x="100" y="26" text-anchor="middle" font-family="Inter" font-weight="800" font-size="9" fill="#6a4a00" letter-spacing="1.5">AGENCY REVENUE</text>
+              <text x="100" y="44" text-anchor="middle" font-family="Inter" font-weight="500" font-size="11" fill="#1a1a1a">€750 / mo profit margin</text>
+            </g>
+
+            <g transform="translate(360,30)">
+              <rect width="200" height="56" rx="2" fill="#c5e8c1"/>
+              <text x="100" y="26" text-anchor="middle" font-family="Inter" font-weight="800" font-size="9" fill="#2d5a2a" letter-spacing="1.5">FUNDS STILL DEV</text>
+              <text x="100" y="44" text-anchor="middle" font-family="Inter" font-weight="500" font-size="11" fill="#1a1a1a">Alberto ships v1 · MVP live</text>
+            </g>
+
+            <g transform="translate(680,30)">
+              <rect width="200" height="56" rx="2" fill="#d6c2e8"/>
+              <text x="100" y="26" text-anchor="middle" font-family="Inter" font-weight="800" font-size="9" fill="#4a2d6e" letter-spacing="1.5">BETTER AI OUTPUT</text>
+              <text x="100" y="44" text-anchor="middle" font-family="Inter" font-weight="500" font-size="11" fill="#1a1a1a">Higher-converting creatives</text>
+            </g>
+
+            <!-- TOP ARROWS -->
+            <line x1="245" y1="58" x2="356" y2="58" stroke="#888" stroke-width="1.5" marker-end="url(#arr)"/>
+            <line x1="565" y1="58" x2="676" y2="58" stroke="#888" stroke-width="1.5" marker-end="url(#arr)"/>
+
+            <!-- RIGHT-DOWN ARROW -->
+            <path d="M 880 86 Q 920 120 880 154" stroke="#888" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+
+            <!-- BOTTOM ROW: 2 sticky-style boxes -->
+            <g transform="translate(680,154)">
+              <rect width="200" height="56" rx="2" fill="#b6d7e8"/>
+              <text x="100" y="26" text-anchor="middle" font-family="Inter" font-weight="800" font-size="9" fill="#1d4861" letter-spacing="1.5">MORE SUBSCRIBERS</text>
+              <text x="100" y="44" text-anchor="middle" font-family="Inter" font-weight="500" font-size="11" fill="#1a1a1a">Trial → Monthly → Pro tiers</text>
+            </g>
+
+            <g transform="translate(360,154)">
+              <rect width="200" height="56" rx="2" fill="#f5c2c7"/>
+              <text x="100" y="26" text-anchor="middle" font-family="Inter" font-weight="800" font-size="9" fill="#6e2229" letter-spacing="1.5">MORE CAMPAIGN DATA</text>
+              <text x="100" y="44" text-anchor="middle" font-family="Inter" font-weight="500" font-size="11" fill="#1a1a1a">Feeds back into the model</text>
+            </g>
+
+            <!-- BOTTOM ARROWS RIGHT TO LEFT -->
+            <line x1="676" y1="182" x2="565" y2="182" stroke="#888" stroke-width="1.5" marker-end="url(#arr)"/>
+
+            <!-- LEFT-UP CURVED ARROW (data → agency revenue) -->
+            <path d="M 360 182 Q 60 200 60 86" stroke="#888" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+
+            <!-- CENTER LABEL -->
+            <text x="460" y="125" text-anchor="middle" font-family="Caveat" font-weight="700" font-size="22" fill="#c64b00">compounds</text>
+          </svg>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ROW 3 — BOTTOM CARDS -->
+    <div class="row row-bottom">
+
+      <!-- CHANNELS -->
+      <div class="panel panel-tall">
+        <div class="panel-header">
+          <div class="panel-title">Acquisition Channels</div>
+          <div class="panel-question">Where does the next subscriber come from?</div>
+        </div>
+        <ul class="channel-list">
+          <li><span class="ch-label">Warm referral outreach</span><span class="ch-stat">3× cold conversion</span></li>
+          <li><span class="ch-label">Cold LinkedIn (Mom Test framing)</span><span class="ch-stat">25% reply rate</span></li>
+          <li><span class="ch-label">META ads — ENGINE_001 sprint</span><span class="ch-stat">€400 / 14 days</span></li>
+          <li><span class="ch-label">Organic LinkedIn content</span><span class="ch-stat">delayed inbound</span></li>
+          <li><span class="ch-label">Trial referral ask (post-call)</span><span class="ch-stat">biggest open lever</span></li>
+        </ul>
+      </div>
+
+      <!-- UNIT ECONOMICS -->
+      <div class="panel panel-tall">
+        <div class="panel-header">
+          <div class="panel-title">Unit Economics</div>
+          <div class="panel-question">Does the math actually work?</div>
+        </div>
+        <div class="econ-grid">
+          <div class="econ-cell">
+            <div class="econ-label">CAC</div>
+            <div class="econ-value">€49</div>
+          </div>
+          <div class="econ-cell">
+            <div class="econ-label">Blended LTV</div>
+            <div class="econ-value">€2,600</div>
+          </div>
+          <div class="econ-cell feature">
+            <div class="econ-label">LTV : CAC</div>
+            <div class="econ-value">53 : 1</div>
+          </div>
+          <div class="econ-cell">
+            <div class="econ-label">Gross Margin</div>
+            <div class="econ-value">75%</div>
+          </div>
+          <div class="econ-cell">
+            <div class="econ-label">Monthly LTV</div>
+            <div class="econ-value">€1,580</div>
+          </div>
+          <div class="econ-cell">
+            <div class="econ-label">Payback</div>
+            <div class="econ-value">0.5 mo</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRICING LADDER -->
+      <div class="panel panel-tall">
+        <div class="panel-header">
+          <div class="panel-title">Pricing Ladder</div>
+          <div class="panel-question">How does the offer climb?</div>
+        </div>
+        <div class="tiers">
+          <div class="tier">
+            <div>
+              <div class="tier-name">Trial</div>
+              <div class="tier-desc">3 AI creatives · 48hr delivery · filters real buyers from timewasters</div>
+            </div>
+            <div class="tier-price">€49</div>
+          </div>
+          <div class="tier">
+            <div>
+              <div class="tier-name">Monthly</div>
+              <div class="tier-desc">20 creatives / month · META integration · live dashboard</div>
+            </div>
+            <div class="tier-price">€79<span style="font-size:11px;font-weight:600;">/mo</span></div>
+          </div>
+          <div class="tier pro">
+            <div>
+              <div class="tier-name">Pro</div>
+              <div class="tier-desc">Unlimited creatives · full META management · priority support</div>
+            </div>
+            <div class="tier-price">€249<span style="font-size:11px;font-weight:600;">/mo</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-strip">
+    <span><strong>Mango Lab → Still</strong> · Growth Model · PM_16 · Artifact 7</span>
+    <span class="right">based on Disciplined Entrepreneurship Step 17 · Hormozi $100M Offers · Lean Startup</span>
+  </div>
+
+</body>
+</html>
