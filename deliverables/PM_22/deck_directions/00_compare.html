@@ -1,0 +1,721 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PM_22 Deck — 4 Design Directions</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700&family=Spectral:wght@300;500;700&family=JetBrains+Mono:wght@400;500&family=Mona+Sans:wght@400;500;700&family=Onest:wght@400;500;700&family=Reforma+1969:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gutter: 64px;
+    --thumb-h: 540px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { font-family: 'Hanken Grotesk', system-ui, sans-serif; background: #1A1A1A; color: #E8E8E8; -webkit-font-smoothing: antialiased; }
+  .page-head { padding: 80px var(--gutter) 40px; max-width: 1400px; }
+  .page-head h1 { font-size: 48px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 16px; }
+  .page-head p { font-size: 18px; line-height: 1.55; max-width: 780px; opacity: 0.75; }
+  .page-head .eyebrow { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.5; margin-bottom: 12px; }
+  .direction { padding: 48px var(--gutter); border-top: 1px solid #2A2A2A; }
+  .direction-head { display: flex; align-items: baseline; gap: 24px; margin-bottom: 32px; flex-wrap: wrap; }
+  .direction-head .letter { font-size: 88px; font-weight: 700; line-height: 1; opacity: 0.9; }
+  .direction-head h2 { font-size: 32px; font-weight: 600; letter-spacing: -0.01em; }
+  .direction-head .meta { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.5; margin-left: auto; }
+  .direction-desc { max-width: 900px; font-size: 16px; line-height: 1.6; opacity: 0.78; margin-bottom: 36px; }
+  .direction-desc strong { color: #FF6B3D; font-weight: 500; }
+  .slides { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .slide-thumb { aspect-ratio: 16/9; height: var(--thumb-h); border-radius: 12px; overflow: hidden; box-shadow: 0 24px 48px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.3); position: relative; transform: translateZ(0); transition: transform 600ms cubic-bezier(0.23, 1, 0.32, 1); }
+  .slide-thumb:hover { transform: translateY(-4px); }
+  .slide-label { position: absolute; top: 16px; left: 16px; z-index: 50; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; padding: 6px 10px; border-radius: 100px; backdrop-filter: blur(8px); }
+  .slide-label.dark-bg { background: rgba(255,255,255,0.12); color: #FAFAF7; }
+  .slide-label.light-bg { background: rgba(0,0,0,0.06); color: #1A1A1A; }
+  .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px; padding-top: 32px; border-top: 1px solid #2A2A2A; }
+  .pros-cons h3 { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.5; margin-bottom: 12px; }
+  .pros-cons ul { list-style: none; }
+  .pros-cons li { font-size: 14px; line-height: 1.55; padding: 6px 0; opacity: 0.8; }
+  .pros-cons li:before { content: "—  "; opacity: 0.5; }
+
+  /* ------------------------------------------------------------------ */
+  /*  DIRECTION A — LAB NOTEBOOK (Editorial restraint, paper, journal)  */
+  /* ------------------------------------------------------------------ */
+  .a-cover, .a-content, .a-divider {
+    font-family: 'Hanken Grotesk', sans-serif;
+    background: #F7F4ED;
+    color: #1F1B16;
+    padding: 56px;
+    height: 100%;
+    position: relative;
+  }
+  .a-cover { padding: 64px 56px 48px; }
+  .a-cover .eyebrow {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #5C5347;
+    margin-bottom: 36px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .a-cover .eyebrow:before { content: ""; width: 24px; height: 1px; background: #C2531D; }
+  .a-cover h1 {
+    font-family: 'Reforma 1969', 'Hanken Grotesk', serif;
+    font-size: 64px;
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 28px;
+    max-width: 90%;
+  }
+  .a-cover h1 em { font-style: italic; color: #C2531D; }
+  .a-cover .sub { font-size: 16px; line-height: 1.55; max-width: 460px; color: #4A4239; }
+  .a-cover footer {
+    position: absolute; bottom: 32px; left: 56px; right: 56px;
+    display: flex; justify-content: space-between;
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #7A6E5F;
+    border-top: 1px solid #D9D1C0; padding-top: 16px;
+  }
+
+  .a-content .ka-tag {
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #C2531D; margin-bottom: 24px;
+  }
+  .a-content h2 {
+    font-family: 'Reforma 1969', serif;
+    font-size: 36px; font-weight: 400; line-height: 1.15; letter-spacing: -0.01em;
+    margin-bottom: 32px; max-width: 80%;
+  }
+  .a-content .body-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 36px; }
+  .a-content p { font-size: 13px; line-height: 1.65; color: #2F2A24; margin-bottom: 12px; }
+  .a-content .footnote { font-size: 10px; color: #7A6E5F; line-height: 1.55; padding-top: 12px; border-top: 1px solid #D9D1C0; }
+  .a-content .pull {
+    background: #FFEEC0;
+    padding: 18px 20px;
+    border-radius: 2px;
+    transform: rotate(-1.2deg);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+    font-family: 'Reforma 1969', serif; font-style: italic;
+    font-size: 14px; line-height: 1.5; color: #1F1B16;
+  }
+
+  .a-divider {
+    background: #1F1B16; color: #F7F4ED;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .a-divider .ka-num {
+    font-family: 'Reforma 1969', serif;
+    font-size: 220px; font-weight: 400; line-height: 0.9;
+    color: #C2531D; letter-spacing: -0.04em;
+  }
+  .a-divider h2 {
+    font-family: 'Reforma 1969', serif; font-style: italic;
+    font-size: 44px; font-weight: 400; line-height: 1.15;
+    margin-top: 24px; max-width: 90%;
+  }
+  .a-divider .meta { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.6; }
+
+  /* -------------------------------------------------------------------- */
+  /*  DIRECTION B — MANGO HEAT PRESS (Soft Structuralism, bold orange)    */
+  /* -------------------------------------------------------------------- */
+  .b-cover, .b-content, .b-divider {
+    font-family: 'Onest', sans-serif;
+    background: #FBF7F0;
+    color: #181818;
+    padding: 56px;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  .b-cover { padding: 56px; }
+  .b-cover .eyebrow {
+    display: inline-block;
+    font-family: 'Onest', sans-serif;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    background: #FF5722; color: #FBF7F0;
+    padding: 8px 14px;
+    border-radius: 100px;
+    margin-bottom: 32px;
+  }
+  .b-cover h1 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 92px; font-weight: 700; line-height: 0.92;
+    letter-spacing: -0.04em;
+    margin-bottom: 24px;
+    color: #181818;
+  }
+  .b-cover h1 .heat { color: #FF5722; }
+  .b-cover .sub { font-size: 17px; line-height: 1.5; max-width: 480px; color: #3A3A3A; }
+  .b-cover footer {
+    position: absolute; bottom: 36px; left: 56px; right: 56px;
+    display: flex; justify-content: space-between;
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #6E6E6E;
+  }
+  .b-cover .blob {
+    position: absolute; top: -120px; right: -120px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #FF8A50, #FF5722 70%, #C7351A);
+    filter: blur(2px);
+    opacity: 0.92;
+    transform: translateZ(0);
+  }
+
+  .b-content .ka-tag {
+    display: inline-block;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    background: rgba(255,87,34,0.12); color: #FF5722;
+    padding: 6px 12px; border-radius: 100px;
+    margin-bottom: 28px;
+  }
+  .b-content h2 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 44px; font-weight: 700; line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin-bottom: 32px; max-width: 90%;
+  }
+  .b-content .body-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .b-content p { font-size: 14px; line-height: 1.6; color: #2F2F2F; margin-bottom: 14px; }
+  .b-content .stat-card {
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+    border: 1px solid #EEE7D9;
+  }
+  .b-content .stat-card .num {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 56px; font-weight: 700; line-height: 1; letter-spacing: -0.04em;
+    color: #FF5722; margin-bottom: 8px;
+  }
+  .b-content .stat-card .lbl {
+    font-size: 13px; line-height: 1.45; color: #4A4A4A;
+  }
+
+  .b-divider {
+    background: #FF5722; color: #FBF7F0;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 56px;
+  }
+  .b-divider .ka-num {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 280px; font-weight: 700; line-height: 0.85;
+    letter-spacing: -0.05em; color: #FBF7F0;
+  }
+  .b-divider h2 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 36px; font-weight: 500; line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-top: 8px; max-width: 92%;
+    color: #FBF7F0; opacity: 0.96;
+  }
+  .b-divider .meta { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.7; margin-bottom: 24px; }
+
+  /* ------------------------------------------------------------ */
+  /*  DIRECTION C — BLACK PRESS EDITORIAL (Brutalist, severe)     */
+  /* ------------------------------------------------------------ */
+  .c-cover, .c-content, .c-divider {
+    font-family: 'Mona Sans', sans-serif;
+    background: #FAFAF7;
+    color: #0A0A0A;
+    padding: 64px;
+    height: 100%;
+    position: relative;
+  }
+  .c-cover { padding: 64px; display: flex; flex-direction: column; justify-content: space-between; }
+  .c-cover .top {
+    font-family: 'Mona Sans', sans-serif;
+    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+    display: flex; justify-content: space-between;
+    border-bottom: 1px solid #0A0A0A; padding-bottom: 16px;
+  }
+  .c-cover h1 {
+    font-family: 'Reforma 1969', serif; font-style: italic;
+    font-size: 110px; font-weight: 400; line-height: 0.93;
+    letter-spacing: -0.045em; margin: 0;
+  }
+  .c-cover .sub {
+    font-family: 'Mona Sans', sans-serif;
+    font-size: 14px; line-height: 1.55;
+    border-top: 1px solid #0A0A0A; padding-top: 16px;
+    display: flex; justify-content: space-between; gap: 32px;
+  }
+  .c-cover .sub > div { max-width: 320px; }
+  .c-cover .heat-line { width: 80px; height: 3px; background: #FF5722; margin: 32px 0; }
+
+  .c-content { display: flex; flex-direction: column; }
+  .c-content .head-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 1px solid #0A0A0A; padding-bottom: 14px; margin-bottom: 32px;
+    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+  }
+  .c-content h2 {
+    font-family: 'Reforma 1969', serif; font-style: italic;
+    font-size: 50px; font-weight: 400; line-height: 1.05;
+    letter-spacing: -0.02em; margin-bottom: 32px; max-width: 95%;
+  }
+  .c-content .columns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; }
+  .c-content .columns p { font-size: 13px; line-height: 1.65; }
+  .c-content .columns p strong { font-weight: 600; }
+  .c-content .columns .col-head {
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(10,10,10,0.18);
+  }
+
+  .c-divider {
+    background: #0A0A0A; color: #FAFAF7;
+    display: grid; grid-template-rows: auto 1fr auto;
+  }
+  .c-divider .top {
+    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+    display: flex; justify-content: space-between;
+    border-bottom: 1px solid rgba(250,250,247,0.3); padding-bottom: 12px;
+  }
+  .c-divider .center { display: flex; flex-direction: column; justify-content: center; gap: 16px; }
+  .c-divider .center small {
+    font-size: 14px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.7;
+  }
+  .c-divider h2 {
+    font-family: 'Reforma 1969', serif; font-style: italic;
+    font-size: 80px; font-weight: 400; line-height: 1; letter-spacing: -0.03em;
+    max-width: 95%;
+  }
+  .c-divider h2 mark { background: transparent; color: #FF5722; font-style: italic; }
+  .c-divider .bottom {
+    font-size: 12px; line-height: 1.6; max-width: 80%; opacity: 0.78;
+    border-top: 1px solid rgba(250,250,247,0.3); padding-top: 16px;
+  }
+
+  /* ----------------------------------------------------------- */
+  /*  DIRECTION D — FIELD MANUAL (Swiss/Bauhaus reference book)  */
+  /* ----------------------------------------------------------- */
+  .d-cover, .d-content, .d-divider {
+    font-family: 'Hanken Grotesk', sans-serif;
+    background: #F2F0EA;
+    color: #1A1A1A;
+    padding: 56px;
+    height: 100%;
+    position: relative;
+  }
+  .d-cover { display: grid; grid-template-rows: auto 1fr auto; gap: 24px; }
+  .d-cover .top-row {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.05em;
+    border-top: 2px solid #1A1A1A;
+    border-bottom: 1px solid #1A1A1A;
+    padding: 12px 0;
+  }
+  .d-cover .top-row > div { display: flex; flex-direction: column; }
+  .d-cover .top-row .lbl { opacity: 0.5; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 4px; }
+  .d-cover h1 {
+    font-family: 'Spectral', serif;
+    font-size: 96px; font-weight: 300; line-height: 0.95;
+    letter-spacing: -0.025em;
+  }
+  .d-cover h1 .sep {
+    display: inline-block; width: 8px; height: 8px; background: #FF5722;
+    margin: 0 12px 16px; vertical-align: middle;
+  }
+  .d-cover .bottom-row {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    border-top: 1px solid #1A1A1A;
+    padding-top: 12px;
+  }
+
+  .d-content .chapter-mark {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: #FF5722;
+    border-bottom: 2px solid #1A1A1A;
+    padding-bottom: 8px;
+    margin-bottom: 32px;
+    display: flex; justify-content: space-between;
+  }
+  .d-content h2 {
+    font-family: 'Spectral', serif;
+    font-size: 42px; font-weight: 300; line-height: 1.1;
+    letter-spacing: -0.015em;
+    margin-bottom: 32px; max-width: 92%;
+  }
+  .d-content .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 28px; border-top: 1px solid #1A1A1A; padding-top: 24px; }
+  .d-content .grid-3 .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: #FF5722; margin-bottom: 8px;
+  }
+  .d-content .grid-3 h3 {
+    font-family: 'Spectral', serif;
+    font-size: 18px; font-weight: 500; line-height: 1.3; margin-bottom: 8px;
+  }
+  .d-content .grid-3 p {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 12px; line-height: 1.55; color: #3A3A3A;
+  }
+
+  .d-divider {
+    background: #1A1A1A; color: #F2F0EA;
+    display: grid; grid-template-rows: auto 1fr auto; gap: 24px;
+  }
+  .d-divider .top {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.15em;
+    display: flex; justify-content: space-between;
+    border-bottom: 1px solid rgba(242,240,234,0.25); padding-bottom: 12px;
+  }
+  .d-divider h2 {
+    font-family: 'Spectral', serif;
+    font-size: 88px; font-weight: 300; line-height: 0.96;
+    letter-spacing: -0.03em;
+  }
+  .d-divider .ka-block {
+    font-family: 'Spectral', serif;
+    font-size: 280px; font-weight: 700; line-height: 0.85;
+    color: #FF5722;
+  }
+  .d-divider .summary {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 13px; line-height: 1.6; max-width: 80%;
+    border-top: 1px solid rgba(242,240,234,0.25); padding-top: 12px;
+    color: #DDD;
+  }
+</style>
+</head>
+<body>
+
+<header class="page-head">
+  <div class="eyebrow">PM_22 Slide Deck — Visual direction shotgun</div>
+  <h1>Pick a direction.</h1>
+  <p>Four distinct visual systems for the Product Discovery hand-in deck. Each shows three sample slides at full 16:9 fidelity (cover, content, section divider). All four respect the constraint set: no Fraunces / no Inter / OKLCH-friendly palettes / double-bezel where used / macro-whitespace / no side-stripe borders / no gradient text. They differ deliberately on vibe, typography, and layout discipline. Pick one and we build the full 50-slide deck against it.</p>
+</header>
+
+<!-- ============================================================== -->
+<!-- DIRECTION A — LAB NOTEBOOK                                     -->
+<!-- ============================================================== -->
+<section class="direction">
+  <div class="direction-head">
+    <div class="letter">A</div>
+    <h2>Lab Notebook</h2>
+    <div class="meta">Reforma 1969 · Hanken Grotesk · Warm paper</div>
+  </div>
+  <p class="direction-desc">
+    <strong>Editorial restraint with marginalia.</strong> Reads like a quality independent journal or a serious lab notebook. Off-white paper background, italic display serif for emotive moments, generous footnotes, hand-feel sticky notes used sparingly as marginalia. Mango orange shows up only on accents and the dark section dividers. This is the most "academic" direction without being boring. Most likely to make Swantje go "this person actually cared about the craft."
+  </p>
+  <div class="slides">
+    <div class="slide-thumb"><span class="slide-label light-bg">A · Cover</span>
+      <div class="a-cover">
+        <div class="eyebrow">PM_22 / BM_22 — Product Discovery — SS26</div>
+        <h1>Stop guessing. <em>Listen.</em><br>Ship anyway.</h1>
+        <div class="sub">A product discovery hand-in. Six knowledge areas, six interviews, one reflection. Mango Lab → Still.</div>
+        <footer><span>Jean-Luc André Navarro</span><span>CODE University Berlin</span><span>2026-05-04</span></footer>
+      </div>
+    </div>
+    <div class="slide-thumb"><span class="slide-label light-bg">A · Content</span>
+      <div class="a-content">
+        <div class="ka-tag">KA1 · Problem statement</div>
+        <h2>The agency PDF problem we kept hearing.</h2>
+        <div class="body-grid">
+          <div>
+            <p>Across six interviews with SMB owners and marketers in DACH, one pattern came up unprompted in five of them.</p>
+            <p>An agency or freelancer is paid €600 to €4,000. A polished PDF of brand guidelines is delivered. A handful of static creatives are produced. The campaign runs. Performance is opaque. Nobody can explain what worked.</p>
+            <p>The money is exchanged. The clarity is not.</p>
+            <div class="footnote">¹ Pattern surfaced independently in interviews with Fatema (CODE Uni), Lisa Bauer, Sven Krüger, Anja Becker, Tobias Ahrens. Documented in Appendix A.</div>
+          </div>
+          <div>
+            <div class="pull">"I still have this PDF I never use." — Lisa, after €600 to a freelancer who delivered three statics and a brand guide. ROAS 1.2.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-thumb"><span class="slide-label dark-bg">A · Section divider</span>
+      <div class="a-divider">
+        <div class="meta">Section 02 of 06</div>
+        <div>
+          <div class="ka-num">02</div>
+          <h2>Customer discovery<br>and market research.</h2>
+        </div>
+        <div class="meta">Personas · Journey map · VPC · PESTLE · TAM/SAM/SOM</div>
+      </div>
+    </div>
+  </div>
+  <div class="pros-cons">
+    <div>
+      <h3>What this direction wins on</h3>
+      <ul>
+        <li>Maximum "I take craft seriously" signal</li>
+        <li>Marginalia + footnotes mirror academic register</li>
+        <li>Sticky-note motif as journal artefact, not template flourish</li>
+        <li>Handles long-form text best of the four</li>
+      </ul>
+    </div>
+    <div>
+      <h3>What it gives up</h3>
+      <ul>
+        <li>Less brand-loud than the live Mango Lab pitch deck</li>
+        <li>Italic serif headlines need careful kerning at every size</li>
+        <li>Risk of feeling staid if executed without restraint</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== -->
+<!-- DIRECTION B — MANGO HEAT PRESS                                 -->
+<!-- ============================================================== -->
+<section class="direction">
+  <div class="direction-head">
+    <div class="letter">B</div>
+    <h2>Mango Heat Press</h2>
+    <div class="meta">Bricolage Grotesque · Onest · Cream + bold orange</div>
+  </div>
+  <p class="direction-desc">
+    <strong>Soft Structuralism with the heat turned up.</strong> Big modern grotesk display, cream backgrounds, generous whitespace, and Mango orange used boldly rather than sparingly. Section dividers are full-bleed orange. Stat cards float on the cream like a premium consumer magazine. Closest to the live Mango Lab brand. Loudest of the four. Best for selling the work emotionally.
+  </p>
+  <div class="slides">
+    <div class="slide-thumb"><span class="slide-label light-bg">B · Cover</span>
+      <div class="b-cover">
+        <div class="blob"></div>
+        <div class="eyebrow">Product Discovery · SS26</div>
+        <h1>Run pro ads<br>without the<br><span class="heat">PDF.</span></h1>
+        <div class="sub">A field report on building Mango Lab Still: AI-powered ad creative for SMBs that cannot afford a full agency but need better than DIY.</div>
+        <footer><span>Jean-Luc André Navarro</span><span>CODE Berlin · PM_22 · 2026</span></footer>
+      </div>
+    </div>
+    <div class="slide-thumb"><span class="slide-label light-bg">B · Content</span>
+      <div class="b-content">
+        <div class="ka-tag">KA2 · Customer discovery + market</div>
+        <h2>Six interviews. One pattern. Three numbers worth defending.</h2>
+        <div class="body-grid">
+          <div class="stat-card">
+            <div class="num">5/6</div>
+            <div class="lbl">interviews surfaced the agency-PDF failure mode unprompted</div>
+          </div>
+          <div class="stat-card">
+            <div class="num">€8.2k</div>
+            <div class="lbl">avg amount each interviewee had spent on agencies before churning</div>
+          </div>
+          <div class="stat-card">
+            <div class="num">14d</div>
+            <div class="lbl">creative iteration cycle described by 3 of 6 interviewees as the binding constraint</div>
+          </div>
+          <div class="stat-card">
+            <div class="num">25%</div>
+            <div class="lbl">opt-in trial-to-paid conversion benchmark (OpenView 2022) — Marc and Anja both below median</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-thumb"><span class="slide-label dark-bg">B · Section divider</span>
+      <div class="b-divider">
+        <div class="meta">SECTION 04 / 06</div>
+        <div class="ka-num">04</div>
+        <h2>Collaborative<br>design and<br>prototyping.</h2>
+      </div>
+    </div>
+  </div>
+  <div class="pros-cons">
+    <div>
+      <h3>What this direction wins on</h3>
+      <ul>
+        <li>Tightest fit with existing Mango Lab brand</li>
+        <li>Stat cards make data-rich slides land hardest</li>
+        <li>Most emotionally persuasive of the four</li>
+        <li>Best on a screen at full-bleed</li>
+      </ul>
+    </div>
+    <div>
+      <h3>What it gives up</h3>
+      <ul>
+        <li>Risks "tech startup pitch deck" register if pushed too hard</li>
+        <li>Long-form text slides need careful design</li>
+        <li>Bold orange dividers are aggressive on a 50-slide arc</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== -->
+<!-- DIRECTION C — BLACK PRESS EDITORIAL                            -->
+<!-- ============================================================== -->
+<section class="direction">
+  <div class="direction-head">
+    <div class="letter">C</div>
+    <h2>Black Press Editorial</h2>
+    <div class="meta">Reforma 1969 italic · Mona Sans · Severe</div>
+  </div>
+  <p class="direction-desc">
+    <strong>Editorial brutalism. Almost zero decoration.</strong> Black ink on warm white, hairline rules, serious italic display serif, three-column layouts that respect text density. Mango orange shows up exactly once per slide as a single accent line. KA sections are differentiated by typography, not colour. This direction trusts the writing to do the work. If Swantje values restraint over polish, this wins outright.
+  </p>
+  <div class="slides">
+    <div class="slide-thumb"><span class="slide-label light-bg">C · Cover</span>
+      <div class="c-cover">
+        <div class="top">
+          <span>Volume 01 / Spring 2026</span>
+          <span>CODE University Berlin</span>
+          <span>PM_22 / BM_22</span>
+        </div>
+        <div>
+          <h1>Product Discovery</h1>
+          <div class="heat-line"></div>
+        </div>
+        <div class="sub">
+          <div><strong>Author</strong><br>Jean-Luc André Navarro</div>
+          <div><strong>Project</strong><br>Mango Lab → Still. AI-powered ad creative for SMBs in DACH.</div>
+          <div><strong>Submitted</strong><br>2026-05-04</div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-thumb"><span class="slide-label light-bg">C · Content</span>
+      <div class="c-content">
+        <div class="head-row">
+          <span>KA1 · Problem statement</span>
+          <span>Page 04</span>
+        </div>
+        <h2>Five of six interviews surfaced the same structural failure mode unprompted.</h2>
+        <div class="columns">
+          <div>
+            <div class="col-head">The pattern</div>
+            <p><strong>Money exchanged, clarity not.</strong> An SMB pays an agency €600–€4,000 for a "campaign." A polished PDF lands. A handful of static creatives ship. The dashboard is opaque. Nobody knows what worked.</p>
+          </div>
+          <div>
+            <div class="col-head">Where it appeared</div>
+            <p>Lisa Bauer, solo DTC matcha founder, paid €600 for three statics + a brand guide. ROAS 1.2. <strong>Fatema's bakery friend</strong>, €2,000 for a brand discovery + two ads. Outcome unknown.</p>
+          </div>
+          <div>
+            <div class="col-head">What it implies</div>
+            <p>The agency model fails because the deliverable is opacity dressed as polish. The wedge for Still is not faster creative. It is <strong>visible iteration</strong>. The SMB will pay for what the agency hid.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-thumb"><span class="slide-label dark-bg">C · Section divider</span>
+      <div class="c-divider">
+        <div class="top">
+          <span>Section</span>
+          <span>05 of 06</span>
+        </div>
+        <div class="center">
+          <small>KA5</small>
+          <h2>Solution<br>validation. <mark>DUFVS,<br>SWOT,</mark> hypothesis cards.</h2>
+        </div>
+        <div class="bottom">Three hypothesis cards drawn from the live ENGINE_001 €400 Meta sprint. Eight tests run. Four killed. Two retired without conclusion. The remaining two are the wedge.</div>
+      </div>
+    </div>
+  </div>
+  <div class="pros-cons">
+    <div>
+      <h3>What this direction wins on</h3>
+      <ul>
+        <li>Zero AI-slop tells anywhere on the page</li>
+        <li>Reads as serious independent thought</li>
+        <li>Three-column layouts excel at structured arguments</li>
+        <li>Forces the writing to be tight</li>
+      </ul>
+    </div>
+    <div>
+      <h3>What it gives up</h3>
+      <ul>
+        <li>Visually quietest of the four</li>
+        <li>Less of a "Mango Lab" brand fingerprint</li>
+        <li>Demands well-written body copy or it falls flat</li>
+        <li>Italic display serif is hard to set well at every size</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== -->
+<!-- DIRECTION D — FIELD MANUAL                                     -->
+<!-- ============================================================== -->
+<section class="direction">
+  <div class="direction-head">
+    <div class="letter">D</div>
+    <h2>Field Manual</h2>
+    <div class="meta">Spectral · Hanken Grotesk · JetBrains Mono · Reference book</div>
+  </div>
+  <p class="direction-desc">
+    <strong>Swiss/Bauhaus reference book aesthetic.</strong> Cool graphite paper, hairline rules, numbered chapters, mono labels, three-column technical layouts. Spectral serif for headings, monospace for citations and disclosures. Mango orange shows up only as section markers and one statistic per slide. KAs are numbered like manual chapters (01–06). The deck reads like a 1970s engineering reference document that earned its precision. Best fit for "I want this to look like a serious technical document, not a pitch deck."
+  </p>
+  <div class="slides">
+    <div class="slide-thumb"><span class="slide-label light-bg">D · Cover</span>
+      <div class="d-cover">
+        <div class="top-row">
+          <div><span class="lbl">Document</span>PM_22 / BM_22</div>
+          <div><span class="lbl">Volume</span>Spring 2026</div>
+          <div><span class="lbl">Edition</span>v1.0 — Final</div>
+        </div>
+        <h1>Product<br>Discovery<span class="sep"></span><br>Field<br>Manual</h1>
+        <div class="bottom-row">
+          <div>Jean-Luc André Navarro</div>
+          <div>CODE University Berlin</div>
+          <div>Submitted 2026-05-04</div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-thumb"><span class="slide-label light-bg">D · Content</span>
+      <div class="d-content">
+        <div class="chapter-mark">
+          <span>Ch. 02 / Sec. 02.4</span>
+          <span>p.18 of 52</span>
+        </div>
+        <h2>Personas: three primary, two secondary, one anti-persona.</h2>
+        <div class="grid-3">
+          <div>
+            <div class="num">02.4.1</div>
+            <h3>Marc Hoffmann</h3>
+            <p>B2B SaaS founder. Voltura, Munich. Currently runs LinkedIn Ads at €800/mo. Bottleneck: two-week creative iteration loop. Decision authority: full.</p>
+          </div>
+          <div>
+            <div class="num">02.4.2</div>
+            <h3>Sven Krüger</h3>
+            <p>Performance agency owner, Hamburg. 8 retainer clients. Bottleneck: one designer in Lisbon, queue 10–15 deep. Tests "agency-as-channel" hypothesis.</p>
+          </div>
+          <div>
+            <div class="num">02.4.3</div>
+            <h3>Anja Becker</h3>
+            <p>Marketing manager, €2M ARR B2B SaaS, Berlin. Reports to a finance-brain COO. Tool budget capped at €500/mo without approval. Tests buyer-authority threshold.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-thumb"><span class="slide-label dark-bg">D · Section divider</span>
+      <div class="d-divider">
+        <div class="top">
+          <span>// Chapter 06</span>
+          <span>// MVP + Build-Measure-Learn</span>
+        </div>
+        <div class="ka-block">06.</div>
+        <h2>Build.<br>Measure.<br>Learn.</h2>
+        <div class="summary">ENGINE_001 was the €400 Meta sprint that turned every theoretical claim in chapters 03–05 into a falsifiable experiment. The chapter that follows reports what survived contact with reality.</div>
+      </div>
+    </div>
+  </div>
+  <div class="pros-cons">
+    <div>
+      <h3>What this direction wins on</h3>
+      <ul>
+        <li>Most distinctive of the four — nobody else's deck looks like this</li>
+        <li>Mono+serif pairing reads as engineered, not designed</li>
+        <li>Numbered chapter system makes the deck feel rigorous</li>
+        <li>Treats data and citation as first-class</li>
+      </ul>
+    </div>
+    <div>
+      <h3>What it gives up</h3>
+      <ul>
+        <li>Furthest from the live Mango Lab brand</li>
+        <li>Risk of looking "I tried too hard to be different"</li>
+        <li>Mono labels can read as developer aesthetic, not consumer</li>
+        <li>3-font system is more to manage</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
