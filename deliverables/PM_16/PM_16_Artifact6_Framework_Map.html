@@ -5,308 +5,346 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Startup Frameworks Applied — Mango Lab</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Caveat:wght@500;600;700&display=swap');
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
+    html, body {
       font-family: 'Inter', -apple-system, 'Helvetica Neue', sans-serif;
-      background: #f5f5f3;
-      color: #111;
-      padding: 52px 60px 44px;
+      background: #efece4;
+      color: #1a1a1a;
     }
 
-    /* ── HEADER ─────────────────────────────── */
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      padding-bottom: 28px;
-      margin-bottom: 32px;
-      border-bottom: 1.5px solid #ddd;
+    body {
+      width: 1600px;
+      min-height: 1080px;
+      padding: 38px 44px 32px;
+      margin: 0 auto;
     }
 
-    .header-left h1 {
-      font-size: 27px;
-      font-weight: 800;
-      letter-spacing: -0.6px;
-      color: #111;
-      line-height: 1.1;
-    }
-
-    .header-left .desc {
-      font-size: 13px;
-      color: #888;
-      margin-top: 7px;
-      max-width: 560px;
-      line-height: 1.5;
-    }
-
-    .header-right {
-      font-size: 11px;
-      color: #bbb;
-      text-align: right;
-      line-height: 1.9;
-      white-space: nowrap;
-      padding-left: 24px;
-    }
-
-    /* ── GRID ────────────────────────────────── */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-    }
-
-    /* ── COLUMN ──────────────────────────────── */
-    .col {
-      background: #fff;
-      border: 1px solid #e3e3e3;
-      border-radius: 10px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .col-stripe {
-      height: 3px;
-    }
-
-    .col-header {
-      padding: 18px 20px 15px;
-      border-bottom: 1px solid #f0f0f0;
-    }
-
-    .tag {
-      display: inline-block;
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 3px 9px;
-      border-radius: 3px;
-      margin-bottom: 11px;
-    }
-
-    .col-title {
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: -0.3px;
-      color: #111;
-      line-height: 1.25;
-      margin-bottom: 4px;
-    }
-
-    .col-author {
-      font-size: 11px;
-      color: #aaa;
-      font-style: italic;
-    }
-
-    /* ── BODY ────────────────────────────────── */
-    .col-body {
-      padding: 17px 20px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      flex: 1;
-    }
-
-    .item-key {
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 3px;
-    }
-
-    .item-text {
-      font-size: 12px;
-      color: #444;
-      line-height: 1.58;
-    }
-
-    /* ── COLORS ──────────────────────────────── */
-    .lean  .col-stripe { background: #d97706; }
-    .lean  .tag        { background: #fef3c7; color: #92400e; }
-    .lean  .item-key   { color: #d97706; }
-
-    .de    .col-stripe { background: #7c3aed; }
-    .de    .tag        { background: #ede9fe; color: #5b21b6; }
-    .de    .item-key   { color: #7c3aed; }
-
-    .yc    .col-stripe { background: #c2410c; }
-    .yc    .tag        { background: #ffedd5; color: #9a3412; }
-    .yc    .item-key   { color: #c2410c; }
-
-    .mom   .col-stripe { background: #1d4ed8; }
-    .mom   .tag        { background: #eff6ff; color: #1e40af; }
-    .mom   .item-key   { color: #1d4ed8; }
-
-    /* ── FOOTER ──────────────────────────────── */
-    .footer {
-      margin-top: 30px;
-      padding-top: 22px;
-      border-top: 1px solid #e3e3e3;
+    /* ── HEADER STRIP ───────────────────────── */
+    .topbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-    }
-
-    .footer-brand {
-      font-size: 12px;
-      font-weight: 700;
-      color: #111;
-    }
-
-    .footer-meta {
       font-size: 11px;
-      color: #bbb;
+      letter-spacing: 0.06em;
+      color: #6a6a6a;
+      font-weight: 600;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #d4cfbf;
+    }
+
+    .topbar-right {
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: #1a1a1a;
+      font-size: 13px;
+    }
+
+    /* ── TITLE BLOCK ────────────────────────── */
+    .title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 22px;
+    }
+
+    .title-row h1 {
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      color: #1a1a1a;
+      line-height: 1.05;
+    }
+
+    .title-row .purpose {
+      max-width: 520px;
+      text-align: left;
+    }
+
+    .title-row .purpose .lbl {
+      font-size: 13px;
+      font-weight: 800;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+
+    .title-row .purpose .txt {
+      font-size: 12px;
+      color: #4a4a4a;
+      line-height: 1.5;
+    }
+
+    /* ── BOARD GRID ─────────────────────────── */
+    .board {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      background: #d4cfbf;
+      padding: 8px;
+      border-radius: 2px;
+    }
+
+    .panel {
+      background: #f6f4ec;
+      padding: 18px 16px 22px;
+      position: relative;
+      min-height: 700px;
+    }
+
+    .panel-header {
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px dashed #bdb5a0;
+    }
+
+    .panel-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #1a1a1a;
+      letter-spacing: -0.2px;
+      line-height: 1.2;
+    }
+
+    .panel-question {
+      font-size: 12px;
+      color: #888;
+      margin-top: 4px;
+      font-weight: 400;
+    }
+
+    .panel-author {
+      font-size: 11px;
+      color: #aaa;
+      margin-top: 6px;
+      font-style: italic;
+      font-weight: 500;
+    }
+
+    /* ── STICKY NOTES ───────────────────────── */
+    .stickies {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .sticky {
+      padding: 12px 14px 14px;
+      box-shadow:
+        0 1px 1px rgba(0,0,0,0.05),
+        0 2px 4px rgba(0,0,0,0.06),
+        0 6px 14px rgba(0,0,0,0.04);
+      font-size: 11.5px;
+      line-height: 1.45;
+      color: #1a1a1a;
+      position: relative;
+      border-radius: 1px;
+    }
+
+    .sticky .sticky-key {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #6a6a4a;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .sticky-yellow { background: #ffe875; }
+    .sticky-cream  { background: #fff5b8; }
+    .sticky-amber  { background: #ffd966; }
+
+    .sticky-mint   { background: #c5e8c1; }
+    .sticky-mint .sticky-key { color: #2d5a2a; }
+
+    .sticky-blue   { background: #b6d7e8; }
+    .sticky-blue .sticky-key { color: #1d4861; }
+
+    .sticky-pink   { background: #f5c2c7; }
+    .sticky-pink .sticky-key { color: #6e2229; }
+
+    .sticky-violet { background: #d6c2e8; }
+    .sticky-violet .sticky-key { color: #4a2d6e; }
+
+    /* organic rotations */
+    .stickies .sticky:nth-child(1) { transform: rotate(-0.8deg); }
+    .stickies .sticky:nth-child(2) { transform: rotate(0.6deg); }
+    .stickies .sticky:nth-child(3) { transform: rotate(-0.4deg); }
+    .stickies .sticky:nth-child(4) { transform: rotate(1.1deg); }
+
+    /* ── HANDWRITTEN HEADER ACCENT ──────────── */
+    .hw {
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      color: #c64b00;
+    }
+
+    /* ── BOTTOM ROW ─────────────────────────── */
+    .footer-strip {
+      margin-top: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #888;
+      padding-top: 12px;
+      border-top: 1px solid #d4cfbf;
+    }
+
+    .footer-strip .right {
+      font-style: italic;
+      color: #aaa;
     }
 
     @media print {
-      @page { size: A4 landscape; margin: 0; }
-      body {
+      @page { size: A3 landscape; margin: 0; }
+      html, body {
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
-        background: #f5f5f3 !important;
+        background: #efece4 !important;
       }
+      body { width: 100%; min-height: auto; padding: 30px 36px; }
     }
   </style>
 </head>
 <body>
 
-  <div class="header">
-    <div class="header-left">
-      <h1>Startup Frameworks — Applied</h1>
-      <p class="desc">How Lean Startup, Disciplined Entrepreneurship, Y Combinator principles, and the Mom Test shaped every decision at Mango Lab — mapped to specific actions and real data.</p>
-    </div>
-    <div class="header-right">
-      Mango Lab → Still<br>
-      PM_16 / BM_16 · Artifact 6<br>
-      Jean-Luc Navarro · SS26
+  <!-- TOP STRIP -->
+  <div class="topbar">
+    <span>PM_16 / BM_16  ·  May 2026  ·  Jean-Luc Navarro</span>
+    <span class="topbar-right">CODE</span>
+  </div>
+
+  <!-- TITLE -->
+  <div class="title-row">
+    <h1>Startup Frameworks <span class="hw">Applied</span></h1>
+    <div class="purpose">
+      <div class="lbl">Purpose</div>
+      <div class="txt">Mapping every Mango Lab decision back to the four frameworks that shaped it. Theory on the left of each board, the actual move on the right. Real data, real numbers, real outcomes — no abstract bullet points.</div>
     </div>
   </div>
 
-  <div class="grid">
+  <!-- BOARD -->
+  <div class="board">
 
     <!-- LEAN STARTUP -->
-    <div class="col lean">
-      <div class="col-stripe"></div>
-      <div class="col-header">
-        <div class="tag">Lean Startup</div>
-        <div class="col-title">Build · Measure · Learn</div>
-        <div class="col-author">Eric Ries</div>
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title">Lean Startup</div>
+        <div class="panel-question">How do you de-risk before building?</div>
+        <div class="panel-author">Eric Ries</div>
       </div>
-      <div class="col-body">
-        <div>
-          <div class="item-key">Build</div>
-          <div class="item-text">ENGINE_001 — €400 META ad sprint, 14 days. A live cold-conversion test before the product existed.</div>
+      <div class="stickies">
+        <div class="sticky sticky-yellow">
+          <span class="sticky-key">Build</span>
+          ENGINE_001 — €400 META ad sprint, 14 days. A live cold-conversion test before the product even existed.
         </div>
-        <div>
-          <div class="item-key">Measure</div>
-          <div class="item-text">Wizard-of-Oz: first client paid €500 without knowing AI ran the delivery. Real signal, no product.</div>
+        <div class="sticky sticky-cream">
+          <span class="sticky-key">Measure</span>
+          Wizard-of-Oz: first paying client transferred €500 without knowing AI ran the delivery. Real signal, no product.
         </div>
-        <div>
-          <div class="item-key">Learn</div>
-          <div class="item-text">The agency is the MVP. Humans execute today what Still will automate at scale tomorrow.</div>
+        <div class="sticky sticky-yellow">
+          <span class="sticky-key">Learn</span>
+          The agency IS the MVP. Humans execute today what Still will automate at scale tomorrow.
         </div>
-        <div>
-          <div class="item-key">Pivot Signal</div>
-          <div class="item-text">One real payment ended weeks of positioning debate. Revenue is the only honest feedback loop.</div>
+        <div class="sticky sticky-amber">
+          <span class="sticky-key">Pivot Signal</span>
+          One real payment ended weeks of positioning debate. Revenue is the only honest feedback loop.
         </div>
       </div>
     </div>
 
     <!-- DISCIPLINED ENTREPRENEURSHIP -->
-    <div class="col de">
-      <div class="col-stripe"></div>
-      <div class="col-header">
-        <div class="tag">Disciplined Entrepreneurship</div>
-        <div class="col-title">24 Steps · In Order</div>
-        <div class="col-author">Bill Aulet · MIT Sloan</div>
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title">Disciplined Entrepreneurship</div>
+        <div class="panel-question">What are the 24 steps, in order?</div>
+        <div class="panel-author">Bill Aulet · MIT Sloan</div>
       </div>
-      <div class="col-body">
-        <div>
-          <div class="item-key">Steps 1–3</div>
-          <div class="item-text">Beachhead: iGaming. Bet & Babes came via referral, received delivery, came back. Retained customer = market signal.</div>
+      <div class="stickies">
+        <div class="sticky sticky-violet">
+          <span class="sticky-key">Steps 1–3 · Beachhead</span>
+          iGaming. Bet & Babes came via referral, received delivery, came back. Retained customer = market signal.
         </div>
-        <div>
-          <div class="item-key">Step 4 — Market Size</div>
-          <div class="item-text">TAM $356B · SAM $47B · SOM $480M at 0.1% SAM capture. Source: Technavio 2024 + internal projection.</div>
+        <div class="sticky sticky-violet">
+          <span class="sticky-key">Step 4 · Market Size</span>
+          TAM $356B · SAM $47B · SOM $480M at 0.1% capture. Source: Technavio 2024 + internal projection.
         </div>
-        <div>
-          <div class="item-key">Step 17 — LTV:CAC</div>
-          <div class="item-text">LTV €2,600 ÷ CAC €49 = 53:1 ratio. Minimum acceptable threshold is 3:1. We are 17× above the floor.</div>
+        <div class="sticky sticky-violet">
+          <span class="sticky-key">Step 17 · LTV : CAC</span>
+          LTV €2,600 ÷ CAC €49 = <strong>53 : 1</strong>. Minimum threshold is 3 : 1. We are 17× above the floor.
         </div>
-        <div>
-          <div class="item-key">Step 22 — Sales</div>
-          <div class="item-text">LinkedIn sprint: 25% reply rate, 3 warm closes at €40 trial tier. Acquisition channel confirmed at scale.</div>
+        <div class="sticky sticky-violet">
+          <span class="sticky-key">Step 22 · Sales Process</span>
+          LinkedIn sprint: 25% reply rate, 3 warm closes at €40 trial tier. Acquisition channel confirmed.
         </div>
       </div>
     </div>
 
     <!-- Y COMBINATOR -->
-    <div class="col yc">
-      <div class="col-stripe"></div>
-      <div class="col-header">
-        <div class="tag">Y Combinator</div>
-        <div class="col-title">Make Something People Want</div>
-        <div class="col-author">Paul Graham</div>
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title">Y Combinator</div>
+        <div class="panel-question">How do you make something people want?</div>
+        <div class="panel-author">Paul Graham</div>
       </div>
-      <div class="col-body">
-        <div>
-          <div class="item-key">Don't Scale</div>
-          <div class="item-text">Every brief handled manually by Jean-Luc + Alberto. Manual delivery behind the automated promise — intentionally.</div>
+      <div class="stickies">
+        <div class="sticky sticky-mint">
+          <span class="sticky-key">Don't Scale</span>
+          Every brief handled manually by Jean-Luc + Alberto. Manual delivery behind the automated promise — intentionally.
         </div>
-        <div>
-          <div class="item-key">Charge Day 1</div>
-          <div class="item-text">€49 trial — not free. A price tag filters timewasters from people with a real, urgent problem.</div>
+        <div class="sticky sticky-mint">
+          <span class="sticky-key">Charge Day 1</span>
+          €49 trial — not free. A price tag filters timewasters from people with a real, urgent problem.
         </div>
-        <div>
-          <div class="item-key">Talk to Users</div>
-          <div class="item-text">Fatema interview at CODE University + 32-person LinkedIn sprint across US, Europe, LATAM, and Costa Rica.</div>
+        <div class="sticky sticky-mint">
+          <span class="sticky-key">Talk to Users</span>
+          Fatema interview at CODE University + 32-person LinkedIn sprint across US, Europe, LATAM, Costa Rica.
         </div>
-        <div>
-          <div class="item-key">Default Alive</div>
-          <div class="item-text">Agency generates €750/month profit. Still development has zero runway risk while validation continues.</div>
+        <div class="sticky sticky-mint">
+          <span class="sticky-key">Default Alive</span>
+          Agency generates €750/month profit. Still development has zero runway risk while validation continues.
         </div>
       </div>
     </div>
 
     <!-- MOM TEST -->
-    <div class="col mom">
-      <div class="col-stripe"></div>
-      <div class="col-header">
-        <div class="tag">Mom Test</div>
-        <div class="col-title">Ask About Behaviour · Not Opinions</div>
-        <div class="col-author">Rob Fitzpatrick</div>
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title">The Mom Test</div>
+        <div class="panel-question">How do you ask without lying to yourself?</div>
+        <div class="panel-author">Rob Fitzpatrick</div>
       </div>
-      <div class="col-body">
-        <div>
-          <div class="item-key">Fatema Interview</div>
-          <div class="item-text">No pitch. Asked her hardest daily task. Answer: posting stories — not running ads. Real pain, completely unprompted.</div>
+      <div class="stickies">
+        <div class="sticky sticky-blue">
+          <span class="sticky-key">Fatema · CODE Uni</span>
+          No pitch. Asked her hardest daily task. Answer: posting stories — not running ads. Real pain, unprompted.
         </div>
-        <div>
-          <div class="item-key">LinkedIn Question</div>
-          <div class="item-text">"Last time you needed new ad creatives, how did you handle it?" Past behaviour, not product evaluation.</div>
+        <div class="sticky sticky-blue">
+          <span class="sticky-key">LinkedIn Question</span>
+          "Last time you needed new ad creatives, how did you handle it?" Past behaviour, not product evaluation.
         </div>
-        <div>
-          <div class="item-key">Synthetic Interview</div>
-          <div class="item-text">Lisa Bauer persona — 7 Mom Test questions. Confirmed the agency PDF failure pattern without a single opinion question.</div>
+        <div class="sticky sticky-blue">
+          <span class="sticky-key">Synthetic Interview</span>
+          Lisa Bauer persona — 7 Mom Test questions. Confirmed agency PDF failure pattern with zero opinion-questions.
         </div>
-        <div>
-          <div class="item-key">Key Insight</div>
-          <div class="item-text">Fatema said unprompted: "People use ChatGPT for marketing — why isn't there an app for that?" Problem confirmed.</div>
+        <div class="sticky sticky-pink">
+          <span class="sticky-key">★ Key Insight</span>
+          Fatema unprompted: <em>"People use ChatGPT for marketing — why isn't there an app for that?"</em> Problem confirmed.
         </div>
       </div>
     </div>
 
   </div>
 
-  <div class="footer">
-    <span class="footer-brand">Mango Lab — Framework Application Map</span>
-    <span class="footer-meta">PM_16 / BM_16 · How to Start a Startup · Artifact 6 · Jean-Luc Navarro · SS26</span>
+  <!-- FOOTER -->
+  <div class="footer-strip">
+    <span><strong>Mango Lab → Still</strong> · Framework Application Map · PM_16 · Artifact 6</span>
+    <span class="right">adapted from Ries · Aulet · Graham · Fitzpatrick</span>
   </div>
 
 </body>
