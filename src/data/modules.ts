@@ -84,10 +84,9 @@ export const data: DashboardData = {
   todayFocus: [
     'PM_16 — SUBMITTED ✓ (2026-05-02)',
     'PM_22 — SUBMITTED ✓ (2026-05-03) — deck + Better Products + reflection essay all done',
-    'PM_23 — ACTIVE: Marketing Report §3–§13 (content exists in Campaign Plan HTML — needs academic framing + citations)',
-    'PM_23 — ACTIVE: Sales Report deck (12 slides, cold outreach template — biggest blank)',
-    'PM_23 — ACTIVE: Leveling-up report ≤3,000 words (unlocks Level 3)',
-    'PM_23 — CONFIRM: Roland mandatory check-in booked',
+    'PM_23 — DRAFTED ✓ (2026-05-03): Marketing Report 18-20 pp .docx + 7 charts, Sales Report 12-slide deck (PDF), Leveling-up Report 2,005 words .docx',
+    'PM_23 — Roland check-in COMPLETED ✓ (steer: run Meta ads to validate)',
+    'PM_23 — REMAINING: PDF export of .docx files (docx2pdf running) → ZIP → submit Google Form',
   ],
 
   decisions: [
@@ -97,7 +96,7 @@ export const data: DashboardData = {
     { id: 'id30-cp',     label: 'ID_30 — confirmed 10 ECTS',                                        status: 'resolved' },
     { id: 'sts04-spec',  label: 'STS_04 — confirm exact assessment format with Fabian Geier',      status: 'open' },
     { id: 'pm22-add-on-spec', label: 'PM_22 — confirm reflection-essay spec/length with Swantje',  status: 'open' },
-    { id: 'pm23-roland', label: 'PM_23 — book the mandatory Roland check-in if not done',          status: 'open' },
+    { id: 'pm23-roland', label: 'PM_23 — Roland mandatory check-in COMPLETED ✓',                    status: 'resolved' },
   ],
 
   modules: [
@@ -263,9 +262,9 @@ export const data: DashboardData = {
       deliverables: [
         {
           name: 'Marketing Report (~18 pages, single PDF, with citations)',
-          status: 'inprogress',
-          notes: 'Click to expand the full 18-page structure + sub-tasks. Campaign Plan HTML covers most content; needs academic framing + citations.',
-          file: '../shared/08_engine001_campaign_plan.html',
+          status: 'done',
+          notes: 'DRAFTED 2026-05-03. .docx with 4,738 words across 18-20 pages, 7 embedded charts (Matplotlib from real Meta Ads data), 22 APA references. Voice-audited: zero em-dashes. Open in Word, export as PDF, submit.',
+          file: 'output/PM_23_Marketing_Report.docx',
           requirements: [
             '~18 pages total including charts/images',
             'Single PDF file',
@@ -304,8 +303,9 @@ export const data: DashboardData = {
         },
         {
           name: 'Sales Report — enablement deck (Cold Outreach template)',
-          status: 'todo',
-          notes: 'Click to expand. LOCKED: cold outreach. Click to see the deck structure.',
+          status: 'done',
+          notes: 'DRAFTED 2026-05-03. 12-slide HTML deck rendered to PDF (745 KB). Includes user persona (Lara, marketing operator), buyer persona (Tomas, founder-CEO), value-based proposition, full cold outreach sequence (subject bank + email body + 2 follow-ups), sample 1k-name DACH funnel with BANT qualification, sales KPIs.',
+          file: 'output/PM_23_Sales_Report_deck.pdf',
           requirements: [
             'Enablement deck/presentation format (slides, not prose)',
             'User persona — who is the user',
@@ -330,12 +330,12 @@ export const data: DashboardData = {
             { label: 'Slide 12: KPIs + success metrics for sales',                             done: false },
           ],
         },
-        { name: 'Roland check-in (module-specific, project-phase)',                 status: 'todo',       notes: 'MANDATORY — confirm booked' },
+        { name: 'Roland check-in (module-specific, project-phase)',                 status: 'done',       notes: 'COMPLETED. Steer from Roland: "Run Meta ads to validate the product."' },
         { name: 'Consulting sessions — active participation',                       status: 'todo',       notes: 'MANDATORY — track attendance' },
-        { name: 'Run the actual Meta Ads campaign (€400, 14 days)',                 status: 'todo',       notes: 'Target 30–60 sign-ups @ ≤€15 CPS' },
-        { name: 'Class analysis report (post-campaign reflection)',                 status: 'todo',       notes: 'Performance + creative + funnel + ROI + lessons' },
-        { name: 'Level-3 add-on: ≤3,000-word leveling-up report',                   status: 'todo',       notes: 'Achievements / community contributions, full academic standards' },
-        { name: 'Submit via Google Form',                                            status: 'todo',       notes: '' },
+        { name: 'Run the actual Meta Ads campaign (€400, 14 days)',                 status: 'done',       notes: 'RAN. €386 spent over 3 days (May 1-3). 39,084 impressions, 696 clicks, 72 leads, CPL €5.36 (5.4x better than €29 WordStream B2B benchmark). Full data in inputs/Meta-ads-report.xlsx.' },
+        { name: 'Class analysis report (post-campaign reflection)',                 status: 'done',       notes: 'Folded into Marketing Report §14 Results + §15 Reflection.' },
+        { name: 'Level-3 add-on: ≤3,000-word leveling-up report',                   status: 'done',       notes: 'DRAFTED 2026-05-03. 2,005 words .docx. 11 APA references. Three claims: methodological depth, validation (warm + paid + agency), community contribution.', file: 'output/PM_23_Leveling_Up_Report.docx' },
+        { name: 'Submit via Google Form',                                            status: 'todo',       notes: 'PDF-export the 2 .docx files, ZIP with deck, submit https://forms.gle/38jA8BmYhgbnBJbQA' },
         { name: 'Campaign Plan (HTML) — done reference',                             status: 'done',       file: '../shared/08_engine001_campaign_plan.html' },
         { name: 'Creative Brief — 5 creatives (HTML) — done reference',              status: 'done',       file: '../shared/09_engine001_creative_brief.html' },
         { name: 'Executive Summary for Roland (HTML) — done reference',              status: 'done',       file: '../shared/10_engine001_roland_summary.html' },
@@ -374,8 +374,8 @@ export const data: DashboardData = {
         { label: 'Leveling-up report drafted (≤3,000 words, academic)',  done: false },
         { label: 'Submitted via Google Form',                            done: false },
       ],
-      nextAction: 'Confirm the Roland check-in is booked, then start the Sales Report (cold outreach + funnel) — biggest blank',
-      notes: 'Three core docs are drafted (Campaign Plan, Creative Brief, Exec Summary). Sales Report is the biggest blank. Marketing Report needs the academic-citation pass to avoid auto-fail.',
+      nextAction: 'Open the 3 deliverables in /deliverables/PM_23/output/, export Word docs to PDF, ZIP, submit via Google Form',
+      notes: 'DRAFTED 2026-05-03 (Opus session). Marketing Report .docx (4,738 words across 18-20 pp, 7 embedded charts, 22 APA references, zero em-dashes verified). Sales Report 12-slide enablement deck rendered to PDF (745 KB). Leveling-up Report .docx (2,005 words, 11 APA references). Roland check-in done; he steered "run Meta ads to validate". €386 spent of €400 budget, 72 leads, CPL €5.36 (5x better than benchmark).',
     },
 
     /* ============================================================
