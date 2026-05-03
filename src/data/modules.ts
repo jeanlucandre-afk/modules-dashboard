@@ -84,9 +84,9 @@ export const data: DashboardData = {
   todayFocus: [
     'PM_16 — SUBMITTED ✓ (2026-05-02)',
     'PM_22 — SUBMITTED ✓ (2026-05-03) — deck + Better Products + reflection essay all done',
-    'PM_23 — DRAFTED ✓ (2026-05-03): Marketing Report 5,191 words/~20 pp .docx + 8 visuals (academic register, full 6-day dataset), Sales Report 12-slide deck PDF, Leveling-up Report 2,069 words .docx',
+    'PM_23 — DRAFTED ✓ (2026-05-03): Marketing Report 5,757 words/~22 pp .docx + 9 verified visuals, Sales Report 12-slide deck PDF, Leveling-up Report 2,133 words .docx — every number traced to Ads Manager + Lovable screenshots',
     'PM_23 — Roland check-in COMPLETED ✓ (steer: run Meta ads to validate)',
-    'PM_23 — Real campaign result: €982 spend / 89,772 imp / 258 leads / CPL €3.81 (7.6x better than €29 benchmark) over 6 days (28 Apr-3 May)',
+    'PM_23 — Real campaign (in-flight): €250.80 of €400 spent / 22,695 imp / 10,472 reach / 45 leads / CPL €5.57 (5.2x better than €29 benchmark) over first 6 days (28 Apr-3 May, daily €50 cap not fully used)',
     'PM_23 — REMAINING: open .docx in Word → Save As PDF → ZIP all 3 PDFs → submit Google Form (https://forms.gle/38jA8BmYhgbnBJbQA)',
     'PM_18 — DOCUMENT DONE ✓ (2026-05-03): Portfolio.docx complete with all 8 Qs + Still UI screenshots + 6 multi-brand sample ads + runnable prompt verified live on gpt-image-1 + gpt-image-2. PDF export → Google Form submit pending.',
   ],
@@ -265,7 +265,7 @@ export const data: DashboardData = {
         {
           name: 'Marketing Report (~18 pages, single PDF, with citations)',
           status: 'done',
-          notes: 'DRAFTED 2026-05-03 (academic register rewrite). .docx with 5,191 words across ~20 pages, 8 embedded visuals (creative grid + 7 charts from real Meta Ads data), 25 APA refs incl. Gibbs+Schon for the reflective frame. Formal third-person throughout; first-person reserved for §15 Reflection. Zero em-dashes, zero prohibited words. Built on FULL 6-day dataset (28 Apr-3 May): €982 spend, 89,772 imp, 258 leads, CPL €3.81. Open in Word → Save As PDF → submit.',
+          notes: 'DRAFTED 2026-05-03 (campaign in-flight, all numbers verified from Ads Manager + Lovable screenshots). .docx with 5,757 words across ~22 pages, 9 embedded visuals (creative grid + 8 charts), 25 APA refs incl. Gibbs+Schon for the reflective frame. Formal third-person; first-person reserved for §15 Reflection. Zero em-dashes, zero prohibited words. First 6 days of in-flight window (28 Apr-3 May): €250.80 of €400 spent, 22,695 imp, 10,472 reach, 45 leads, CPL €5.57. Lovable analytics: 257 unique visitors / 95% bounce — landing-page bottleneck flagged in §14.5. Open in Word → Save As PDF → submit.',
           file: 'output/PM_23_Marketing_Report.docx',
           requirements: [
             '~18 pages total including charts/images',
@@ -334,9 +334,9 @@ export const data: DashboardData = {
         },
         { name: 'Roland check-in (module-specific, project-phase)',                 status: 'done',       notes: 'COMPLETED. Steer from Roland: "Run Meta ads to validate the product."' },
         { name: 'Consulting sessions — active participation',                       status: 'todo',       notes: 'MANDATORY — track attendance' },
-        { name: 'Run the actual Meta Ads campaign (€400 → extended)',               status: 'done',       notes: 'RAN. €982.32 spent over 6 days (28 Apr-3 May; budget extended in flight from initial €400 once day-1/2 CPL data justified scaling). 89,772 impressions, 1,776 link clicks, 258 leads. CTR 1.98%, CPL €3.81 (7.6x better than €29 WordStream B2B benchmark). Best ad: Copy 3 @ €2.81 CPL (84 leads). Full data in inputs/Meta-ads-report-FULL.xlsx.' },
+        { name: 'Run the actual Meta Ads campaign (€400 budget, in-flight)',        status: 'inprogress', notes: 'IN-FLIGHT. €250.80 of €400 spent across first 6 days (28 Apr-3 May). Daily cap €50, average daily delivery ~€42 (cap not binding). 22,695 impressions reaching 10,472 unique Meta accounts, 45 form leads. Blended CPL €5.57 (5.2x better than €29 WordStream B2B benchmark). Best ad: Copy 3 (b) @ €2.66 CPL (6 leads); largest volume Copy 2 @ €5.33 CPL (23 leads); worst original Ad @ €15.06 (3 leads). Demographics: 73% male / 24% female; 53% of leads in 25-44 cohort. ~€150 reserve for Phase 2.' },
         { name: 'Class analysis report (post-campaign reflection)',                 status: 'done',       notes: 'Folded into Marketing Report §14 Results + §15 Reflection.' },
-        { name: 'Level-3 add-on: ≤3,000-word leveling-up report',                   status: 'done',       notes: 'DRAFTED 2026-05-03 (academic register, full data). 2,069 words .docx (well under 3k cap). 13 APA refs. Three claims: methodological depth (lean over locked plan, dual-channel, Mom Test), validation (warm + paid CPL €3.81 + agency), community contribution (LinkedIn build-in-public + 2 paying customers + agency-to-SaaS pattern shared with 2 CODE founders).', file: 'output/PM_23_Leveling_Up_Report.docx' },
+        { name: 'Level-3 add-on: ≤3,000-word leveling-up report',                   status: 'done',       notes: 'DRAFTED 2026-05-03 (verified data). 2,133 words .docx (well under 3k cap). 13 APA refs. Three claims: methodological depth (lean over locked plan, dual-channel, Mom Test), validation (warm + in-flight paid CPL €5.57 + agency), community contribution (LinkedIn build-in-public + 2 paying customers + agency-to-SaaS pattern shared with 2 CODE founders).', file: 'output/PM_23_Leveling_Up_Report.docx' },
         { name: 'Submit via Google Form',                                            status: 'todo',       notes: 'PDF-export the 2 .docx files, ZIP with deck, submit https://forms.gle/38jA8BmYhgbnBJbQA' },
         { name: 'Campaign Plan (HTML) — done reference',                             status: 'done',       file: '../shared/08_engine001_campaign_plan.html' },
         { name: 'Creative Brief — 5 creatives (HTML) — done reference',              status: 'done',       file: '../shared/09_engine001_creative_brief.html' },
@@ -377,7 +377,7 @@ export const data: DashboardData = {
         { label: 'Submitted via Google Form',                            done: false },
       ],
       nextAction: 'Open Marketing Report + Leveling-up Report in Word → File → Save As → PDF. ZIP all 3 PDFs (Marketing, Sales deck, Leveling-up). Submit https://forms.gle/38jA8BmYhgbnBJbQA',
-      notes: 'DRAFTED 2026-05-03 (academic register rewrite + full 6-day dataset). Marketing Report .docx (5,191 words, ~20 pp, 8 embedded visuals, 25 APA refs, zero em-dashes, formal third-person register). Sales Report 12-slide enablement deck PDF (745 KB). Leveling-up Report .docx (2,069 words, 13 APA refs). Roland check-in done (steer: "run Meta ads to validate"). REAL CAMPAIGN: €982 spent over 6 days (28 Apr-3 May, initial €400 extended in flight), 89,772 impressions, 258 leads, CPL €3.81 (7.6x better than €29 benchmark), CTR 1.98%. Final step: PDF-export the .docx files in Word, ZIP all 3 PDFs, submit Google Form.',
+      notes: 'DRAFTED 2026-05-03 (verified-data rewrite). Marketing Report .docx (5,757 words, ~22 pp, 9 embedded visuals, 25 APA refs, zero em-dashes, formal third-person register, every number traced to Ads Manager + Lovable screenshots). Sales Report 12-slide enablement deck PDF (745 KB). Leveling-up Report .docx (2,133 words, 13 APA refs). Roland check-in done (steer: "run Meta ads to validate"). IN-FLIGHT CAMPAIGN: €250.80 of €400 spent over first 6 days (28 Apr-3 May, daily €50 cap not binding), 22,695 impressions, 10,472 reach, 45 leads, CPL €5.57 (5.2x better than €29 benchmark). Lovable site analytics: 257 visitors / 95% bounce — landing-page bottleneck named in §14.5. Final step: PDF-export the .docx files in Word, ZIP all 3 PDFs, submit Google Form.',
     },
 
     /* ============================================================
