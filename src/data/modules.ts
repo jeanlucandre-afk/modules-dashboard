@@ -370,7 +370,6 @@ export const data: DashboardData = {
         { label: 'Roland mandatory check-in completed',                  done: true },
         { label: 'Consulting sessions attended',                         done: true },
         { label: 'Campaign launched (D1)',                               done: true },
-        { label: 'D7 building-in-public LinkedIn post',                  done: null },
         { label: 'Campaign in flight (€250.80/€400 spent at hand-in)',   done: true },
         { label: 'Class analysis report drafted',                        done: true },
         { label: 'Leveling-up report drafted (≤3,000 words, academic)',  done: true },
