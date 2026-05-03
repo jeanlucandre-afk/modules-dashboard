@@ -58,7 +58,7 @@ The Stage A prompt for Ad 1 of the Mango Lab campaign (full version in Appendix 
 - reference image inputs for brand assets, not described in text
 - exact font-size targets (~58pt, ~26pt) which the model treats as visual hierarchy cues even if it cannot match the absolute pixel value
 
-**Reflection on value and risks.** The thing the framework changed is that I stopped writing one prompt. I had a Claude project saved with a single 600-word "create a Mango Lab Meta ad" prompt for about three weeks. Outputs were 60% on brand and 40% drifted, and I was rerunning generations until one looked good. The split-prompt structure (layout first, refinement second) cut my reroll rate from roughly 4 attempts per ad to roughly 1.3, which is the difference between Still being a real pipeline and Still being me sitting in front of a generation queue at 1am. The risk side is that this kind of two-stage prompting is brittle to model updates. When OpenAI shipped the newer GPT Image release with stronger text rendering, I had to re-tune Stage A because it was now strong enough at typography to skip the second pass for some compositions. So the pipeline I built around weakness number one is going to keep breaking as the weakness goes away, which is an expensive reality of building on top of fast-moving models.
+**Reflection on value and risks.** The thing the framework changed is that I stopped writing one prompt. I had a Claude project saved with a single 600-word "create a Mango Lab Meta ad" prompt for about three weeks. Outputs were 60% on brand and 40% drifted, and I was rerunning generations until one looked good. The split-prompt structure (layout first, refinement second) cut my reroll rate from roughly 4 attempts per ad to roughly 1.3, which is the difference between Still being a real pipeline and Still being me sitting in front of a generation queue at 1am. The risk side is that this kind of two-stage prompting is brittle to model updates. When OpenAI shipped GPT image 2 with stronger text rendering, I had to re-tune Stage A because it was now strong enough at typography to skip the second pass for some compositions. So the pipeline I built around weakness number one is going to keep breaking as the weakness goes away, which is an expensive reality of building on top of fast-moving models.
 
 ---
 
@@ -98,7 +98,7 @@ Five ads end-to-end is roughly $0.80 and roughly 7–10 minutes if I run the sta
 2. **Prompts as data** live as JSON (`mango_prompts.json`, `mango_prompts_full_brief_backup.json`) so I can version them, diff them, and hand them off between agents. Prompts are products in this pipeline; treating them as code (with a backup copy of the full brief preserved separately) is the closest I have to a prompt registry.
 3. **Generation telemetry** writes to `debug_daily.log`. Every run logs token counts, output length, and cost. The most recent log line shows a single agent session that consumed roughly 67 million tokens across 604 turns at a real spend of $50.67. That number is what tells me whether a pipeline change is actually paying for itself.
 4. **Outputs** land in `Generated/` with a strict naming convention (`adN-stageA.png`, `adN-final.png`). Naming is the cheapest version control I have for a stateless image generation step.
-5. **Campaign performance data** lives in Meta Ads Manager (no integration into Still yet, this is the piece I am most behind on). For the Mango Lab campaign the numbers are: $143 spent, 42,958 impressions, 200+ leads, in less than a month.
+5. **Campaign performance data** lives in Meta Ads Manager. There is no Meta integration in Still yet. We still upload every creative manually and pull the numbers back manually too. For the Mango Lab campaign the numbers are: $143 spent, 42,958 impressions, 200+ leads, in less than a month.
 
 **Applied artefact.** The Still dashboard, which is where these five components surface as a single view of campaign + pipeline state:
 
@@ -117,7 +117,7 @@ The repo tree behind it: `HANDOFF_BRIEF.md`, `Creative_Brief.md`, `Mango_Lab_Ad_
 1. **Every campaign decision is justified by numbers, not by taste.** When we picked the five ads to ship out of seven concepts, the call was archetype coverage (pain hook, direct sale, social proof, pricing, urgency) and CTR-shape evidence from the reference ads, not which one I liked most.
 2. **We log spend in real time.** The Mango Lab Meta campaign currently sits at $143 spent / 42,958 impressions / 200+ leads. I check this every morning. Cost per lead is roughly $0.72, which is the number I would defend the campaign on if a client asked me what we are actually buying with paid social.
 3. **Pipeline cost is part of the unit economics, not an afterthought.** $0.16 per ad generation is in the same conversation as $5 ad spend per ad in test, $20 ad spend per ad in scale. If I do not track generation cost, I cannot price Still.
-4. **Failure is logged, not hidden.** When the first nano-banana-2 outputs came back with soft text rendering ("looked AI"), we did not ship them. We re-tested with the newer GPT Image model. The decision and the reasoning live in the repo's brief documents so the next person reading them sees the iteration, not a polished final state.
+4. **Failure is logged, not hidden.** When the first nano-banana-2 outputs came back with soft text rendering ("looked AI"), we did not ship them. We re-tested with GPT image 2. The decision and the reasoning live in the repo's brief documents so the next person reading them sees the iteration, not a polished final state.
 
 **Applied artefact.** `HANDOFF_BRIEF.md` includes a per-ad validation checklist (palette, no navy, no pure white, type pairing, headline accuracy, no AI artefacts) that any contractor or future agent uses before declaring an ad done. That checklist *is* the data culture artefact: it makes "good enough" a measurable thing.
 
@@ -164,7 +164,7 @@ The Create tab below is the user-facing entry point: brand selector, format (sin
 
 ![Still: Explore. A second pathway where the customer drops in references and writes an edit instruction. Same engine, different entry point for customers who already have visual direction in mind.](images/explore_crop.png)
 
-The campaign that ran on those ads is doing $143 spent / 42,958 impressions / 200+ leads in under a month, which is roughly a $0.72 cost per lead in a B2B SMB context where benchmark CPL is closer to $30 to $80.
+The campaign that ran on those ads is doing $143 spent / 42,958 impressions / 200+ leads in under a month, which is roughly a $0.72 cost per lead in a B2B SMB context where the published Meta CPL benchmark is $63.40 average for general B2B SaaS leads and $150 to $250 for qualified leads (AdAmigo / AdManage 2026 data). $0.72 is roughly 1% of the average benchmark, which I take as a sign the ad creatives are doing real work, not as a number we will hold once the audience saturates.
 
 > **Note for the assessor:** below this section the customer would normally see their generated ads in the Generations tab. Live additional ad samples are appended at the end of Appendix B.
 
@@ -199,7 +199,7 @@ The campaign that ran on those ads is doing $143 spent / 42,958 impressions / 20
 
 **Outcome-layer metrics (Still's outputs in the wild):**
 
-3. **Cost per lead on shipped creatives.** Mango Lab campaign is currently $143 spent / 200+ leads = roughly $0.72 per lead. Target depends on the vertical; in B2B SMB the benchmark band is $30 to $80, so we are operating at roughly 1% to 2% of benchmark CPL.
+3. **Cost per lead on shipped creatives.** Mango Lab campaign is currently $143 spent / 200+ leads = roughly $0.72 per lead. Target depends on the vertical; in B2B SaaS the published Meta CPL benchmark for general leads is $63.40 average and $150 to $250 for qualified leads (AdAmigo / AdManage 2026 data). $0.72 puts us at roughly 1% of the average benchmark.
 4. **Creative longevity.** How many days a single ad keeps performing before fatigue. The campaign is still under a month so I do not have a defensible number yet, but the working target is "the AI-generated creatives match the longevity of human-designed ads in the same vertical (typically 14 to 21 days before fatigue)".
 
 **Applied artefact.** The live numbers from the Mango Lab campaign:

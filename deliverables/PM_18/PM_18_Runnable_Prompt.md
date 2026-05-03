@@ -8,11 +8,11 @@ Generates the layout-locked composition for one Meta ad in a brand system. This 
 
 ## Reproducibility statement
 
-The five Mango Lab ads currently running on Meta were generated through this exact prompt structure (Stage A then Stage B). The campaign produced 200+ leads on $143 spend at ~$0.72 cost per lead in less than a month. Stage A reproducibility has been verified in production by Jean-Luc (each of the 5 final ads has its Stage A intermediate saved). The prompt below has been tested against the API at the time of submission.
+The five Mango Lab ads currently running on Meta were generated through this exact prompt structure (Stage A then Stage B). The campaign produced 200+ leads on $143 spend at ~$0.72 cost per lead in less than a month. Stage A reproducibility was verified live against the OpenAI API on 2026-05-03 against both `gpt-image-1` and `gpt-image-2`. Both calls returned valid 1024x1024 PNGs that match the layout described in the prompt (macro thumb, three-line headline, sub line, CTA pill, MANGO LAB rendered correctly). Live render evidence is in Appendix A-2 of the Portfolio.
 
 ## Model
 
-`gpt-image-1` (OpenAI Image Generation API, `high` quality tier).
+`gpt-image-2` (OpenAI Image Generation API, recommended). The prompt also runs against the older `gpt-image-1`, which is what the original five Mango Lab ads were generated against. `gpt-image-2` renders typography crisper at the same prompt and is what the current Still production pipeline uses.
 
 ## What you need to reproduce
 
@@ -29,13 +29,14 @@ The five Mango Lab ads currently running on Meta were generated through this exa
 
    ```json
    {
-     "model": "gpt-image-1",
+     "model": "gpt-image-2",
      "prompt": "<PROMPT>",
      "size": "1024x1024",
-     "quality": "high",
      "n": 1
    }
    ```
+
+   (Use `"model": "gpt-image-1"` if you want to reproduce against the older model; both work.)
 
 4. Run:
 
