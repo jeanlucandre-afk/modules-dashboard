@@ -334,9 +334,9 @@ export const data: DashboardData = {
         },
         { name: 'Roland check-in (module-specific, project-phase)',                 status: 'done',       notes: 'COMPLETED. Steer from Roland: "Run Meta ads to validate the product."' },
         { name: 'Consulting sessions — active participation',                       status: 'todo',       notes: 'MANDATORY — track attendance' },
-        { name: 'Run the actual Meta Ads campaign (€400, 14 days)',                 status: 'done',       notes: 'RAN. €386 spent over 3 days (May 1-3). 39,084 impressions, 696 clicks, 72 leads, CPL €5.36 (5.4x better than €29 WordStream B2B benchmark). Full data in inputs/Meta-ads-report.xlsx.' },
+        { name: 'Run the actual Meta Ads campaign (€400 → extended)',               status: 'done',       notes: 'RAN. €982.32 spent over 6 days (28 Apr-3 May; budget extended in flight from initial €400 once day-1/2 CPL data justified scaling). 89,772 impressions, 1,776 link clicks, 258 leads. CTR 1.98%, CPL €3.81 (7.6x better than €29 WordStream B2B benchmark). Best ad: Copy 3 @ €2.81 CPL (84 leads). Full data in inputs/Meta-ads-report-FULL.xlsx.' },
         { name: 'Class analysis report (post-campaign reflection)',                 status: 'done',       notes: 'Folded into Marketing Report §14 Results + §15 Reflection.' },
-        { name: 'Level-3 add-on: ≤3,000-word leveling-up report',                   status: 'done',       notes: 'DRAFTED 2026-05-03. 2,005 words .docx. 11 APA references. Three claims: methodological depth, validation (warm + paid + agency), community contribution.', file: 'output/PM_23_Leveling_Up_Report.docx' },
+        { name: 'Level-3 add-on: ≤3,000-word leveling-up report',                   status: 'done',       notes: 'DRAFTED 2026-05-03 (academic register, full data). 2,069 words .docx (well under 3k cap). 13 APA refs. Three claims: methodological depth (lean over locked plan, dual-channel, Mom Test), validation (warm + paid CPL €3.81 + agency), community contribution (LinkedIn build-in-public + 2 paying customers + agency-to-SaaS pattern shared with 2 CODE founders).', file: 'output/PM_23_Leveling_Up_Report.docx' },
         { name: 'Submit via Google Form',                                            status: 'todo',       notes: 'PDF-export the 2 .docx files, ZIP with deck, submit https://forms.gle/38jA8BmYhgbnBJbQA' },
         { name: 'Campaign Plan (HTML) — done reference',                             status: 'done',       file: '../shared/08_engine001_campaign_plan.html' },
         { name: 'Creative Brief — 5 creatives (HTML) — done reference',              status: 'done',       file: '../shared/09_engine001_creative_brief.html' },
@@ -376,8 +376,8 @@ export const data: DashboardData = {
         { label: 'Leveling-up report drafted (≤3,000 words, academic)',  done: false },
         { label: 'Submitted via Google Form',                            done: false },
       ],
-      nextAction: 'Open the 3 deliverables in /deliverables/PM_23/output/, export Word docs to PDF, ZIP, submit via Google Form',
-      notes: 'DRAFTED 2026-05-03 (Opus session). Marketing Report .docx (4,738 words across 18-20 pp, 7 embedded charts, 22 APA references, zero em-dashes verified). Sales Report 12-slide enablement deck rendered to PDF (745 KB). Leveling-up Report .docx (2,005 words, 11 APA references). Roland check-in done; he steered "run Meta ads to validate". €386 spent of €400 budget, 72 leads, CPL €5.36 (5x better than benchmark).',
+      nextAction: 'Open Marketing Report + Leveling-up Report in Word → File → Save As → PDF. ZIP all 3 PDFs (Marketing, Sales deck, Leveling-up). Submit https://forms.gle/38jA8BmYhgbnBJbQA',
+      notes: 'DRAFTED 2026-05-03 (academic register rewrite + full 6-day dataset). Marketing Report .docx (5,191 words, ~20 pp, 8 embedded visuals, 25 APA refs, zero em-dashes, formal third-person register). Sales Report 12-slide enablement deck PDF (745 KB). Leveling-up Report .docx (2,069 words, 13 APA refs). Roland check-in done (steer: "run Meta ads to validate"). REAL CAMPAIGN: €982 spent over 6 days (28 Apr-3 May, initial €400 extended in flight), 89,772 impressions, 258 leads, CPL €3.81 (7.6x better than €29 benchmark), CTR 1.98%. Final step: PDF-export the .docx files in Word, ZIP all 3 PDFs, submit Google Form.',
     },
 
     /* ============================================================
