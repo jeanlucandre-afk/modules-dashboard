@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>STS_04 — Video Essay Slides</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --fg: #f5f5f0;
+    --muted: #888;
+    --accent: #ff6b35;
+    --card-w: 1280px;
+    --card-h: 720px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: #1a1a1a;
+    color: var(--fg);
+    font-family: 'Inter', -apple-system, sans-serif;
+    overflow-x: hidden;
+  }
+  .controls {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: var(--muted);
+    z-index: 100;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .controls button {
+    background: transparent;
+    border: 1px solid #333;
+    color: var(--fg);
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-family: inherit;
+  }
+  .controls button:hover { border-color: var(--accent); color: var(--accent); }
+  .deck {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding: 40px 20px 80px;
+  }
+  .deck.present {
+    gap: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+  }
+  .deck.present .slide-wrap {
+    display: none;
+    height: 100vh;
+    width: 100vw;
+  }
+  .deck.present .slide-wrap.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .deck.present .slide-wrap .meta { display: none; }
+  .deck.present .slide {
+    transform: scale(min(calc(100vw / 1280), calc(100vh / 720)));
+    transform-origin: center center;
+  }
+  .slide-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .slide {
+    width: var(--card-w);
+    height: var(--card-h);
+    background: var(--bg);
+    color: var(--fg);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 96px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    overflow: hidden;
+  }
+  @media (max-width: 1340px) {
+    .slide-wrap:not(.present .slide-wrap) { transform: scale(0.7); transform-origin: top center; }
+    .deck:not(.present) { gap: 0; }
+  }
+  @media (max-width: 960px) {
+    .slide-wrap:not(.present .slide-wrap) { transform: scale(0.5); }
+  }
+  @media (max-width: 700px) {
+    .slide-wrap:not(.present .slide-wrap) { transform: scale(0.35); }
+  }
+  .meta {
+    color: var(--muted);
+    font-size: 13px;
+    text-align: center;
+    font-family: 'Inter', monospace;
+  }
+  .meta .num { color: var(--accent); font-weight: 600; }
+
+  /* Slide number badge */
+  .slide-num {
+    position: absolute;
+    bottom: 32px;
+    right: 40px;
+    color: #444;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+  }
+
+  /* Quote slides */
+  .quote {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 44px;
+    line-height: 1.35;
+    font-weight: 400;
+    text-align: left;
+    max-width: 1000px;
+    font-style: italic;
+  }
+  .quote.short { font-size: 56px; }
+  .quote .openq { color: var(--accent); }
+  .attribution {
+    margin-top: 40px;
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    color: var(--muted);
+    font-style: normal;
+    font-weight: 400;
+  }
+  .attribution::before { content: "— "; }
+
+  /* Title slide */
+  .title-main {
+    font-family: 'Inter', sans-serif;
+    font-size: 64px;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    text-align: left;
+    max-width: 1000px;
+  }
+  .title-main em { color: var(--accent); font-style: normal; }
+  .title-sub {
+    margin-top: 48px;
+    font-size: 18px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* Concept / definition */
+  .concept-term {
+    font-family: 'Source Serif 4', serif;
+    font-style: italic;
+    font-size: 36px;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+  .concept-def {
+    font-family: 'Inter', sans-serif;
+    font-size: 42px;
+    line-height: 1.35;
+    font-weight: 400;
+    max-width: 950px;
+  }
+
+  .one-line {
+    font-family: 'Inter', sans-serif;
+    font-size: 56px;
+    line-height: 1.25;
+    font-weight: 500;
+    max-width: 1000px;
+    letter-spacing: -0.01em;
+  }
+  .one-line em { color: var(--accent); font-style: normal; }
+  .one-line + .attribution { font-size: 18px; }
+
+  /* Examples grid */
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 48px;
+    width: 100%;
+    max-width: 1100px;
+  }
+  .grid-3 .item {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  .grid-3 .icon {
+    width: 100%;
+    aspect-ratio: 1.4;
+    background: #161616;
+    border: 1px solid #2a2a2a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 64px;
+  }
+  .grid-3 .label {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .grid-3 .sub {
+    font-family: 'Source Serif 4', serif;
+    font-style: italic;
+    color: var(--muted);
+    font-size: 17px;
+    line-height: 1.4;
+  }
+
+  /* Taglines stacked */
+  .taglines {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: 100%;
+    max-width: 1000px;
+  }
+  .tagline {
+    font-family: 'Inter', sans-serif;
+    font-size: 48px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    padding: 24px 32px;
+    border-left: 3px solid var(--accent);
+    background: linear-gradient(90deg, rgba(255,107,53,0.06), transparent);
+  }
+
+  /* Numbered list */
+  .num-list {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    max-width: 1000px;
+    width: 100%;
+  }
+  .num-list .row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    align-items: baseline;
+    gap: 24px;
+  }
+  .num-list .n {
+    font-family: 'Source Serif 4', serif;
+    font-size: 56px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .num-list .text {
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1.3;
+  }
+  .num-list .text strong { font-weight: 600; }
+  .num-list .text .arrow { color: var(--accent); margin: 0 12px; }
+
+  /* Big self-implication */
+  .self-card {
+    font-family: 'Inter', sans-serif;
+    font-size: 84px;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    text-align: center;
+    max-width: 1000px;
+  }
+  .self-card .accent { color: var(--accent); }
+
+  /* Critique labels */
+  .crit-list {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    width: 100%;
+    max-width: 1000px;
+  }
+  .crit {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding: 24px 0;
+    border-bottom: 1px solid #222;
+  }
+  .crit:last-child { border-bottom: none; }
+  .crit .bullet {
+    width: 14px;
+    height: 14px;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+  .crit .label {
+    font-size: 38px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  /* Whiteboard */
+  .whiteboard {
+    background: #f5f5f0;
+    color: #111;
+    font-family: 'Caveat', cursive;
+    font-size: 72px;
+    line-height: 1.25;
+    text-align: center;
+    max-width: 1000px;
+    padding: 48px;
+    transform: rotate(-1.5deg);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  }
+  .whiteboard .underline {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 4px;
+    text-underline-offset: 8px;
+  }
+  .slide.whiteboard-bg { background: #0f0f0f; }
+
+  /* Roadmap kill */
+  .roadmap {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: flex-start;
+    max-width: 1000px;
+  }
+  .roadmap .killed {
+    font-size: 56px;
+    font-weight: 500;
+    color: #555;
+    text-decoration: line-through;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 4px;
+    letter-spacing: -0.02em;
+  }
+  .roadmap .replaced {
+    font-size: 56px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+  .roadmap .replaced::before {
+    content: "→ ";
+    color: var(--accent);
+  }
+
+  /* Lower third */
+  .lower-third .slide {
+    background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.95) 60%);
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 60px 80px;
+  }
+  .lower-third .lt-content {
+    max-width: 900px;
+  }
+  .lower-third .quote {
+    font-size: 32px;
+    font-style: normal;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+  }
+  .lower-third .attribution { font-size: 16px; margin-top: 16px; }
+  .lower-third .frame-hint {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #2a2a2a;
+    font-size: 28px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /* Book cover slide */
+  .book-cover-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
+  }
+  .book-mock {
+    width: 280px;
+    height: 420px;
+    background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: #fff;
+    font-family: 'Source Serif 4', serif;
+    transform: perspective(1000px) rotateY(-8deg);
+  }
+  .book-mock .bm-title {
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.15;
+  }
+  .book-mock .bm-sub {
+    font-size: 14px;
+    font-style: italic;
+    opacity: 0.85;
+    margin-top: 12px;
+  }
+  .book-mock .bm-author {
+    font-size: 16px;
+    font-weight: 500;
+    border-top: 1px solid rgba(255,255,255,0.4);
+    padding-top: 12px;
+  }
+  .book-info h2 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 44px;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.2;
+    max-width: 480px;
+  }
+  .book-info .by {
+    margin-top: 24px;
+    color: var(--muted);
+    font-size: 18px;
+  }
+  .book-info .year { color: var(--accent); font-weight: 600; }
+
+  /* Closing */
+  .closing .quote {
+    font-size: 52px;
+    text-align: center;
+    max-width: 1000px;
+  }
+  .closing { display: flex; flex-direction: column; align-items: center; gap: 32px; }
+
+  .scaler { transform-origin: center; }
+
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <span id="counter">View all</span>
+  <button onclick="toggleMode()">Present</button>
+  <span style="font-size: 11px;">←/→ navigate · ESC exit</span>
+</div>
+
+<div class="deck" id="deck">
+
+  <!-- SLIDE 1 — Title -->
+  <div class="slide-wrap">
+    <div class="slide">
+      <div>
+        <div class="title-main">
+          On Morozov,<br>
+          on solutionism,<br>
+          on building <em>the thing being criticised.</em>
+        </div>
+        <div class="title-sub">Jean-Luc Navarro &nbsp;·&nbsp; STS_04 &nbsp;·&nbsp; CODE University &nbsp;·&nbsp; 2026</div>
+      </div>
+      <div class="slide-num">01</div>
+    </div>
+    <div class="meta"><span class="num">01</span> · Title · 0:00–0:05</div>
+  </div>
+
+  <!-- SLIDE 2 — Book cover -->
+  <div class="slide-wrap">
+    <div class="slide book-cover-slide">
+      <div class="book-mock">
+        <div>
+          <div class="bm-title">To Save<br>Everything,<br>Click Here</div>
+          <div class="bm-sub">The Folly of Technological Solutionism</div>
+        </div>
+        <div class="bm-author">Evgeny Morozov</div>
+      </div>
+      <div class="book-info">
+        <h2>To Save Everything, Click Here</h2>
+        <div class="by">Evgeny Morozov &nbsp;·&nbsp; <span class="year">2013</span></div>
+      </div>
+      <div class="slide-num">02</div>
+    </div>
+    <div class="meta"><span class="num">02</span> · Book cover · 0:40–1:00</div>
+  </div>
+
+  <!-- SLIDE 3 — Solutionism quote -->
+  <div class="slide-wrap">
+    <div class="slide">
+      <div>
+        <div class="quote">
+          <span class="openq">"</span>an unhealthy preoccupation with sexy, monumental, and narrow-minded solutions, the kind of stuff that wows audiences at TED Conferences, to problems that are extremely complex, fluid, and contentious."
+        </div>
+        <div class="attribution">Morozov, <em>To Save Everything, Click Here</em>, p. 5</div>
+      </div>
+      <div class="slide-num">03</div>
+    </div>
+    <div class="meta"><span class="num">03</span> · Quote: solutionism · 1:15–1:30</div>
+  </div>
+
+  <!-- SLIDE 4 — Dobbins one-line -->
+  <div class="slide-wrap">
+    <div class="slide">
+      <div>
+        <div class="one-line">
+          Solutionism reaches for <em>the answer</em><br>
+          before the questions have been<br>
+          fully asked.
+        </div>
+        <div class="attribution">Michael Dobbins, quoted in Morozov</div>
+      </div>
+      <div class="slide-num">04</div>
+    </div>
+    <div class="meta"><span class="num">04</span> · One-line · 1:45–2:00</div>
+  </div>
+
+  <!-- SLIDE 5 — Internet-centrism -->
+  <div class="slide-wrap">
+    <div class="slide">
+      <div>
+        <div class="concept-term">internet-centrism (n.)</div>
+        <div class="concept-def">
+          The assumption that "the Internet" has a coherent logic, and that its logic should be imported into other domains.
+        </div>
+      </div>
+      <div class="slide-num">05</div>
+    </div>
+    <div class="meta"><span class="num">05</span> · Concept · 2:00–2:20</div>
+  </div>
+
+  <!-- SLIDE 6 — Examples grid -->
+  <div class="slide-wrap">
+    <div class="slide">
+      <div class="grid-3">
+        <div class="item">
+          <div class="icon">🗑️</div>
+          <div class="label">BinCam</div>
+          <div class="sub">the trash bin that posts your rubbish to Facebook</div>
+        </div>
+        <div class="item">
+          <div class="icon">🫖</div>
+          <div class="label">The Energy Teapot</div>
+          <div class="sub">glows red when the grid is overloaded</div>
+        </div>
+        <div class="item">
+          <div class="icon">🗳️</div>
+          <div class="label">Gamified voting</div>
+          <div class="sub">civic duty as a Foursquare check-in</div>
+        </div>
+      </div>
+      <div class="slide-num">06</div>
+    </div>
+    <div class="meta"><span class="num">06</span> · Examples · 2:20–2:45</div>
+  </div>
+
+  <!-- SLIDE 7 — Imperfection quote -->
+  <div class="slide-wrap">
+    <div class="slide">
+      <div>
+        <div class="quote">
+          <span class="openq">"</span>Imperfection, ambiguity, opacity, disorder, and the opportunity to err, to sin, to do the wrong thing: all of these are constitutive of human freedom."
+        </div>
+        <div class="attribution">Morozov, p. xv</div>
+      </div>
+      <div class="slide-num">07</div>
+    </div>
+    <div class="meta"><span class="num">07</span> · Quote: imperfection · 2:45–3:00</div>
+  </div>
+
+  <!-- SLIDE 8 — Three taglines -->
+  <div class="slide-wrap">
+    <div class="slide">
+      <div class="taglines">
+        <div class="tagline">"Creativity, solved."</div>
+        <div class="tagline">"We removed the boring parts of work."</div>
+        <div class="tagline">"Your team, but ten times faster."</div>
+      </div>
+      <div class="slide-num">08</div>
+    </div>
+    <div class="meta"><span class="num">08</span> · Three taglines · 3:30–3:50</div>
+  </div>
+
+  <!-- SLIDE 9 — Andreessen 1 -->
+  <div class="slide-wrap">
+    <div class="slide">
+      <div>
+        <div class="quote">
+          <span class="openq">"</span>We believe that there is no material problem, whether created by nature or by technology, that cannot be solved with more technology."
+        </div>
+        <div class="attribution">Marc Andreessen, <em>The Techno-Optimist Manifesto</em>, 2023</div>
+      </div>
+      <div class="slide-num">09</div>
+    </div>
+    <div class="meta"><span class="num">09</span> · Quote: Andreessen 1 · 3:50–4:05</div>
+  </div>
+
+  <!-- SLIDE 10 — Andreessen 2 -->
+  <div class="slide-wrap">
+    <div class="slide">
+      <div>
+        <div class="quote short">
+          <span class="openq">"</span>Give us a real world problem, and we can invent technology that will solve it."
+        </div>
+        <div class="attribution">Marc Andreessen, <em>The Techno-Optimist Manifesto</em>, 2023</div>
+      </div>
+      <div class="slide-num">10</div>
+    </div>
+    <div class="meta"><span class="num">10</span> · Quote: Andreessen 2 · 4:05–4:20</div>
+  </div>
+
+  <!-- SLIDE 11 — Three-line breakdown -->
+  <div class="slide-wrap">
+    <div class="slide">
+      <div class="num-list">
+        <div class="row">
+          <div class="n">1.</div>
+          <div class="text"><strong>Slow</strong><span class="arrow">→</span>faster blank page</div>
+        </div>
+        <div class="row">
+          <div class="n">2.</div>
+          <div class="text"><strong>Expensive</strong><span class="arrow">→</span>real, this is access</div>
+        </div>
+        <div class="row">
+          <div class="n">3.</div>
+          <div class="text"><strong>Blank page</strong><span class="arrow">→</span>a strategy problem<br><span style="margin-left: 0;">in a generator's costume</span></div>
+        </div>
+      </div>
+      <div class="slide-num">11</div>
+    </div>
+    <div class="meta"><span class="num">11</span> · Three-line breakdown · 4:30–6:00</div>
+  </div>
+
+  <!-- SLIDE 12 — Self-implication -->
+  <div class="slide-wrap">
+    <div class="slide">
+      <div class="self-card">
+        I have written<br>
+        <span class="accent">that pitch deck.</span>
+      </div>
+      <div class="slide-num">12</div>
+    </div>
+    <div class="meta"><span class="num">12</span> · Self-implication · 6:00–6:15</div>
+  </div>
+
+  <!-- SLIDE 13 — Critique labels -->
+  <div class="slide-wrap">
+    <div class="slide">
+      <div class="crit-list">
+        <div class="crit"><div class="bullet"></div><div class="label">Tone flattens everything</div></div>
+        <div class="crit"><div class="bullet"></div><div class="label">Underweights agency</div></div>
+        <div class="crit"><div class="bullet"></div><div class="label">Strong on diagnosis, thin on Tuesday</div></div>
+      </div>
+      <div class="slide-num">13</div>
+    </div>
+    <div class="meta"><span class="num">13</span> · Critique labels · 6:15–7:30</div>
+  </div>
+
+  <!-- SLIDE 14 — Californian Ideology -->
+  <div class="slide-wrap">
+    <div class="slide">
+      <div>
+        <div class="quote">
+          <span class="openq">"</span>a bizarre fusion of the cultural bohemianism of San Francisco with the hi-tech industries of Silicon Valley… in the digital utopia, everybody will be both hip and rich."
+        </div>
+        <div class="attribution">Barbrook & Cameron, <em>The Californian Ideology</em>, 1995</div>
+      </div>
+      <div class="slide-num">14</div>
+    </div>
+    <div class="meta"><span class="num">14</span> · Quote: Californian Ideology · 7:30–7:50</div>
+  </div>
+
+  <!-- SLIDE 15 — Zuboff lower third -->
+  <div class="slide-wrap lower-third">
+    <div class="slide">
+      <div class="frame-hint">[ camera frame · JL on screen ]</div>
+      <div class="lt-content">
+        <div class="quote">
+          Once a problem is reframed, the next move is to harvest it.
+        </div>
+        <div class="attribution">Zuboff, <em>Surveillance Capitalism</em>, 2019 (paraphrase)</div>
+      </div>
+      <div class="slide-num">15</div>
+    </div>
+    <div class="meta"><span class="num">15</span> · Lower-third: Zuboff · 7:50–8:00</div>
+  </div>
+
+  <!-- SLIDE 16 — Whiteboard -->
+  <div class="slide-wrap">
+    <div class="slide whiteboard-bg">
+      <div class="whiteboard">
+        Before you ask whether<br>
+        a tool is good,<br>
+        ask <span class="underline">whose problem</span><br>
+        this was.
+      </div>
+      <div class="slide-num">16</div>
+    </div>
+    <div class="meta"><span class="num">16</span> · Whiteboard thesis · 8:00–8:30</div>
+  </div>
+
+  <!-- SLIDE 17 — Roadmap kill -->
+  <div class="slide-wrap">
+    <div class="slide">
+      <div class="roadmap">
+        <div class="killed">Tone of Voice Generator</div>
+        <div class="replaced">15-min strategy conversation</div>
+      </div>
+      <div class="slide-num">17</div>
+    </div>
+    <div class="meta"><span class="num">17</span> · Roadmap kill · 8:30–9:15</div>
+  </div>
+
+  <!-- SLIDE 18 — Closing -->
+  <div class="slide-wrap">
+    <div class="slide closing">
+      <div>
+        <div class="quote short" style="text-align: center;">
+          <span class="openq">"</span>Technology is neither good nor bad; nor is it neutral."
+        </div>
+        <div class="attribution" style="text-align: center;">Melvin Kranzberg, 1986</div>
+      </div>
+      <div class="slide-num">18</div>
+    </div>
+    <div class="meta"><span class="num">18</span> · Closing card · 9:50–10:00</div>
+  </div>
+
+</div>
+
+<script>
+  const deck = document.getElementById('deck');
+  const counter = document.getElementById('counter');
+  const slides = document.querySelectorAll('.slide-wrap');
+  let mode = 'view';
+  let current = 0;
+
+  function toggleMode() {
+    mode = mode === 'view' ? 'present' : 'view';
+    deck.classList.toggle('present', mode === 'present');
+    if (mode === 'present') showSlide(current);
+    else { slides.forEach(s => s.classList.remove('active')); counter.textContent = 'View all'; }
+  }
+  function showSlide(i) {
+    current = (i + slides.length) % slides.length;
+    slides.forEach((s, idx) => s.classList.toggle('active', idx === current));
+    counter.textContent = `${current + 1} / ${slides.length}`;
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && mode === 'present') toggleMode();
+    if (mode !== 'present') return;
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); showSlide(current + 1); }
+    if (e.key === 'ArrowLeft') showSlide(current - 1);
+  });
+</script>
+
+</body>
+</html>

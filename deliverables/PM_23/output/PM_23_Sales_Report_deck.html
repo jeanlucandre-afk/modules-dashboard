@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Still — Sales Enablement Deck (PM_23)</title>
+<style>
+  @page { size: 297mm 167mm; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: #1F1410; color: #1F1410; }
+  .slide {
+    width: 297mm; height: 167mm; padding: 18mm 22mm;
+    background: #FAF6EE; page-break-after: always; position: relative;
+    display: flex; flex-direction: column;
+  }
+  .slide::after {
+    content: attr(data-num) " / 12 · Still · PM_23 Sales Enablement";
+    position: absolute; bottom: 8mm; right: 22mm;
+    font-size: 10pt; color: #7A726B;
+  }
+  .slide.cover { background: #1F1410; color: #FAF6EE; justify-content: center; }
+  .slide.cover h1 { color: #F39A19; font-size: 64pt; line-height: 1; letter-spacing: -0.02em; }
+  .slide.cover .sub { font-size: 22pt; margin-top: 12mm; font-weight: 300; }
+  .slide.cover .meta { font-size: 12pt; margin-top: 18mm; color: #7A726B; }
+  h2 { font-size: 28pt; color: #C7770A; margin-bottom: 6mm; line-height: 1.05; letter-spacing: -0.01em; }
+  h3 { font-size: 14pt; color: #1F1410; margin: 8mm 0 3mm; }
+  p, li { font-size: 13pt; line-height: 1.4; margin-bottom: 4mm; }
+  ul { padding-left: 6mm; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6mm; }
+  .card { background: white; padding: 6mm; border-left: 4mm solid #F39A19; }
+  .card h4 { font-size: 12pt; color: #C7770A; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3mm; }
+  .card p { font-size: 11pt; }
+  .label { font-size: 10pt; color: #7A726B; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2mm; }
+  .big { font-size: 56pt; color: #F39A19; line-height: 1; font-weight: 700; }
+  .quote { font-size: 18pt; font-style: italic; color: #1F1410; padding: 6mm; border-left: 4mm solid #F39A19; background: white; line-height: 1.4; }
+  .funnel-row { display: grid; grid-template-columns: 60mm 1fr 30mm; gap: 4mm; align-items: center; padding: 3mm 0; border-bottom: 1px solid #DCD3C6; }
+  .funnel-row .stage { font-weight: 600; font-size: 12pt; }
+  .funnel-row .bar { background: #F39A19; height: 6mm; }
+  .funnel-row .num { text-align: right; font-size: 12pt; color: #1F1410; font-weight: 600; }
+  .email-template {
+    background: white; padding: 8mm; font-family: 'Iowan Old Style', Georgia, serif;
+    font-size: 11pt; line-height: 1.5; border: 1px solid #DCD3C6;
+  }
+  .email-template .field { color: #7A726B; font-size: 9pt; text-transform: uppercase; }
+  table { width: 100%; border-collapse: collapse; font-size: 11pt; }
+  th, td { text-align: left; padding: 3mm 4mm; border-bottom: 1px solid #DCD3C6; }
+  th { background: #1F1410; color: #FAF6EE; font-size: 10pt; text-transform: uppercase; letter-spacing: 0.06em; }
+  .pill { display: inline-block; padding: 1mm 3mm; background: #F39A19; color: #1F1410; font-size: 9pt; font-weight: 600; border-radius: 2mm; margin-right: 2mm; }
+  .kpi { text-align: center; padding: 8mm 4mm; background: white; border-top: 4mm solid #F39A19; }
+  .kpi .num { font-size: 36pt; color: #1F1410; font-weight: 700; line-height: 1; }
+  .kpi .lbl { font-size: 11pt; color: #7A726B; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 3mm; }
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1 -->
+<section class="slide cover" data-num="1">
+  <h1>STILL</h1>
+  <div class="sub">B2B Sales Enablement Deck<br>Cold Outreach Playbook · DACH SMB</div>
+  <div class="meta">PM_23 / BM_23 · Product Marketing &amp; Sales · Roland Fassauer<br>Jean-Luc Andre Navarro · CODE University · SS26 · 4 May 2026</div>
+</section>
+
+<!-- SLIDE 2 — User persona -->
+<section class="slide" data-num="2">
+  <h2>User persona: the marketing operator</h2>
+  <div class="grid2">
+    <div>
+      <div class="label">Who they are</div>
+      <p><strong>Lara, 32.</strong> Marketing lead at a 22-person B2B SaaS in Berlin. Reports to a founder who is not technical and does not want to be. Owns paid, content, and outreach. Has a €4k–€8k monthly Meta budget she defends every quarter.</p>
+      <div class="label">A typical day</div>
+      <ul>
+        <li>09:00 — opens Meta Ads Manager, hunts for the worst-performing ad set</li>
+        <li>11:00 — reviews booked-call calendar with the AE</li>
+        <li>14:00 — debates a Notion doc on next month's content cadence</li>
+        <li>18:00 — closes laptop without a clear answer to "is the budget paying off"</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card"><h4>Daily pain</h4><p>Five tabs open, three tools, no single read on whether the budget is working.</p></div>
+      <div class="card" style="margin-top:4mm;"><h4>Weekly pain</h4><p>The founder asks "what's the ROI" on Monday. She has no defensible answer until Thursday.</p></div>
+      <div class="card" style="margin-top:4mm;"><h4>Quarterly pain</h4><p>Budget review. She has to justify spend that has no clean attribution to revenue.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 3 — Buyer persona -->
+<section class="slide" data-num="3">
+  <h2>Buyer persona: the founder who signs</h2>
+  <div class="grid2">
+    <div>
+      <div class="label">Who they are</div>
+      <p><strong>Tomas, 41.</strong> Solo founder or founder-CEO of a 10–40 person SMB (B2B SaaS or marketing agency). Burned €2,000+ on an agency that delivered "a PDF and two Instagram ads". Now runs marketing himself or through one hire. Buying authority: full.</p>
+      <div class="label">What he reads before he buys</div>
+      <ul>
+        <li>Founder-led short-form video (this is where Still found him)</li>
+        <li>Two or three competitor reviews on G2 / Capterra</li>
+        <li>One LinkedIn post from someone he trusts</li>
+        <li>The Still landing page and its three social-proof logos</li>
+      </ul>
+    </div>
+    <div>
+      <div class="quote">"I don't need another dashboard. I need to know if the €4,000 I just spent did anything."</div>
+      <div class="card" style="margin-top:6mm;"><h4>Decision criteria (in order)</h4><p>1. Is there a real human I can talk to in 20 minutes?<br>2. Can I see a current customer's setup?<br>3. Is the contract month-to-month?</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 4 — Pains + JTBD -->
+<section class="slide" data-num="4">
+  <h2>Pains and jobs to be done</h2>
+  <div class="grid3">
+    <div class="card"><h4>Pain 1 — Attribution gap</h4><p>56% of SMB owners cannot reliably attribute revenue to marketing spend (Salesforce, 2024).</p></div>
+    <div class="card"><h4>Pain 2 — Tool sprawl</h4><p>Average SMB marketing team uses 5+ tools to run a single campaign. Context switches kill speed.</p></div>
+    <div class="card"><h4>Pain 3 — No marketing hire</h4><p>Founder is the marketing team. Tooling has to assume the operator is busy and not specialised.</p></div>
+  </div>
+  <h3 style="margin-top:10mm;">Jobs to be done</h3>
+  <ul>
+    <li><strong>Functional:</strong> "When I check on Monday morning, give me one number that tells me if last week's spend worked."</li>
+    <li><strong>Emotional:</strong> "Make me look like I know what I'm doing in front of the founder."</li>
+    <li><strong>Social:</strong> "Help me defend the budget at the next review without a slide deck."</li>
+  </ul>
+</section>
+
+<!-- SLIDE 5 — Value-based proposition -->
+<section class="slide" data-num="5">
+  <h2>Value-based proposition</h2>
+  <div class="grid2" style="grid-template-columns: 1fr 1.4fr; gap: 12mm;">
+    <div>
+      <div class="label">Core promise</div>
+      <p style="font-size: 22pt; line-height: 1.2; color: #1F1410;"><strong>Still gives an SMB founder one weekly read on whether marketing spend is working, without hiring a marketing team.</strong></p>
+    </div>
+    <div>
+      <div class="label">Outcomes (not features)</div>
+      <ul>
+        <li><strong>Defendable budget.</strong> A founder can answer "is it working" in one number, on demand.</li>
+        <li><strong>20 hours of operator time back per month.</strong> The reporting work that filled Friday afternoons happens automatically.</li>
+        <li><strong>Faster kill decisions.</strong> Bad campaigns get cut on day 3 instead of day 14, which compounds across the year.</li>
+        <li><strong>One source of truth for the team.</strong> No more "which spreadsheet is current".</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 6 — Cold outreach: subject lines -->
+<section class="slide" data-num="6">
+  <h2>Cold outreach · Subject line bank</h2>
+  <p>Three tested patterns, ranked by reply rate from the v3 sprint (n = 84 sends, 25% reply rate).</p>
+  <table style="margin-top:6mm;">
+    <thead><tr><th>#</th><th>Subject line</th><th>Pattern</th><th>Reply rate</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>quick question on {{Company}}'s Meta spend</td><td>Curiosity + specific</td><td>32%</td></tr>
+      <tr><td>2</td><td>{{FirstName}} — saw your post on the agency burn</td><td>Personal observation</td><td>28%</td></tr>
+      <tr><td>3</td><td>one number that would change your Monday standup</td><td>Outcome tease</td><td>21%</td></tr>
+      <tr><td>4</td><td>idea for the {{Company}} marketing review</td><td>Helpful, low-pressure</td><td>17%</td></tr>
+      <tr><td>5</td><td>3 things I'd test if I ran {{Company}}'s ads</td><td>Specific value first</td><td>14%</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:4mm; color:#7A726B; font-size:11pt;"><em>Rule: never use the word "demo" in the subject. Use "20-minute call" or "look at this together" instead.</em></p>
+</section>
+
+<!-- SLIDE 7 — Email body -->
+<section class="slide" data-num="7">
+  <h2>Cold outreach · Email body (template A)</h2>
+  <div class="email-template">
+    <div class="field">SUBJECT</div>
+    <p>quick question on {{Company}}'s Meta spend</p>
+    <div class="field">BODY</div>
+    <p>Hi {{FirstName}},</p>
+    <p>I saw {{Company}} is running ads in {{Region}} and that you've been the one defending the budget (LinkedIn post from {{date}}). I run Still, a marketing operating system for SMBs that gives you one weekly read on whether the spend is working.</p>
+    <p>I am not trying to sell you a dashboard. I'm trying to find out whether the founder-CMO setup at {{Company}} has the same attribution problem we're seeing at meetDWIGHT and one Berlin agency, both of whom are paying for Still right now.</p>
+    <p>If yes, would 20 minutes next Tuesday or Wednesday work? I'll show you their setup, no slides.</p>
+    <p>Jean-Luc<br>Mango Lab → Still<br>mango-lab.de</p>
+  </div>
+  <p style="margin-top:4mm; color:#7A726B; font-size:11pt;">~ 95 words. Three named entities, one specific ask, one social-proof anchor, no marketing language.</p>
+</section>
+
+<!-- SLIDE 8 — Follow-up #1 -->
+<section class="slide" data-num="8">
+  <h2>Cold outreach · Follow-up #1 (Day 3)</h2>
+  <div class="email-template">
+    <div class="field">SUBJECT</div>
+    <p>re: quick question on {{Company}}'s Meta spend</p>
+    <div class="field">BODY</div>
+    <p>{{FirstName}},</p>
+    <p>Bumping this once. The reason I led with attribution and not the product is that the SMB founders I've spoken to this month all said the same thing: they know the spend is happening, they just can't tell anyone whether it's working.</p>
+    <p>If that's not the situation at {{Company}}, that's useful for me to know too, and I'll stop pinging you. If it is, 20 minutes is the whole ask.</p>
+    <p>Jean-Luc</p>
+  </div>
+  <p style="margin-top:4mm; color:#7A726B; font-size:11pt;">~ 60 words. Names the original ask, gives an opt-out, no guilt, no urgency.</p>
+</section>
+
+<!-- SLIDE 9 — Follow-up #2 -->
+<section class="slide" data-num="9">
+  <h2>Cold outreach · Follow-up #2 (Day 7) · breakup email</h2>
+  <div class="email-template">
+    <div class="field">SUBJECT</div>
+    <p>closing the loop, {{FirstName}}</p>
+    <div class="field">BODY</div>
+    <p>{{FirstName}},</p>
+    <p>Last note. I'm closing the file on {{Company}} for now. If the attribution thing ever does become a Monday-morning problem, the door is open, just reply to this thread.</p>
+    <p>One thing that might be useful regardless: <a href="https://mango-lab.de/">https://mango-lab.de/</a> has the exact dashboard layout we use with meetDWIGHT, you can take it and rebuild it in a spreadsheet.</p>
+    <p>Wishing you a good quarter.<br>Jean-Luc</p>
+  </div>
+  <p style="margin-top:4mm; color:#7A726B; font-size:11pt;">~ 55 words. Gives away value on exit. The "breakup" email has the highest reply rate of the sequence in our v3 data (12%) because it removes the implicit pressure.</p>
+</section>
+
+<!-- SLIDE 10 — Sample sales funnel -->
+<section class="slide" data-num="10">
+  <h2>Sample sales funnel · Qualified leads in flight</h2>
+  <div style="margin-top:4mm;">
+    <div class="funnel-row"><div class="stage">Cold list (DACH SMB)</div><div class="bar" style="width:100%;"></div><div class="num">1,000</div></div>
+    <div class="funnel-row"><div class="stage">Sent (sequence A)</div><div class="bar" style="width:84%;"></div><div class="num">840</div></div>
+    <div class="funnel-row"><div class="stage">Replied</div><div class="bar" style="width:25%;"></div><div class="num">210</div></div>
+    <div class="funnel-row"><div class="stage">Booked call</div><div class="bar" style="width:9%;"></div><div class="num">76</div></div>
+    <div class="funnel-row"><div class="stage">Showed up</div><div class="bar" style="width:7%;"></div><div class="num">61</div></div>
+    <div class="funnel-row"><div class="stage">Qualified (BANT pass)</div><div class="bar" style="width:4%;"></div><div class="num">32</div></div>
+    <div class="funnel-row"><div class="stage">Closed (paying)</div><div class="bar" style="width:1%;"></div><div class="num">9</div></div>
+  </div>
+  <p style="margin-top:6mm; color:#7A726B; font-size:11pt;"><em>Numbers projected from the v3 warm-outreach pilot (25% reply, 9% call book) extrapolated to a 1,000-name DACH SMB cold list. Real run scheduled for the post-sprint window.</em></p>
+</section>
+
+<!-- SLIDE 11 — Qualification (BANT) -->
+<section class="slide" data-num="11">
+  <h2>Qualification criteria · BANT</h2>
+  <div class="grid2">
+    <div>
+      <div class="card"><h4>B — Budget</h4><p>≥ €2,000/month already being spent on marketing today (paid, agency, or hire). If they're not spending, they're not buying.</p></div>
+      <div class="card" style="margin-top:4mm;"><h4>A — Authority</h4><p>Founder, CMO, or marketing lead with sign-off. We disqualify if a procurement gate is mentioned in the first call.</p></div>
+    </div>
+    <div>
+      <div class="card"><h4>N — Need</h4><p>They can describe the attribution gap in their own words within 30 seconds. If they can't, the pain isn't acute enough yet.</p></div>
+      <div class="card" style="margin-top:4mm;"><h4>T — Timeline</h4><p>They want a setup within 60 days. We park anything &gt; 90 days into the nurture sequence.</p></div>
+    </div>
+  </div>
+  <p style="margin-top:6mm;"><em>Disqualification is a feature.</em> A 4-pass BANT call should disqualify roughly 40% of booked calls in the first 5 minutes. That keeps the closer's calendar honest and the pipeline forecast trustworthy.</p>
+</section>
+
+<!-- SLIDE 12 — Sales KPIs -->
+<section class="slide" data-num="12">
+  <h2>KPIs and success metrics</h2>
+  <div class="grid3">
+    <div class="kpi"><div class="num">25%</div><div class="lbl">Reply rate</div></div>
+    <div class="kpi"><div class="num">9%</div><div class="lbl">Call book rate</div></div>
+    <div class="kpi"><div class="num">80%</div><div class="lbl">Show-up rate</div></div>
+  </div>
+  <div class="grid3" style="margin-top:6mm;">
+    <div class="kpi"><div class="num">€42</div><div class="lbl">CAC (warm)</div></div>
+    <div class="kpi"><div class="num">€199/mo</div><div class="lbl">ARPU (target)</div></div>
+    <div class="kpi"><div class="num">14 mo</div><div class="lbl">Payback (target)</div></div>
+  </div>
+  <p style="margin-top:8mm; color:#7A726B; font-size:11pt;"><em>Targets above are taken from the v3 warm-outreach pilot (PM_22 validation work) and the LTV / pricing model in the unit economics workbook. Cold-outreach targets will be re-baselined after the first 1,000-name run.</em></p>
+</section>
+
+</body>
+</html>
