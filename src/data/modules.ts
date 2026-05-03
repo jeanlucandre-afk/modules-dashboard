@@ -343,7 +343,7 @@ export const data: DashboardData = {
       ],
       level3Plan: [
         { step: 'Mandatory check-in with Roland', why: 'No check-in = assessment incomplete', done: true },
-        { step: 'Show up to consulting sessions (track attendance)', why: 'Active participation is mandatory', done: null },
+        { step: 'Show up to consulting sessions (track attendance)', why: 'Active participation is mandatory', done: true },
         { step: 'Marketing Report — academic, APA citations (no citations = auto-fail)', why: 'Hard rule on PM_23 marking grid', done: true },
         { step: 'Sales Report — persona + buyer persona + value prop + cold-outreach template + sample funnel', why: 'Cold outreach locked', done: true },
         { step: 'Run the €400 Meta Ads campaign and analyze results', why: 'Post-campaign analysis feeds the Marketing Report', done: true },
@@ -367,7 +367,7 @@ export const data: DashboardData = {
         { label: 'Sales — assembled as Word doc (replaces deck)',        done: true },
         { label: 'Roland approves the €400 budget',                      done: true },
         { label: 'Roland mandatory check-in completed',                  done: true },
-        { label: 'Consulting sessions attended',                         done: null },
+        { label: 'Consulting sessions attended',                         done: true },
         { label: 'Campaign launched (D1)',                               done: true },
         { label: 'D7 building-in-public LinkedIn post',                  done: null },
         { label: 'Campaign in flight (€250.80/€400 spent at hand-in)',   done: true },
