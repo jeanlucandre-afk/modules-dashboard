@@ -630,7 +630,7 @@ export const data: DashboardData = {
         'Specifics set by the lecturer (Fabian) — exact spec must be confirmed',
       ],
       deliverables: [
-        { name: '10-min video essay on Morozov, To Save Everything, Click Here (2013)', status: 'in-progress', notes: 'Script + slides finalised 2026-05-03. ~2,200 spoken words, 18-slide editorial deck (Instrument Serif + Manrope, cream/dark, oxblood accent), per-slide animations. All eight source quotes verified. Five critics triangulated (Brabazon, Nachtwey & Seidl, Manjoo, Payne, LibrarianShipwreck). Reading view at video_essay_script.html, deck at video_essay_slides.html. Records today; submits MP4 link by 2026-05-04.' },
+        { name: '10-min video essay on Morozov, To Save Everything, Click Here (2013)', status: 'inprogress', notes: 'Script + slides finalised 2026-05-03. ~2,200 spoken words, 18-slide editorial deck (Instrument Serif + Manrope, cream/dark, oxblood accent), per-slide animations. All eight source quotes verified. Five critics triangulated (Brabazon, Nachtwey & Seidl, Manjoo, Payne, LibrarianShipwreck). Reading view at video_essay_script.html, deck at video_essay_slides.html. Records today; submits MP4 link by 2026-05-04.' },
       ],
       level3Plan: [
         { step: 'Confirm exact assessment format from Fabian (presentation vs video essay, length, format)', why: 'Confirmed: 10-minute video essay, MP4 link, graded on understanding + critique + own opinion connected to STS themes', done: true },
