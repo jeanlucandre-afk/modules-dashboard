@@ -61,21 +61,36 @@ def script_block(text):
     p.paragraph_format.left_indent = Cm(0.8); p.paragraph_format.right_indent = Cm(0.8)
     p.paragraph_format.space_before = Pt(4); p.paragraph_format.space_after = Pt(4)
     r = p.add_run(text); r.font.name = "Courier New"; r.font.size = Pt(10)
+from docx.oxml.ns import qn
+from docx.oxml import OxmlElement
+def _shade_cell(cell, hex_fill):
+    tcPr = cell._tc.get_or_add_tcPr()
+    shd = OxmlElement('w:shd'); shd.set(qn('w:val'), 'clear'); shd.set(qn('w:color'), 'auto'); shd.set(qn('w:fill'), hex_fill)
+    tcPr.append(shd)
+def _set_cell_borders(cell, color="C7770A"):
+    tcPr = cell._tc.get_or_add_tcPr()
+    tcBorders = OxmlElement('w:tcBorders')
+    for edge in ('top','left','bottom','right'):
+        b = OxmlElement(f'w:{edge}'); b.set(qn('w:val'), 'single'); b.set(qn('w:sz'), '6'); b.set(qn('w:color'), color)
+        tcBorders.append(b)
+    tcPr.append(tcBorders)
 def table(headers, rows, widths_cm=None):
     t = doc.add_table(rows=1+len(rows), cols=len(headers))
-    try: t.style = "Light Grid Accent 1"
-    except KeyError:
-        try: t.style = "Table Grid"
-        except KeyError: pass
+    HEADER_FILL = "C7770A"; ZEBRA_FILL = "FAF6EE"
     for i, h in enumerate(headers):
         cell = t.rows[0].cells[i]; cell.text = h
+        _shade_cell(cell, HEADER_FILL); _set_cell_borders(cell, "1F1410")
         for p in cell.paragraphs:
-            for r in p.runs: r.font.bold = True; r.font.size = Pt(10)
+            for r in p.runs:
+                r.font.bold = True; r.font.size = Pt(10); r.font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
     for ri, row in enumerate(rows):
         for ci, val in enumerate(row):
-            t.rows[ri+1].cells[ci].text = str(val)
-            for p in t.rows[ri+1].cells[ci].paragraphs:
-                for r in p.runs: r.font.size = Pt(10)
+            cell = t.rows[ri+1].cells[ci]; cell.text = str(val)
+            if ri % 2 == 1: _shade_cell(cell, ZEBRA_FILL)
+            _set_cell_borders(cell, "C7770A")
+            for p in cell.paragraphs:
+                for r in p.runs:
+                    r.font.size = Pt(10); r.font.color.rgb = RGBColor(0x1F, 0x14, 0x10)
     if widths_cm:
         for ci, w in enumerate(widths_cm):
             for row in t.rows: row.cells[ci].width = Cm(w)
