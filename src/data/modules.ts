@@ -83,9 +83,8 @@ export const data: DashboardData = {
 
   todayFocus: [
     'PM_16 — SUBMITTED ✓ (2026-05-02)',
-    'PM_22 — SUBMITTED ✓ (2026-05-03) — deck + Better Products + reflection essay all done',
-    'PM_23 — SUBMITTED ✓ (2026-05-03): Marketing Report + Sales Report + Leveling-up Report all uploaded via Google Form. CODE Hand-in template applied, every number traced to /sources/.',
-    'PM_23 — NEXT: book oral-exam check-in with Roland + run a self-review session to rehearse walking through the 3 documents',
+    'PM_22 — SUBMITTED ✓ (2026-05-03) + oral exam BOOKED — next: 25-min mock (10 talk + 15 Q&A) + drill 3 Qs per knowledge area',
+    'PM_23 — SUBMITTED ✓ (2026-05-03) + oral exam BOOKED — next: 25-min mock walk-through of all 3 reports + drill the campaign numbers cold (€250.80 / 22,695 imp / 45 leads / CPL €5.57)',
     'PM_23 — Roland check-in COMPLETED ✓ (steer: run Meta ads to validate)',
     'PM_23 — Campaign result (snapshot at hand-in, still in flight): €250.80 of €400 spent / 22,695 imp / 10,472 reach / 45 leads / CPL €5.57 (5.2x better than €29 benchmark)',
     'PM_18 — SUBMITTED ✓ (2026-05-03): Portfolio PDF uploaded via Google Form. All 8 Qs + Still UI screenshots + 6 multi-brand sample ads + runnable prompt verified live on gpt-image-1 + gpt-image-2.',
@@ -170,13 +169,13 @@ export const data: DashboardData = {
           ],
         },
         {
-          name: 'Oral exam (15-min Q&A)',
-          status: 'todo',
-          notes: 'Click to expand. Synthesizes findings across the 6 knowledge areas',
+          name: 'Oral exam — 25 min (10 talk + 15 Q&A)',
+          status: 'undecided',
+          notes: 'BOOKED ✓. Talk delivered. Q&A prep tracked in POST-SUBMISSION checklist below.',
           requirements: [
-            '15 minutes of Q&A from Swantje',
-            'Synthesizes findings — be ready to compare/contrast across knowledge areas',
-            'Defend choices made (why this beachhead, why these personas, etc.)',
+            '25 minutes total: 10-min Better Products talk + 15-min Q&A from Swantje',
+            'Synthesises findings — be ready to compare/contrast across the 6 knowledge areas',
+            'Defend choices made (why this beachhead, why these personas, why this MVP cut)',
           ],
           subTodos: [
             { label: 'Mock Q&A: drill each KA with 3 likely questions', done: false },
@@ -230,9 +229,17 @@ export const data: DashboardData = {
         // Level 3 add-on
         { label: 'L3 — Reflection essay drafted',                          done: true  },
         { label: 'L3 — Reflection essay reviewed for clarity + depth',     done: true  },
+        // POST-SUBMISSION — 25-min oral exam prep (exam booked)
+        { label: 'POST-SUB — Re-read deck end-to-end, mark sections likely to draw questions', done: false },
+        { label: 'POST-SUB — Drill ≥3 likely questions per knowledge area (18 Qs total)',      done: false },
+        { label: 'POST-SUB — Prep synthesis answers: how the 6 KAs connect to each other',     done: false },
+        { label: 'POST-SUB — Prep "what would you do differently" reflection answer',          done: false },
+        { label: 'POST-SUB — Prep "why this beachhead / why these personas" defence',          done: false },
+        { label: 'POST-SUB — Run a 25-min mock (10 talk + 15 Q&A) with a timer',               done: false },
+        { label: 'POST-SUB — Practice 30-second versions of each section',                     done: false },
       ],
-      nextAction: 'SUBMITTED ✓ — prep 25-min oral exam Q&A when date is confirmed',
-      notes: 'COMPLETE (2026-05-03). Deck submitted via Google Form. Better Products delivered. Reflection Essay done. Oral exam date TBC with Swantje.',
+      nextAction: 'Hand-in done + oral booked. Run a 25-min mock (10 talk + 15 Q&A) and drill 3 Qs per knowledge area before the exam.',
+      notes: 'SUBMITTED ✓ (2026-05-03). Deck submitted via Google Form. Better Products delivered. Reflection Essay done. Oral exam BOOKED — prep tracked at bottom of checklist.',
     },
 
     /* ============================================================
@@ -374,10 +381,16 @@ export const data: DashboardData = {
         { label: 'Class analysis report drafted',                        done: true },
         { label: 'Leveling-up report drafted (≤3,000 words, academic)',  done: true },
         { label: 'Submitted via Google Form',                            done: true },
-        { label: 'POST-SUBMISSION — book oral-exam check-in with Roland',                                  done: false },
-        { label: 'POST-SUBMISSION — self-review session: rehearse the talk-through of the 3 documents',    done: false },
+        // POST-SUBMISSION — 25-min oral exam prep (exam booked)
+        { label: 'POST-SUB — Re-read Marketing + Sales + Leveling-up Reports end-to-end',                  done: false },
+        { label: 'POST-SUB — Walk-through script: 3-min summary of each report (9 min spoken)',             done: false },
+        { label: 'POST-SUB — Drill defence Qs: why dual-channel? why Mom Test? why agency-first wedge?',    done: false },
+        { label: 'POST-SUB — Drill numbers cold: €250.80 / 22,695 imp / 45 leads / CPL €5.57 / 5.2× bench', done: false },
+        { label: 'POST-SUB — Prep "what worked / what didn\'t / what next" reflection (campaign in flight)', done: false },
+        { label: 'POST-SUB — Prep landing-page-bottleneck answer (Lovable: 257 visitors / 95% bounce)',     done: false },
+        { label: 'POST-SUB — Run a 25-min mock with timer (Marketing 10 + Sales 8 + Leveling-up 7)',        done: false },
       ],
-      nextAction: 'Submission done. Next: book the oral-exam check-in with Roland and run a self-review session to rehearse walking through the 3 documents.',
+      nextAction: 'Submission done + oral booked. Run a 25-min mock walk-through and drill the campaign numbers cold before the exam.',
       notes: 'SUBMITTED ✓ (2026-05-03). All 3 deliverables uploaded via Google Form. Marketing Report .docx (~6,000 words, ~22 pp, 9 visuals + 4 proof screenshots in Appendix A, 25 APA refs). Sales Report .docx (~2,500 words, salesman-ready playbook with Lara/Tomas personas, copy-paste email scripts, LinkedIn cadence, BANT+pain qualification, 8-metric KPI dashboard). Leveling-up Report .docx (~2,200 words, 13 APA refs). All use CODE Hand-in template; every number in /sources/ folder. Roland check-in done. CAMPAIGN at hand-in (still in flight): €250.80 of €400 spent over first 6 days, 22,695 imp / 10,472 reach / 45 leads / CPL €5.57 (5.2× better than €29 benchmark). Lovable site analytics: 257 visitors / 95% bounce.',
     },
 
