@@ -22,7 +22,33 @@ SPEND = T["spend"]; LEADS = T["leads"]; CLK = T["link_clicks"]; IMP = T["impress
 CPL = SPEND / LEADS; CTR = CLK / IMP * 100
 DAY_MIN = T["day_min"]; DAY_MAX = T["day_max"]; DAY_N = T["days_count"]
 
-doc = Document()
+TEMPLATE = ROOT / "inputs" / "Hand-in_Template.docx"
+doc = Document(str(TEMPLATE))
+
+COVER_FIELDS = {
+    "Title": "Leveling-up Report — Three Claims for Level 3 in PM_23",
+    "[optional description]": "A companion document to the Marketing and Sales Reports submitted for PM_23.",
+    "[Module Name (if different title)]": "PM_23 / BM_23 — Product Marketing and Sales",
+    "Module Coordinator: [Module Coordinator Name]": "Module Coordinator: Roland Fassauer",
+    "Learning Unit: [LU Name] by [LU Organizer Name]": "Learning Unit: Leveling-up Report by Roland Fassauer",
+    "[Spring/Fall] Semester 202?": "Spring Semester 2026",
+    "[number] words": "~2,200 words (cap 3,000)",
+    "Student Name": "Jean-Luc Andre Navarro",
+    "[student email]": "jean-luc.navarro@code.berlin",
+    "Hand-in Date": "Hand-in Date: 4 May 2026",
+}
+for p in doc.paragraphs:
+    for needle, replacement in COVER_FIELDS.items():
+        if needle in p.text:
+            for r in p.runs:
+                if needle in r.text:
+                    r.text = r.text.replace(needle, replacement)
+            if needle in p.text:
+                full = p.text.replace(needle, replacement)
+                for r in p.runs: r.text = ""
+                if p.runs: p.runs[0].text = full
+                else: p.add_run(full)
+
 style = doc.styles["Normal"]
 style.font.name = "Calibri"; style.font.size = Pt(11)
 style.paragraph_format.space_after = Pt(6); style.paragraph_format.line_spacing = 1.4
@@ -33,17 +59,12 @@ for level, size in [(1, 16), (2, 13)]:
     s = doc.styles[f"Heading {level}"]
     s.font.name = "Calibri"; s.font.size = Pt(size); s.font.bold = True
     s.font.color.rgb = RGBColor(0x1F, 0x14, 0x10)
+doc.add_page_break()
 
 def H1(t): return doc.add_heading(t, level=1)
 def H2(t): return doc.add_heading(t, level=2)
 def P(t):
     p = doc.add_paragraph(); p.add_run(t); return p
-
-# Cover
-p = doc.add_paragraph()
-r = p.add_run("PM_23 / BM_23 · Product Marketing and Sales\n"); r.bold = True; r.font.size = Pt(12)
-p.add_run("Leveling-up Report\n").font.size = Pt(20)
-p.add_run("Jean-Luc Andre Navarro · CODE University · 4 May 2026\n").font.size = Pt(11)
 
 H1("Introduction")
 P(

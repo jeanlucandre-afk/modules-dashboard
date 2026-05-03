@@ -21,7 +21,34 @@ SPEND = T["spend"]; IMP = T["impressions"]; CLK = T["link_clicks"]; LEADS = T["l
 CPL = SPEND / LEADS; CTR = CLK / IMP * 100; CPC = SPEND / CLK; CPM = SPEND / IMP * 1000
 DAY_MIN = T["day_min"]; DAY_MAX = T["day_max"]; DAY_N = T["days_count"]
 
-doc = Document()
+# Open the CODE University Hand-in Template and fill in the cover-page placeholders.
+TEMPLATE = ROOT / "inputs" / "Hand-in_Template.docx"
+doc = Document(str(TEMPLATE))
+
+COVER_FIELDS = {
+    "Title": "ENGINE_001 — A Dual-Channel Acquisition Sprint for Mango Lab and Still",
+    "[optional description]": "An in-flight paid and organic Meta sprint, reported at the 6-day mark.",
+    "[Module Name (if different title)]": "PM_23 / BM_23 — Product Marketing and Sales",
+    "Module Coordinator: [Module Coordinator Name]": "Module Coordinator: Roland Fassauer",
+    "Learning Unit: [LU Name] by [LU Organizer Name]": "Learning Unit: Marketing Report by Roland Fassauer",
+    "[Spring/Fall] Semester 202?": "Spring Semester 2026",
+    "[number] words": f"~5,800 words",
+    "Student Name": "Jean-Luc Andre Navarro",
+    "[student email]": "jean-luc.navarro@code.berlin",
+    "Hand-in Date": "Hand-in Date: 4 May 2026",
+}
+for p in doc.paragraphs:
+    for needle, replacement in COVER_FIELDS.items():
+        if needle in p.text:
+            for r in p.runs:
+                if needle in r.text:
+                    r.text = r.text.replace(needle, replacement)
+            if needle in p.text:
+                full = p.text.replace(needle, replacement)
+                for r in p.runs: r.text = ""
+                if p.runs: p.runs[0].text = full
+                else: p.add_run(full)
+
 style = doc.styles["Normal"]
 style.font.name = "Calibri"; style.font.size = Pt(11)
 style.paragraph_format.space_after = Pt(6); style.paragraph_format.line_spacing = 1.25
@@ -32,6 +59,7 @@ for level, size, bold in [(1, 20, True), (2, 14, True), (3, 12, True)]:
 for section in doc.sections:
     section.top_margin = Cm(2.0); section.bottom_margin = Cm(2.0)
     section.left_margin = Cm(2.2); section.right_margin = Cm(2.2)
+doc.add_page_break()
 
 def H1(t, page_break_before=False):
     if page_break_before: doc.add_page_break()
@@ -53,9 +81,16 @@ def img(path, width_cm=15.5, caption=None):
         cp = doc.add_paragraph(); cp.alignment = WD_ALIGN_PARAGRAPH.CENTER
         r = cp.add_run(caption); r.italic = True; r.font.size = Pt(10); r.font.color.rgb = RGBColor(0x55,0x55,0x55)
 def bullets(items):
-    for it in items: doc.add_paragraph(it, style="List Bullet")
+    for it in items:
+        p = doc.add_paragraph()
+        p.paragraph_format.left_indent = Cm(0.6); p.paragraph_format.first_line_indent = Cm(-0.4)
+        p.add_run("• " + it)
 def table(headers, rows, widths_cm=None):
-    t = doc.add_table(rows=1+len(rows), cols=len(headers)); t.style = "Light Grid Accent 1"
+    t = doc.add_table(rows=1+len(rows), cols=len(headers))
+    try: t.style = "Light Grid Accent 1"
+    except KeyError:
+        try: t.style = "Table Grid"
+        except KeyError: pass
     for i, h in enumerate(headers):
         cell = t.rows[0].cells[i]; cell.text = h
         for p in cell.paragraphs:
@@ -70,26 +105,8 @@ def table(headers, rows, widths_cm=None):
             for row in t.rows: row.cells[ci].width = Cm(w)
 
 # ============================================================
-# COVER
+# TOC (cover already provided by the CODE Hand-in Template above)
 # ============================================================
-doc.add_paragraph("\n\n\n")
-p = doc.add_paragraph(); p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-r = p.add_run("ENGINE_001"); r.font.size = Pt(36); r.font.bold = True; r.font.color.rgb = RGBColor(0xC7,0x77,0x0A)
-p = doc.add_paragraph(); p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-r = p.add_run("A Dual-Channel Acquisition Sprint for Mango Lab – Still"); r.font.size = Pt(18); r.font.bold = True
-p = doc.add_paragraph(); p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-r = p.add_run("Marketing Report"); r.font.size = Pt(16)
-doc.add_paragraph("\n\n")
-for line, sz in [("PM_23 / BM_23 · Product Marketing and Sales", 11),
-                 ("Module organiser: Roland Fassauer", 11),
-                 ("Author: Jean-Luc Andre Navarro", 11),
-                 ("CODE University of Applied Sciences · SS26", 11),
-                 ("Submitted 4 May 2026", 11)]:
-    p = doc.add_paragraph(); p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    r = p.add_run(line); r.font.size = Pt(sz)
-
-# TOC
-doc.add_page_break()
 H1("Table of contents")
 toc = [
     ("1. Executive summary", 3),("2. Introduction: Mango Lab and Still", 4),
@@ -709,8 +726,27 @@ for r in refs:
     p.paragraph_format.left_indent = Cm(1); p.paragraph_format.first_line_indent = Cm(-1)
     p.paragraph_format.space_after = Pt(4); p.add_run(r).font.size = Pt(10)
 
-# §18 AI use
-H1("18. Statement on the use of generative AI")
+# ============================================================
+# §18 APPENDIX A: Source-of-truth screenshots
+# ============================================================
+H1("Appendix A. Source-of-truth screenshots")
+P(
+    "Every quantitative claim in this report is traceable to one of the screenshots reproduced here. The original "
+    "files, together with the campaign export and the Notion content-operating-system pages referenced in section "
+    "7, are bundled in the submission’s sources/ folder."
+)
+SHOTS = ROOT / "inputs" / "screenshots"
+img(SHOTS / "proof_meta_campaign_overview.png", width_cm=15.5,
+    caption="Appendix A.1. Meta Ads Manager campaign list, snapshot 2026-05-03 09:36. Verifies €249.13 spend, 45 leads, CPL €5.54, daily budget €50, status Ongoing.")
+img(SHOTS / "proof_meta_performance.png", width_cm=15.5,
+    caption="Appendix A.2. Meta Ads Manager Performance overview, snapshot 2026-05-03 10:09. Verifies the daily lead curve (7-7-17-8-4-2) used in figure 6 and the updated headline figures €250.80 spend / 45 leads / CPL €5.57.")
+img(SHOTS / "proof_meta_demographics.png", width_cm=15.5,
+    caption="Appendix A.3. Meta Ads Manager Demographics breakdown, snapshot 2026-05-03 10:10. Verifies the gender split (73 percent male / 24 percent female), the per-gender CPL (€5.48 / €6.08), and the age distribution used in figure 8.")
+img(CHARTS / "fig_organic_views.png", width_cm=15.5,
+    caption="Appendix A.4. The nine-video organic sprint view counts (2,442 / 2,656 / 1,499 / 1,645 / 3,662 / 3,329 / 4,360 / 3,223 / 4,402) were captured from the Instagram profile insights screenshot supplied by the campaign operator on 2026-05-03 and are reproduced as the chart above. The original screenshot is filed at sources/instagram_9video_grid.png in the submission bundle.")
+
+# §19 AI use
+H1("Statement on the use of generative AI")
 P(
     "Generative AI tools (Claude by Anthropic) were used during the production of this report in two ways: "
     "first, as a research assistant to surface candidate citations, which were then verified against the "
