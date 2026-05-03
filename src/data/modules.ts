@@ -87,6 +87,7 @@ export const data: DashboardData = {
     'PM_23 — DRAFTED ✓ (2026-05-03): Marketing Report 18-20 pp .docx + 7 charts, Sales Report 12-slide deck (PDF), Leveling-up Report 2,005 words .docx',
     'PM_23 — Roland check-in COMPLETED ✓ (steer: run Meta ads to validate)',
     'PM_23 — REMAINING: PDF export of .docx files (docx2pdf running) → ZIP → submit Google Form',
+    'PM_18 — DRAFTED ✓ (2026-05-03): Portfolio.docx with all 8 Qs + Still UI screenshots + 6 multi-brand sample ads + runnable prompt. JL review → PDF → submit',
   ],
 
   decisions: [
@@ -478,8 +479,8 @@ export const data: DashboardData = {
         { label: 'AI-use statement included',                               done: null },
         { label: 'Compiled to single PDF + submitted via Google Form',      done: null },
       ],
-      nextAction: 'Map each of the 8 questions to a concrete Mango Lab example before drafting any text',
-      notes: 'PM_18 brief PDF says "knowledge + application of knowledge + reflection on application" — Level 3 here is depth and quality of reflection, not an extra deliverable.',
+      nextAction: 'DRAFTED ✓ (2026-05-03) — Portfolio.docx ready in /deliverables/PM_18/. JL review pass + PDF export + Google Form submit',
+      notes: 'Drafted around Still as the running example (instead of pure Mango Lab). All 8 Qs answered with applied examples + reflections (1,171/2,000 words). Runnable prompt = production Stage A from nano-banana-wrapper. Document includes Still UI screenshots (hero, onboarding, copilot, dashboard, create, explore, performance) + 6 multi-brand sample ads (Surfrider x3, Bolt x3) proving brand-aware multi-tenancy. Voice-clean: 0 em-dashes, 0 prohibited words, 0 contractions, 0 third-person JL references.',
     },
 
     /* ============================================================
