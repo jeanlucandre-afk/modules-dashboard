@@ -5,455 +5,867 @@
 <title>STS_04 — Video Essay Slides</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0a0a;
-    --fg: #f5f5f0;
-    --muted: #888;
-    --accent: #ff6b35;
+    /* Palette */
+    --paper:      #f3efe5;
+    --cream:      #ebe6d8;
+    --cream-alt:  #e3ddcc;
+    --ink:        #14110d;
+    --ink-deep:   #0a0907;
+    --ink-soft:   #4a463e;
+    --ink-faded:  #8a847a;
+    --rule-dark:  rgba(20,17,13,0.18);
+    --rule-light: rgba(243,239,229,0.22);
+    --accent:     #7a1f1f;
+
+    /* Frame */
     --card-w: 1280px;
     --card-h: 720px;
+
+    /* Motion — snappier, decisive */
+    --ease-out-expo:  cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    --slide-fade: 380ms;
+    --reveal-dur: 560ms;
   }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
+
   html, body {
-    background: #1a1a1a;
-    color: var(--fg);
-    font-family: 'Inter', -apple-system, sans-serif;
+    background: #1a1815;
+    color: var(--ink);
+    font-family: 'Manrope', -apple-system, sans-serif;
+    font-feature-settings: "kern", "liga";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
     overflow-x: hidden;
   }
+
+  /* ========================================
+     KEYFRAMES
+     ======================================== */
+  @keyframes revealUp {
+    from { opacity: 0; transform: translateY(60px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes revealUpLg {
+    from { opacity: 0; transform: translateY(100px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes revealFade {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes revealDown {
+    from { opacity: 0; transform: translateY(-40px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes ruleDrawX {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
+  @keyframes bookEnter {
+    from { opacity: 0; transform: perspective(1200px) rotateY(-25deg) translateX(-50px); }
+    to   { opacity: 1; transform: perspective(1200px) rotateY(-7deg)  translateX(0); }
+  }
+  @keyframes strikeDraw {
+    from { width: 0; }
+    to   { width: 100%; }
+  }
+  @keyframes ovalDraw {
+    from { stroke-dashoffset: 600; }
+    to   { stroke-dashoffset: 0; }
+  }
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.92); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  /* ========================================
+     CONTROLS
+     ======================================== */
   .controls {
     position: fixed;
     top: 16px;
     right: 16px;
-    background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(10px);
-    border: 1px solid #333;
-    border-radius: 8px;
-    padding: 8px 12px;
-    font-size: 13px;
-    color: var(--muted);
+    background: rgba(20,17,13,0.92);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(243,239,229,0.12);
+    border-radius: 4px;
+    padding: 10px 14px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    color: rgba(243,239,229,0.7);
     z-index: 100;
     display: flex;
-    gap: 12px;
+    gap: 14px;
     align-items: center;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 500;
   }
   .controls button {
     background: transparent;
-    border: 1px solid #333;
-    color: var(--fg);
-    padding: 4px 10px;
-    border-radius: 4px;
+    border: 1px solid rgba(243,239,229,0.2);
+    color: var(--paper);
+    padding: 5px 12px;
+    border-radius: 2px;
     cursor: pointer;
-    font-size: 12px;
-    font-family: inherit;
+    font-size: 10px;
+    font-family: 'Manrope', sans-serif;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 600;
   }
-  .controls button:hover { border-color: var(--accent); color: var(--accent); }
+  .controls button:hover { border-color: var(--paper); color: var(--paper); }
+  .controls #counter { font-variant-numeric: tabular-nums; }
+
+  /* ========================================
+     DECK LAYOUT
+     ======================================== */
   .deck {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 40px;
-    padding: 40px 20px 80px;
+    gap: 48px;
+    padding: 56px 20px 96px;
   }
-  .deck.present {
-    gap: 0;
-    padding: 0;
-    height: 100vh;
-    overflow: hidden;
-  }
+  .deck.present { gap: 0; padding: 0; height: 100vh; overflow: hidden; position: relative; }
   .deck.present .slide-wrap {
-    display: none;
-    height: 100vh;
-    width: 100vw;
-  }
-  .deck.present .slide-wrap.active {
+    position: absolute;
+    inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 400ms var(--ease-out-quart), visibility 0ms 400ms;
+    z-index: 1;
+  }
+  .deck.present .slide-wrap.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    z-index: 2;
+    transition: opacity 400ms var(--ease-out-quart), visibility 0ms 0ms;
   }
   .deck.present .slide-wrap .meta { display: none; }
   .deck.present .slide {
     transform: scale(min(calc(100vw / 1280), calc(100vh / 720)));
     transform-origin: center center;
   }
+
   .slide-wrap {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
   }
   .slide {
     width: var(--card-w);
     height: var(--card-h);
-    background: var(--bg);
-    color: var(--fg);
+    background: var(--cream);
+    color: var(--ink);
     position: relative;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.45), 0 0 0 1px rgba(0,0,0,0.06);
+  }
+  .slide.dark {
+    background: var(--ink-deep);
+    color: var(--paper);
+  }
+
+  @media (max-width: 1340px) {
+    .deck:not(.present) .slide-wrap { transform: scale(0.7); transform-origin: top center; margin-bottom: -200px; }
+  }
+  @media (max-width: 960px) {
+    .deck:not(.present) .slide-wrap { transform: scale(0.5); margin-bottom: -340px; }
+  }
+  @media (max-width: 700px) {
+    .deck:not(.present) .slide-wrap { transform: scale(0.35); margin-bottom: -440px; }
+  }
+
+  /* ========================================
+     CHROME — appears immediately with slide
+     ======================================== */
+  .chrome-tl, .chrome-tr, .chrome-bl, .chrome-br {
+    position: absolute;
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+  .slide.dark .chrome-tl,
+  .slide.dark .chrome-tr,
+  .slide.dark .chrome-bl,
+  .slide.dark .chrome-br { color: rgba(243,239,229,0.65); }
+
+  .chrome-tl { top: 36px; left: 44px; }
+  .chrome-tr { top: 36px; right: 44px; text-align: right; }
+  .chrome-bl { bottom: 36px; left: 44px; }
+  .chrome-br { bottom: 36px; right: 44px; text-align: right; font-variant-numeric: tabular-nums; }
+
+  .chrome-tl .row, .chrome-tr .row { display: block; }
+  .chrome-tl .row .num, .chrome-tr .row .num {
+    color: var(--ink-faded);
+    margin-right: 10px;
+    font-weight: 700;
+  }
+  .slide.dark .chrome-tl .row .num,
+  .slide.dark .chrome-tr .row .num { color: rgba(243,239,229,0.45); }
+
+  .chrome-br .of { color: var(--ink-faded); margin: 0 8px; }
+  .slide.dark .chrome-br .of { color: rgba(243,239,229,0.45); }
+
+  .meta {
+    color: var(--ink-faded);
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-align: center;
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
+  }
+  .meta .num { color: var(--accent); margin-right: 8px; font-weight: 700; }
+
+  /* ========================================
+     SHARED STAGE
+     ======================================== */
+  .stage {
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 96px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-    overflow: hidden;
+    padding: 100px 120px;
+    position: relative;
   }
-  @media (max-width: 1340px) {
-    .slide-wrap:not(.present .slide-wrap) { transform: scale(0.7); transform-origin: top center; }
-    .deck:not(.present) { gap: 0; }
-  }
-  @media (max-width: 960px) {
-    .slide-wrap:not(.present .slide-wrap) { transform: scale(0.5); }
-  }
-  @media (max-width: 700px) {
-    .slide-wrap:not(.present .slide-wrap) { transform: scale(0.35); }
-  }
-  .meta {
-    color: var(--muted);
-    font-size: 13px;
+
+  /* ========================================
+     TITLE SLIDE
+     ======================================== */
+  .title-block {
     text-align: center;
-    font-family: 'Inter', monospace;
+    max-width: 1040px;
   }
-  .meta .num { color: var(--accent); font-weight: 600; }
-
-  /* Slide number badge */
-  .slide-num {
-    position: absolute;
-    bottom: 32px;
-    right: 40px;
-    color: #444;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-  }
-
-  /* Quote slides */
-  .quote {
-    font-family: 'Source Serif 4', Georgia, serif;
-    font-size: 44px;
-    line-height: 1.35;
-    font-weight: 400;
-    text-align: left;
-    max-width: 1000px;
-    font-style: italic;
-  }
-  .quote.short { font-size: 56px; }
-  .quote .openq { color: var(--accent); }
-  .attribution {
-    margin-top: 40px;
-    font-family: 'Inter', sans-serif;
-    font-size: 20px;
-    color: var(--muted);
-    font-style: normal;
-    font-weight: 400;
-  }
-  .attribution::before { content: "— "; }
-
-  /* Title slide */
-  .title-main {
-    font-family: 'Inter', sans-serif;
-    font-size: 64px;
+  .title-eyebrow {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
     font-weight: 600;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    text-align: left;
-    max-width: 1000px;
+    color: var(--ink-soft);
+    margin-bottom: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
   }
-  .title-main em { color: var(--accent); font-style: normal; }
+  .title-eyebrow .rule {
+    height: 1px;
+    width: 60px;
+    background: var(--ink-soft);
+    transform-origin: center;
+  }
+  .title-main {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: 88px;
+    line-height: 1.02;
+    letter-spacing: -0.022em;
+    text-wrap: balance;
+  }
+  .title-main em { font-style: italic; }
   .title-sub {
-    margin-top: 48px;
-    font-size: 18px;
-    color: var(--muted);
-    letter-spacing: 0.05em;
+    margin-top: 64px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    color: var(--ink-soft);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .title-sub .dot { color: var(--ink-faded); margin: 0 12px; }
+
+  /* ========================================
+     QUOTE SLIDES
+     ======================================== */
+  .quote-stage { flex-direction: column; align-items: center; text-align: center; }
+  .quote-mark {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 110px;
+    line-height: 0.5;
+    color: var(--accent);
+    margin-bottom: 32px;
+    letter-spacing: -0.08em;
+  }
+  .quote {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 1.22;
+    letter-spacing: -0.012em;
+    text-align: center;
+    max-width: 1000px;
+    text-wrap: balance;
+  }
+  .quote.short { font-size: 60px; line-height: 1.16; }
+  .attribution {
+    margin-top: 56px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(243,239,229,0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .slide:not(.dark) .attribution { color: var(--ink-soft); }
+  .attribution .rule {
+    height: 1px;
+    width: 40px;
+    background: currentColor;
+    opacity: 0.55;
+  }
+  .attribution em {
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0.04em;
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.25em;
+    font-weight: 400;
+    color: inherit;
+    opacity: 0.95;
+  }
+
+  /* ========================================
+     BOOK COVER
+     ======================================== */
+  .book-stage { display: flex; align-items: center; justify-content: center; gap: 100px; }
+  .book-mock {
+    width: 280px;
+    height: 420px;
+    background: linear-gradient(135deg, #2a1a17 0%, #1a0e0c 100%);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+    padding: 36px 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: #e8dcc6;
+    transform: perspective(1200px) rotateY(-7deg);
+    border: 1px solid rgba(232,220,198,0.08);
+  }
+  .book-mock .bm-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 1.04;
+    letter-spacing: -0.018em;
+  }
+  .book-mock .bm-sub {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 13px;
+    opacity: 0.78;
+    margin-top: 14px;
+    line-height: 1.4;
+  }
+  .book-mock .bm-author {
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    border-top: 1px solid rgba(232,220,198,0.3);
+    padding-top: 12px;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
   }
-
-  /* Concept / definition */
-  .concept-term {
-    font-family: 'Source Serif 4', serif;
-    font-style: italic;
-    font-size: 36px;
-    color: var(--accent);
+  .book-info { max-width: 480px; }
+  .book-info .label {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 600;
     margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .book-info .label .rule { height: 1px; width: 40px; background: var(--ink-soft); }
+  .book-info h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 60px;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+  }
+  .book-info .by {
+    margin-top: 32px;
+    font-family: 'Manrope', sans-serif;
+    color: var(--ink-soft);
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    font-weight: 500;
+  }
+  .book-info .year {
+    margin-left: 14px;
+    color: var(--accent);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ========================================
+     ONE-LINE QUOTE (Dobbins)
+     ======================================== */
+  .one-line {
+    font-family: 'Instrument Serif', serif;
+    font-size: 76px;
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    max-width: 1080px;
+    text-align: center;
+    text-wrap: balance;
+  }
+  .one-line em { font-style: italic; }
+  .one-line .quoted {
+    font-style: italic;
+    color: var(--ink);
+    position: relative;
+  }
+
+  /* ========================================
+     CONCEPT
+     ======================================== */
+  .concept-block { max-width: 980px; }
+  .concept-label {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .concept-label .rule { height: 1px; width: 50px; background: var(--ink-soft); }
+  .concept-term {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 64px;
+    font-weight: 400;
+    margin-bottom: 36px;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .concept-term .pos {
+    font-family: 'Manrope', sans-serif;
+    font-style: normal;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink-faded);
+    margin-left: 14px;
+    letter-spacing: 0.04em;
+    vertical-align: middle;
+  }
+  .concept-divider {
+    height: 1px;
+    width: 80px;
+    background: var(--ink);
+    margin: 0 0 36px 0;
+    transform-origin: left;
   }
   .concept-def {
-    font-family: 'Inter', sans-serif;
-    font-size: 42px;
-    line-height: 1.35;
+    font-family: 'Instrument Serif', serif;
+    font-size: 44px;
+    line-height: 1.22;
     font-weight: 400;
-    max-width: 950px;
+    letter-spacing: -0.012em;
+    max-width: 920px;
+    text-wrap: balance;
   }
 
-  .one-line {
-    font-family: 'Inter', sans-serif;
-    font-size: 56px;
-    line-height: 1.25;
-    font-weight: 500;
-    max-width: 1000px;
-    letter-spacing: -0.01em;
-  }
-  .one-line em { color: var(--accent); font-style: normal; }
-  .one-line + .attribution { font-size: 18px; }
-
-  /* Examples grid */
+  /* ========================================
+     EXAMPLES GRID
+     ======================================== */
   .grid-3 {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 48px;
+    gap: 64px;
     width: 100%;
-    max-width: 1100px;
+    max-width: 1040px;
   }
-  .grid-3 .item {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: flex-start;
-  }
+  .grid-3 .item { display: flex; flex-direction: column; gap: 20px; align-items: flex-start; }
   .grid-3 .icon {
     width: 100%;
-    aspect-ratio: 1.4;
-    background: #161616;
-    border: 1px solid #2a2a2a;
+    aspect-ratio: 0.85;
+    background: var(--cream-alt);
+    border: 1px solid rgba(20,17,13,0.08);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 64px;
+    font-size: 80px;
+    filter: grayscale(1) contrast(0.95);
+  }
+  .grid-3 .num-tag {
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ink-faded);
+    font-weight: 700;
   }
   .grid-3 .label {
-    font-size: 22px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
+    font-family: 'Instrument Serif', serif;
+    font-size: 30px;
+    font-weight: 400;
+    letter-spacing: -0.012em;
+    line-height: 1.1;
   }
   .grid-3 .sub {
-    font-family: 'Source Serif 4', serif;
+    font-family: 'Instrument Serif', serif;
     font-style: italic;
-    color: var(--muted);
+    color: var(--ink-soft);
     font-size: 17px;
     line-height: 1.4;
+    font-weight: 400;
   }
 
-  /* Taglines stacked */
+  /* ========================================
+     TAGLINES (Motter parens)
+     ======================================== */
   .taglines {
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 36px;
     width: 100%;
-    max-width: 1000px;
+    max-width: 920px;
+    align-items: center;
+  }
+  .tagline-row {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    width: 100%;
+    justify-content: center;
+  }
+  .tagline-row .paren {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 64px;
+    color: var(--ink-faded);
+    line-height: 1;
   }
   .tagline {
-    font-family: 'Inter', sans-serif;
-    font-size: 48px;
-    font-weight: 500;
-    letter-spacing: -0.02em;
-    padding: 24px 32px;
-    border-left: 3px solid var(--accent);
-    background: linear-gradient(90deg, rgba(255,107,53,0.06), transparent);
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 42px;
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.012em;
+    text-align: center;
   }
 
-  /* Numbered list */
+  /* ========================================
+     NUMBERED BREAKDOWN
+     ======================================== */
   .num-list {
     display: flex;
     flex-direction: column;
-    gap: 32px;
     max-width: 1000px;
     width: 100%;
   }
   .num-list .row {
     display: grid;
-    grid-template-columns: 80px 1fr;
+    grid-template-columns: 70px 1fr;
     align-items: baseline;
-    gap: 24px;
+    gap: 32px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--rule-dark);
   }
+  .num-list .row:first-child { border-top: 1px solid var(--rule-dark); }
   .num-list .n {
-    font-family: 'Source Serif 4', serif;
-    font-size: 56px;
-    font-weight: 600;
-    color: var(--accent);
-    line-height: 1;
-  }
-  .num-list .text {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
     font-size: 32px;
     font-weight: 400;
-    line-height: 1.3;
+    color: var(--ink-soft);
+    letter-spacing: 0.04em;
   }
-  .num-list .text strong { font-weight: 600; }
-  .num-list .text .arrow { color: var(--accent); margin: 0 12px; }
+  .num-list .text {
+    font-family: 'Instrument Serif', serif;
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: -0.012em;
+  }
+  .num-list .text strong {
+    font-style: italic;
+  }
+  .num-list .text .arrow {
+    color: var(--ink-faded);
+    margin: 0 14px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.55em;
+    font-weight: 500;
+    font-style: normal;
+    vertical-align: middle;
+  }
 
-  /* Big self-implication */
+  /* ========================================
+     SELF-IMPLICATION
+     ======================================== */
   .self-card {
-    font-family: 'Inter', sans-serif;
-    font-size: 84px;
-    font-weight: 600;
-    line-height: 1.1;
+    font-family: 'Instrument Serif', serif;
+    font-size: 108px;
+    font-weight: 400;
+    line-height: 1;
     letter-spacing: -0.03em;
     text-align: center;
-    max-width: 1000px;
+    max-width: 1100px;
+    text-wrap: balance;
   }
-  .self-card .accent { color: var(--accent); }
+  .self-card .accent {
+    font-style: italic;
+    display: block;
+    margin-top: 12px;
+  }
 
-  /* Critique labels */
+  /* ========================================
+     CRITIQUE LABELS
+     ======================================== */
   .crit-list {
     display: flex;
     flex-direction: column;
-    gap: 28px;
     width: 100%;
-    max-width: 1000px;
+    max-width: 980px;
   }
   .crit {
-    display: flex;
-    align-items: center;
-    gap: 28px;
-    padding: 24px 0;
-    border-bottom: 1px solid #222;
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    align-items: baseline;
+    gap: 32px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--rule-dark);
   }
-  .crit:last-child { border-bottom: none; }
-  .crit .bullet {
-    width: 14px;
-    height: 14px;
-    background: var(--accent);
-    flex-shrink: 0;
+  .crit:first-child { border-top: 1px solid var(--rule-dark); }
+  .crit .index {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    color: var(--ink-faded);
+    letter-spacing: 0.28em;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    text-transform: uppercase;
   }
   .crit .label {
-    font-size: 38px;
-    font-weight: 500;
-    letter-spacing: -0.01em;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 40px;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    line-height: 1.18;
   }
 
-  /* Whiteboard */
-  .whiteboard {
-    background: #f5f5f0;
-    color: #111;
-    font-family: 'Caveat', cursive;
+  /* ========================================
+     WHITEBOARD — typeset pull quote with oval
+     ======================================== */
+  .whiteboard-stage { flex-direction: column; align-items: center; }
+  .whiteboard-eyebrow {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink-faded);
+    font-weight: 600;
+    margin-bottom: 36px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .whiteboard-eyebrow .rule { width: 50px; height: 1px; background: var(--ink-faded); }
+  .pull-quote {
+    font-family: 'Instrument Serif', serif;
     font-size: 72px;
-    line-height: 1.25;
+    line-height: 1.06;
+    font-weight: 400;
+    letter-spacing: -0.022em;
     text-align: center;
-    max-width: 1000px;
-    padding: 48px;
-    transform: rotate(-1.5deg);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    max-width: 1080px;
+    text-wrap: balance;
+    position: relative;
   }
-  .whiteboard .underline {
-    text-decoration: underline;
-    text-decoration-color: var(--accent);
-    text-decoration-thickness: 4px;
-    text-underline-offset: 8px;
+  .pull-quote .ovaled {
+    position: relative;
+    font-style: italic;
+    display: inline-block;
+    padding: 4px 18px;
   }
-  .slide.whiteboard-bg { background: #0f0f0f; }
+  .pull-quote .ovaled svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .pull-quote .ovaled svg ellipse {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.5;
+    stroke-dasharray: 600;
+  }
 
-  /* Roadmap kill */
+  /* ========================================
+     ROADMAP KILL
+     ======================================== */
   .roadmap {
     display: flex;
     flex-direction: column;
-    gap: 32px;
-    align-items: flex-start;
-    max-width: 1000px;
+    gap: 48px;
+    align-items: center;
+    max-width: 900px;
+    width: 100%;
+  }
+  .roadmap .label {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ink-faded);
+    font-weight: 600;
+    text-align: center;
   }
   .roadmap .killed {
-    font-size: 56px;
-    font-weight: 500;
-    color: #555;
-    text-decoration: line-through;
-    text-decoration-color: var(--accent);
-    text-decoration-thickness: 4px;
-    letter-spacing: -0.02em;
+    font-family: 'Instrument Serif', serif;
+    font-size: 60px;
+    font-weight: 400;
+    color: var(--ink-soft);
+    letter-spacing: -0.022em;
+    line-height: 1.05;
+    position: relative;
+    display: inline-block;
+    text-align: center;
   }
-  .roadmap .replaced {
-    font-size: 56px;
-    font-weight: 500;
-    letter-spacing: -0.02em;
-  }
-  .roadmap .replaced::before {
-    content: "→ ";
-    color: var(--accent);
-  }
-
-  /* Lower third */
-  .lower-third .slide {
-    background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.95) 60%);
-    align-items: flex-end;
-    justify-content: flex-start;
-    padding: 60px 80px;
-  }
-  .lower-third .lt-content {
-    max-width: 900px;
-  }
-  .lower-third .quote {
-    font-size: 32px;
-    font-style: normal;
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-  }
-  .lower-third .attribution { font-size: 16px; margin-top: 16px; }
-  .lower-third .frame-hint {
+  .roadmap .killed::after {
+    content: "";
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #2a2a2a;
-    font-size: 28px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
+    top: 52%;
+    left: 0;
+    height: 2px;
+    width: 0%;
+    background: var(--accent);
+    transform: translateY(-50%);
+    transition: width 700ms var(--ease-out-expo);
   }
-
-  /* Book cover slide */
-  .book-cover-slide {
+  .roadmap .killed.struck::after { width: 100%; }
+  .deck:not(.present) .roadmap .killed::after { width: 100%; }
+  .roadmap .connector {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 80px;
-  }
-  .book-mock {
-    width: 280px;
-    height: 420px;
-    background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-    padding: 32px 24px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    color: #fff;
-    font-family: 'Source Serif 4', serif;
-    transform: perspective(1000px) rotateY(-8deg);
-  }
-  .book-mock .bm-title {
-    font-size: 28px;
+    gap: 18px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ink-faded);
     font-weight: 600;
-    line-height: 1.15;
   }
-  .book-mock .bm-sub {
-    font-size: 14px;
+  .roadmap .connector .rule { width: 60px; height: 1px; background: var(--ink-soft); }
+  .roadmap .replaced {
+    font-family: 'Instrument Serif', serif;
     font-style: italic;
-    opacity: 0.85;
-    margin-top: 12px;
-  }
-  .book-mock .bm-author {
-    font-size: 16px;
-    font-weight: 500;
-    border-top: 1px solid rgba(255,255,255,0.4);
-    padding-top: 12px;
-  }
-  .book-info h2 {
-    font-family: 'Source Serif 4', serif;
-    font-size: 44px;
+    font-size: 60px;
     font-weight: 400;
-    font-style: italic;
-    line-height: 1.2;
-    max-width: 480px;
-  }
-  .book-info .by {
-    margin-top: 24px;
-    color: var(--muted);
-    font-size: 18px;
-  }
-  .book-info .year { color: var(--accent); font-weight: 600; }
-
-  /* Closing */
-  .closing .quote {
-    font-size: 52px;
+    letter-spacing: -0.022em;
+    line-height: 1.05;
     text-align: center;
-    max-width: 1000px;
+    color: var(--ink);
   }
-  .closing { display: flex; flex-direction: column; align-items: center; gap: 32px; }
 
-  .scaler { transform-origin: center; }
+  /* ========================================
+     LOWER THIRD
+     ======================================== */
+  .lower-third .slide {
+    background: linear-gradient(180deg, var(--ink-deep) 50%, #050403 50%);
+  }
+  .lower-third .stage {
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 64px 100px;
+  }
+  .lower-third .lt-content {
+    max-width: 880px;
+    border-left: 2px solid var(--accent);
+    padding: 16px 0 16px 32px;
+  }
+  .lower-third .lt-content .quote {
+    font-size: 36px;
+    line-height: 1.28;
+    text-align: left;
+    max-width: none;
+  }
+  .lower-third .lt-content .attribution {
+    margin-top: 22px;
+    justify-content: flex-start;
+    font-size: 11px;
+  }
+  .lower-third .frame-hint {
+    position: absolute;
+    top: 38%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px;
+    color: rgba(243,239,229,0.18);
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* ========================================
+     CLOSING
+     ======================================== */
+  .closing-stage { flex-direction: column; gap: 40px; align-items: center; }
+
+  /* CSS animations only kept for pseudo-elements (which can't be JS-animated) */
+  .deck.present .slide-wrap.active .pull-quote .ovaled svg ellipse {
+    animation: ovalDraw 1000ms var(--ease-out-expo) 1300ms both;
+  }
+
+  /* Per-word / per-letter split spans for typographic reveal */
+  .split-word, .split-letter {
+    display: inline-block;
+    will-change: transform, opacity;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-delay: 0ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 
 </style>
 </head>
@@ -462,7 +874,7 @@
 <div class="controls">
   <span id="counter">View all</span>
   <button onclick="toggleMode()">Present</button>
-  <span style="font-size: 11px;">←/→ navigate · ESC exit</span>
+  <span style="font-size: 9px; opacity: 0.55;">←/→ &nbsp;ESC</span>
 </div>
 
 <div class="deck" id="deck">
@@ -470,276 +882,328 @@
   <!-- SLIDE 1 — Title -->
   <div class="slide-wrap">
     <div class="slide">
-      <div>
-        <div class="title-main">
-          On Morozov,<br>
-          on solutionism,<br>
-          on building <em>the thing being criticised.</em>
+      <div class="chrome-tl"><span class="row"><span class="num">No. 01</span>Title</span></div>
+      <div class="chrome-tr">STS_04 / Video Essay<br>CODE University · 2026</div>
+      <div class="stage">
+        <div class="title-block">
+          <div class="title-eyebrow"><span class="rule"></span>A reflection on technological solutionism<span class="rule"></span></div>
+          <div class="title-main">On Morozov,<br>on solutionism,<br><em>on building the thing being criticised.</em></div>
+          <div class="title-sub">Jean-Luc Navarro <span class="dot">·</span> STS_04 <span class="dot">·</span> 2026</div>
         </div>
-        <div class="title-sub">Jean-Luc Navarro &nbsp;·&nbsp; STS_04 &nbsp;·&nbsp; CODE University &nbsp;·&nbsp; 2026</div>
       </div>
-      <div class="slide-num">01</div>
+      <div class="chrome-br">01<span class="of">/</span>18</div>
     </div>
-    <div class="meta"><span class="num">01</span> · Title · 0:00–0:05</div>
+    <div class="meta"><span class="num">01</span>Title · 0:00–0:35</div>
   </div>
 
   <!-- SLIDE 2 — Book cover -->
   <div class="slide-wrap">
-    <div class="slide book-cover-slide">
-      <div class="book-mock">
+    <div class="slide">
+      <div class="chrome-tl"><span class="row"><span class="num">No. 02</span>Anchor text</span></div>
+      <div class="chrome-tr">Reference<br>2013</div>
+      <div class="stage book-stage">
+        <div class="book-mock">
+          <div>
+            <div class="bm-title">To Save<br>Everything,<br>Click Here</div>
+            <div class="bm-sub">The Folly of Technological Solutionism</div>
+          </div>
+          <div class="bm-author">Evgeny Morozov</div>
+        </div>
+        <div class="book-info">
+          <div class="label"><span class="rule"></span>The book in question</div>
+          <h2>To Save Everything, Click Here</h2>
+          <div class="by">Evgeny Morozov<span class="year">2013</span></div>
+        </div>
+      </div>
+      <div class="chrome-br">02<span class="of">/</span>18</div>
+    </div>
+    <div class="meta"><span class="num">02</span>Book cover · 0:35–1:00</div>
+  </div>
+
+  <!-- SLIDE 3 — Solutionism quote (dark) -->
+  <div class="slide-wrap">
+    <div class="slide dark">
+      <div class="chrome-tl"><span class="row"><span class="num">No. 03</span>The thesis</span></div>
+      <div class="chrome-tr">Morozov<br>p. 5</div>
+      <div class="stage quote-stage">
+        <div class="quote-mark">&ldquo;</div>
+        <div class="quote">an unhealthy preoccupation with sexy, monumental, and narrow-minded solutions—the kind of stuff that wows audiences at TED Conferences—to problems that are extremely complex, fluid, and contentious.</div>
+        <div class="attribution"><span class="rule"></span>Morozov, <em>To Save Everything, Click Here</em>, 2013, p. 5</div>
+      </div>
+      <div class="chrome-br">03<span class="of">/</span>18</div>
+    </div>
+    <div class="meta"><span class="num">03</span>Quote: solutionism · 1:15–1:30</div>
+  </div>
+
+  <!-- SLIDE 4 — Dobbins (corrected) -->
+  <div class="slide-wrap">
+    <div class="slide">
+      <div class="chrome-tl"><span class="row"><span class="num">No. 04</span>The diagnosis</span></div>
+      <div class="chrome-tr">Dobbins, via Morozov</div>
+      <div class="stage">
         <div>
-          <div class="bm-title">To Save<br>Everything,<br>Click Here</div>
-          <div class="bm-sub">The Folly of Technological Solutionism</div>
+          <div class="one-line">Solutionism reaches <span class="quoted">&ldquo;for the answer before the questions have been fully asked.&rdquo;</span></div>
+          <div class="attribution" style="margin-top: 64px;"><span class="rule"></span>Michael Dobbins, <em>Urban Design and People</em>, 2009, p. 182 — quoted in Morozov, p. 5</div>
         </div>
-        <div class="bm-author">Evgeny Morozov</div>
       </div>
-      <div class="book-info">
-        <h2>To Save Everything, Click Here</h2>
-        <div class="by">Evgeny Morozov &nbsp;·&nbsp; <span class="year">2013</span></div>
-      </div>
-      <div class="slide-num">02</div>
+      <div class="chrome-br">04<span class="of">/</span>18</div>
     </div>
-    <div class="meta"><span class="num">02</span> · Book cover · 0:40–1:00</div>
-  </div>
-
-  <!-- SLIDE 3 — Solutionism quote -->
-  <div class="slide-wrap">
-    <div class="slide">
-      <div>
-        <div class="quote">
-          <span class="openq">"</span>an unhealthy preoccupation with sexy, monumental, and narrow-minded solutions, the kind of stuff that wows audiences at TED Conferences, to problems that are extremely complex, fluid, and contentious."
-        </div>
-        <div class="attribution">Morozov, <em>To Save Everything, Click Here</em>, p. 5</div>
-      </div>
-      <div class="slide-num">03</div>
-    </div>
-    <div class="meta"><span class="num">03</span> · Quote: solutionism · 1:15–1:30</div>
-  </div>
-
-  <!-- SLIDE 4 — Dobbins one-line -->
-  <div class="slide-wrap">
-    <div class="slide">
-      <div>
-        <div class="one-line">
-          Solutionism reaches for <em>the answer</em><br>
-          before the questions have been<br>
-          fully asked.
-        </div>
-        <div class="attribution">Michael Dobbins, quoted in Morozov</div>
-      </div>
-      <div class="slide-num">04</div>
-    </div>
-    <div class="meta"><span class="num">04</span> · One-line · 1:45–2:00</div>
+    <div class="meta"><span class="num">04</span>One-line · 1:45–2:00</div>
   </div>
 
   <!-- SLIDE 5 — Internet-centrism -->
   <div class="slide-wrap">
     <div class="slide">
-      <div>
-        <div class="concept-term">internet-centrism (n.)</div>
-        <div class="concept-def">
-          The assumption that "the Internet" has a coherent logic, and that its logic should be imported into other domains.
+      <div class="chrome-tl"><span class="row"><span class="num">No. 05</span>The supporting concept</span></div>
+      <div class="chrome-tr">Morozov, ch. 2</div>
+      <div class="stage" style="justify-content: flex-start; padding-left: 160px;">
+        <div class="concept-block">
+          <div class="concept-label"><span class="rule"></span>Definition</div>
+          <div class="concept-term">internet-centrism<span class="pos">/ noun /</span></div>
+          <div class="concept-divider"></div>
+          <div class="concept-def">The assumption that &ldquo;the Internet&rdquo; has a coherent logic, and that its logic should be imported into other domains.</div>
         </div>
       </div>
-      <div class="slide-num">05</div>
+      <div class="chrome-br">05<span class="of">/</span>18</div>
     </div>
-    <div class="meta"><span class="num">05</span> · Concept · 2:00–2:20</div>
+    <div class="meta"><span class="num">05</span>Concept · 2:00–2:20</div>
   </div>
 
   <!-- SLIDE 6 — Examples grid -->
   <div class="slide-wrap">
     <div class="slide">
-      <div class="grid-3">
-        <div class="item">
-          <div class="icon">🗑️</div>
-          <div class="label">BinCam</div>
-          <div class="sub">the trash bin that posts your rubbish to Facebook</div>
-        </div>
-        <div class="item">
-          <div class="icon">🫖</div>
-          <div class="label">The Energy Teapot</div>
-          <div class="sub">glows red when the grid is overloaded</div>
-        </div>
-        <div class="item">
-          <div class="icon">🗳️</div>
-          <div class="label">Gamified voting</div>
-          <div class="sub">civic duty as a Foursquare check-in</div>
+      <div class="chrome-tl"><span class="row"><span class="num">No. 06</span>Three small examples</span></div>
+      <div class="chrome-tr">From Morozov</div>
+      <div class="stage">
+        <div class="grid-3">
+          <div class="item">
+            <div class="icon">⌬</div>
+            <div class="num-tag">i.</div>
+            <div class="label">BinCam</div>
+            <div class="sub">The trash bin that posts your rubbish to Facebook.</div>
+          </div>
+          <div class="item">
+            <div class="icon">◐</div>
+            <div class="num-tag">ii.</div>
+            <div class="label">The Energy Teapot</div>
+            <div class="sub">Glows red when the national grid is overloaded.</div>
+          </div>
+          <div class="item">
+            <div class="icon">✕</div>
+            <div class="num-tag">iii.</div>
+            <div class="label">Gamified voting</div>
+            <div class="sub">Civic duty as a Foursquare check-in.</div>
+          </div>
         </div>
       </div>
-      <div class="slide-num">06</div>
+      <div class="chrome-br">06<span class="of">/</span>18</div>
     </div>
-    <div class="meta"><span class="num">06</span> · Examples · 2:20–2:45</div>
+    <div class="meta"><span class="num">06</span>Examples · 2:20–2:45</div>
   </div>
 
-  <!-- SLIDE 7 — Imperfection quote -->
+  <!-- SLIDE 7 — Imperfection (page corrected to xiv) -->
   <div class="slide-wrap">
-    <div class="slide">
-      <div>
-        <div class="quote">
-          <span class="openq">"</span>Imperfection, ambiguity, opacity, disorder, and the opportunity to err, to sin, to do the wrong thing: all of these are constitutive of human freedom."
-        </div>
-        <div class="attribution">Morozov, p. xv</div>
+    <div class="slide dark">
+      <div class="chrome-tl"><span class="row"><span class="num">No. 07</span>The moral argument</span></div>
+      <div class="chrome-tr">Morozov<br>p. xiv</div>
+      <div class="stage quote-stage">
+        <div class="quote-mark">&ldquo;</div>
+        <div class="quote">Imperfection, ambiguity, opacity, disorder, and the opportunity to err, to sin, to do the wrong thing: all of these are constitutive of human freedom.</div>
+        <div class="attribution"><span class="rule"></span>Morozov, p. xiv</div>
       </div>
-      <div class="slide-num">07</div>
+      <div class="chrome-br">07<span class="of">/</span>18</div>
     </div>
-    <div class="meta"><span class="num">07</span> · Quote: imperfection · 2:45–3:00</div>
+    <div class="meta"><span class="num">07</span>Quote: imperfection · 2:45–3:00</div>
   </div>
 
   <!-- SLIDE 8 — Three taglines -->
   <div class="slide-wrap">
     <div class="slide">
-      <div class="taglines">
-        <div class="tagline">"Creativity, solved."</div>
-        <div class="tagline">"We removed the boring parts of work."</div>
-        <div class="tagline">"Your team, but ten times faster."</div>
+      <div class="chrome-tl"><span class="row"><span class="num">No. 08</span>Same move, 2026</span></div>
+      <div class="chrome-tr">Live homepages, this week</div>
+      <div class="stage">
+        <div class="taglines">
+          <div class="tagline-row">
+            <span class="paren">(</span><span class="tagline">Creativity, solved.</span><span class="paren">)</span>
+          </div>
+          <div class="tagline-row">
+            <span class="paren">(</span><span class="tagline">We removed the boring parts of work.</span><span class="paren">)</span>
+          </div>
+          <div class="tagline-row">
+            <span class="paren">(</span><span class="tagline">Your team, but ten times faster.</span><span class="paren">)</span>
+          </div>
+        </div>
       </div>
-      <div class="slide-num">08</div>
+      <div class="chrome-br">08<span class="of">/</span>18</div>
     </div>
-    <div class="meta"><span class="num">08</span> · Three taglines · 3:30–3:50</div>
+    <div class="meta"><span class="num">08</span>Three taglines · 3:30–3:50</div>
   </div>
 
-  <!-- SLIDE 9 — Andreessen 1 -->
+  <!-- SLIDE 9 — Andreessen 1 (web essay citation) -->
   <div class="slide-wrap">
-    <div class="slide">
-      <div>
-        <div class="quote">
-          <span class="openq">"</span>We believe that there is no material problem, whether created by nature or by technology, that cannot be solved with more technology."
-        </div>
-        <div class="attribution">Marc Andreessen, <em>The Techno-Optimist Manifesto</em>, 2023</div>
+    <div class="slide dark">
+      <div class="chrome-tl"><span class="row"><span class="num">No. 09</span>The faith claim</span></div>
+      <div class="chrome-tr">Andreessen<br>16 Oct 2023</div>
+      <div class="stage quote-stage">
+        <div class="quote-mark">&ldquo;</div>
+        <div class="quote">We believe that there is no material problem &ndash; whether created by nature or by technology &ndash; that cannot be solved with more technology.</div>
+        <div class="attribution"><span class="rule"></span>Marc Andreessen, <em>The Techno-Optimist Manifesto</em>, a16z.com, 16 Oct 2023</div>
       </div>
-      <div class="slide-num">09</div>
+      <div class="chrome-br">09<span class="of">/</span>18</div>
     </div>
-    <div class="meta"><span class="num">09</span> · Quote: Andreessen 1 · 3:50–4:05</div>
+    <div class="meta"><span class="num">09</span>Quote: Andreessen 1 · 3:50–4:05</div>
   </div>
 
   <!-- SLIDE 10 — Andreessen 2 -->
   <div class="slide-wrap">
     <div class="slide">
-      <div>
-        <div class="quote short">
-          <span class="openq">"</span>Give us a real world problem, and we can invent technology that will solve it."
-        </div>
-        <div class="attribution">Marc Andreessen, <em>The Techno-Optimist Manifesto</em>, 2023</div>
+      <div class="chrome-tl"><span class="row"><span class="num">No. 10</span>The corollary</span></div>
+      <div class="chrome-tr">Andreessen<br>16 Oct 2023</div>
+      <div class="stage quote-stage">
+        <div class="quote-mark">&ldquo;</div>
+        <div class="quote short">Give us a real world problem, and we can invent technology that will solve it.</div>
+        <div class="attribution"><span class="rule"></span>Marc Andreessen, <em>The Techno-Optimist Manifesto</em>, a16z.com, 16 Oct 2023</div>
       </div>
-      <div class="slide-num">10</div>
+      <div class="chrome-br">10<span class="of">/</span>18</div>
     </div>
-    <div class="meta"><span class="num">10</span> · Quote: Andreessen 2 · 4:05–4:20</div>
+    <div class="meta"><span class="num">10</span>Quote: Andreessen 2 · 4:05–4:20</div>
   </div>
 
-  <!-- SLIDE 11 — Three-line breakdown -->
+  <!-- SLIDE 11 — Three-line breakdown — taglines audited -->
   <div class="slide-wrap">
     <div class="slide">
-      <div class="num-list">
-        <div class="row">
-          <div class="n">1.</div>
-          <div class="text"><strong>Slow</strong><span class="arrow">→</span>faster blank page</div>
-        </div>
-        <div class="row">
-          <div class="n">2.</div>
-          <div class="text"><strong>Expensive</strong><span class="arrow">→</span>real, this is access</div>
-        </div>
-        <div class="row">
-          <div class="n">3.</div>
-          <div class="text"><strong>Blank page</strong><span class="arrow">→</span>a strategy problem<br><span style="margin-left: 0;">in a generator's costume</span></div>
+      <div class="chrome-tl"><span class="row"><span class="num">No. 11</span>Applied: the three reframes</span></div>
+      <div class="chrome-tr">Morozov&rsquo;s argument, run live</div>
+      <div class="stage">
+        <div class="num-list">
+          <div class="row">
+            <div class="n">i.</div>
+            <div class="text"><strong>Creativity</strong><span class="arrow">/</span>a capacity reframed as a problem.</div>
+          </div>
+          <div class="row">
+            <div class="n">ii.</div>
+            <div class="text"><strong>Boredom</strong><span class="arrow">/</span>a feature reframed as a bug.</div>
+          </div>
+          <div class="row">
+            <div class="n">iii.</div>
+            <div class="text"><strong>A hard decision</strong><span class="arrow">/</span>reframed as a slow one.</div>
+          </div>
         </div>
       </div>
-      <div class="slide-num">11</div>
+      <div class="chrome-br">11<span class="of">/</span>18</div>
     </div>
-    <div class="meta"><span class="num">11</span> · Three-line breakdown · 4:30–6:00</div>
+    <div class="meta"><span class="num">11</span>Three reframes · 4:15–5:35</div>
   </div>
 
-  <!-- SLIDE 12 — Self-implication -->
+  <!-- SLIDE 12 — The thesis -->
   <div class="slide-wrap">
     <div class="slide">
-      <div class="self-card">
-        I have written<br>
-        <span class="accent">that pitch deck.</span>
+      <div class="chrome-tl"><span class="row"><span class="num">No. 12</span>The thesis of the beat</span></div>
+      <div class="chrome-tr">After Morozov</div>
+      <div class="stage">
+        <div class="self-card">
+          Marketing is amateur philosophy<span class="accent">doing serious work.</span>
+        </div>
       </div>
-      <div class="slide-num">12</div>
+      <div class="chrome-br">12<span class="of">/</span>18</div>
     </div>
-    <div class="meta"><span class="num">12</span> · Self-implication · 6:00–6:15</div>
+    <div class="meta"><span class="num">12</span>Thesis · 5:25–5:35</div>
   </div>
 
   <!-- SLIDE 13 — Critique labels -->
   <div class="slide-wrap">
     <div class="slide">
-      <div class="crit-list">
-        <div class="crit"><div class="bullet"></div><div class="label">Tone flattens everything</div></div>
-        <div class="crit"><div class="bullet"></div><div class="label">Underweights agency</div></div>
-        <div class="crit"><div class="bullet"></div><div class="label">Strong on diagnosis, thin on Tuesday</div></div>
+      <div class="chrome-tl"><span class="row"><span class="num">No. 13</span>Where Morozov overreaches</span></div>
+      <div class="chrome-tr">Three objections</div>
+      <div class="stage">
+        <div class="crit-list">
+          <div class="crit"><div class="index">No. 01</div><div class="label">A water-bottle app and a pretrial algorithm are not the same mistake.</div></div>
+          <div class="crit"><div class="index">No. 02</div><div class="label">Ideology read as cause, when it is closer to a receipt.</div></div>
+          <div class="crit"><div class="index">No. 03</div><div class="label">A critique from the status quo, for the status quo.</div></div>
+        </div>
       </div>
-      <div class="slide-num">13</div>
+      <div class="chrome-br">13<span class="of">/</span>18</div>
     </div>
-    <div class="meta"><span class="num">13</span> · Critique labels · 6:15–7:30</div>
+    <div class="meta"><span class="num">13</span>Critique labels · 6:15–7:30</div>
   </div>
 
-  <!-- SLIDE 14 — Californian Ideology -->
+  <!-- SLIDE 14 — Californian Ideology (with proper ellipsis) -->
+  <div class="slide-wrap">
+    <div class="slide dark">
+      <div class="chrome-tl"><span class="row"><span class="num">No. 14</span>The ideology underneath</span></div>
+      <div class="chrome-tr">Barbrook &amp; Cameron<br>1995</div>
+      <div class="stage quote-stage">
+        <div class="quote-mark">&ldquo;</div>
+        <div class="quote">a bizarre fusion of the cultural bohemianism of San Francisco with the hi-tech industries of Silicon Valley […] in the digital utopia, everybody will be both hip and rich.</div>
+        <div class="attribution"><span class="rule"></span>Barbrook &amp; Cameron, <em>The Californian Ideology</em>, Mute Magazine, 1995</div>
+      </div>
+      <div class="chrome-br">14<span class="of">/</span>18</div>
+    </div>
+    <div class="meta"><span class="num">14</span>Quote: Californian Ideology · 7:30–7:50</div>
+  </div>
+
+  <!-- SLIDE 15 — Zuboff full-screen quote (dark) -->
+  <div class="slide-wrap">
+    <div class="slide dark">
+      <div class="chrome-tl"><span class="row"><span class="num">No. 15</span>The economics that follow</span></div>
+      <div class="chrome-tr">Zuboff<br>p. 8</div>
+      <div class="stage quote-stage">
+        <div class="quote-mark">&ldquo;</div>
+        <div class="quote">Surveillance capitalism unilaterally claims human experience as free raw material for translation into behavioral data.</div>
+        <div class="attribution"><span class="rule"></span>Zuboff, <em>The Age of Surveillance Capitalism</em>, 2019, p. 8</div>
+      </div>
+      <div class="chrome-br">15<span class="of">/</span>18</div>
+    </div>
+    <div class="meta"><span class="num">15</span>Quote: Zuboff · 7:50–8:00</div>
+  </div>
+
+  <!-- SLIDE 16 — Whiteboard pull-quote -->
   <div class="slide-wrap">
     <div class="slide">
-      <div>
-        <div class="quote">
-          <span class="openq">"</span>a bizarre fusion of the cultural bohemianism of San Francisco with the hi-tech industries of Silicon Valley… in the digital utopia, everybody will be both hip and rich."
+      <div class="chrome-tl"><span class="row"><span class="num">No. 16</span>The question Morozov leaves open</span></div>
+      <div class="chrome-tr">After a year with the book</div>
+      <div class="stage whiteboard-stage">
+        <div class="whiteboard-eyebrow"><span class="rule"></span>The question</div>
+        <div class="pull-quote">
+          Do tools find problems, or do they <span class="ovaled">make them?<svg viewBox="0 0 100 100" preserveAspectRatio="none"><ellipse cx="50" cy="50" rx="48" ry="40"></ellipse></svg></span>
         </div>
-        <div class="attribution">Barbrook & Cameron, <em>The Californian Ideology</em>, 1995</div>
       </div>
-      <div class="slide-num">14</div>
+      <div class="chrome-br">16<span class="of">/</span>18</div>
     </div>
-    <div class="meta"><span class="num">14</span> · Quote: Californian Ideology · 7:30–7:50</div>
+    <div class="meta"><span class="num">16</span>Open question · 8:30–9:10</div>
   </div>
 
-  <!-- SLIDE 15 — Zuboff lower third -->
-  <div class="slide-wrap lower-third">
-    <div class="slide">
-      <div class="frame-hint">[ camera frame · JL on screen ]</div>
-      <div class="lt-content">
-        <div class="quote">
-          Once a problem is reframed, the next move is to harvest it.
-        </div>
-        <div class="attribution">Zuboff, <em>Surveillance Capitalism</em>, 2019 (paraphrase)</div>
-      </div>
-      <div class="slide-num">15</div>
-    </div>
-    <div class="meta"><span class="num">15</span> · Lower-third: Zuboff · 7:50–8:00</div>
-  </div>
-
-  <!-- SLIDE 16 — Whiteboard -->
-  <div class="slide-wrap">
-    <div class="slide whiteboard-bg">
-      <div class="whiteboard">
-        Before you ask whether<br>
-        a tool is good,<br>
-        ask <span class="underline">whose problem</span><br>
-        this was.
-      </div>
-      <div class="slide-num">16</div>
-    </div>
-    <div class="meta"><span class="num">16</span> · Whiteboard thesis · 8:00–8:30</div>
-  </div>
-
-  <!-- SLIDE 17 — Roadmap kill -->
+  <!-- SLIDE 17 — Question shift -->
   <div class="slide-wrap">
     <div class="slide">
-      <div class="roadmap">
-        <div class="killed">Tone of Voice Generator</div>
-        <div class="replaced">15-min strategy conversation</div>
+      <div class="chrome-tl"><span class="row"><span class="num">No. 17</span>The working test</span></div>
+      <div class="chrome-tr">Before the book / after the book</div>
+      <div class="stage">
+        <div class="roadmap">
+          <div class="label">— The question Morozov retired —</div>
+          <div class="killed">Does this tool solve a problem?</div>
+          <div class="connector"><span class="rule"></span>Replaced by<span class="rule"></span></div>
+          <div class="replaced">If the tool disappeared, would they miss the tool, or the problem?</div>
+        </div>
       </div>
-      <div class="slide-num">17</div>
+      <div class="chrome-br">17<span class="of">/</span>18</div>
     </div>
-    <div class="meta"><span class="num">17</span> · Roadmap kill · 8:30–9:15</div>
+    <div class="meta"><span class="num">17</span>Working test · 9:00–9:10</div>
   </div>
 
-  <!-- SLIDE 18 — Closing -->
+  <!-- SLIDE 18 — Closing (Kranzberg with full citation) -->
   <div class="slide-wrap">
-    <div class="slide closing">
-      <div>
-        <div class="quote short" style="text-align: center;">
-          <span class="openq">"</span>Technology is neither good nor bad; nor is it neutral."
-        </div>
-        <div class="attribution" style="text-align: center;">Melvin Kranzberg, 1986</div>
+    <div class="slide dark">
+      <div class="chrome-tl"><span class="row"><span class="num">No. 18</span>Closing</span></div>
+      <div class="chrome-tr">Kranzberg<br>1986</div>
+      <div class="stage closing-stage">
+        <div class="quote-mark">&ldquo;</div>
+        <div class="quote short">Technology is neither good nor bad; nor is it neutral.</div>
+        <div class="attribution"><span class="rule"></span>Melvin Kranzberg, <em>Technology and Culture</em> 27, no. 3 (1986), p. 545</div>
       </div>
-      <div class="slide-num">18</div>
+      <div class="chrome-br">18<span class="of">/</span>18</div>
     </div>
-    <div class="meta"><span class="num">18</span> · Closing card · 9:50–10:00</div>
+    <div class="meta"><span class="num">18</span>Closing card · 9:50–10:00</div>
   </div>
 
 </div>
@@ -751,17 +1215,596 @@
   let mode = 'view';
   let current = 0;
 
+  const EASE = 'cubic-bezier(0.16, 1, 0.3, 1)';
+  // Detect reduced-motion (don't BLOCK animations — just simplify them)
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---------- Keyframe builders ----------
+  const kfUp = (y) => [
+    { opacity: 0, transform: `translateY(${y}px)` },
+    { opacity: 1, transform: 'translateY(0)' }
+  ];
+  const kfDown = (y) => [
+    { opacity: 0, transform: `translateY(-${y}px)` },
+    { opacity: 1, transform: 'translateY(0)' }
+  ];
+  const kfFade = [{ opacity: 0 }, { opacity: 1 }];
+  const kfScaleIn = [
+    { opacity: 0, transform: 'scale(0.85)' },
+    { opacity: 1, transform: 'scale(1)' }
+  ];
+  const kfLetter = [
+    { opacity: 0, transform: 'translateY(28px) scale(0.88)' },
+    { opacity: 1, transform: 'translateY(0) scale(1)' }
+  ];
+  const kfWord = (y = 32) => [
+    { opacity: 0, transform: `translateY(${y}px)` },
+    { opacity: 1, transform: 'translateY(0)' }
+  ];
+  const kfRuleX = [{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }];
+  const kfBook = [
+    { opacity: 0, transform: 'perspective(1200px) rotateY(-25deg) translateX(-50px)' },
+    { opacity: 1, transform: 'perspective(1200px) rotateY(-7deg) translateX(0)' }
+  ];
+
+  // ---------- Core dispatchers ----------
+  function play(el, keyframes, delay, duration) {
+    if (!el) return;
+    el.animate(keyframes, { delay, duration, easing: EASE, fill: 'both' });
+  }
+  function playAll(slide, selector, keyframes, baseDelay, duration, stagger = 0) {
+    slide.querySelectorAll(selector).forEach((el, i) => {
+      el.animate(keyframes, {
+        delay: baseDelay + i * stagger,
+        duration, easing: EASE, fill: 'both'
+      });
+    });
+  }
+
+  // ---------- Text splitter ----------
+  // Walks element children. Text nodes get split into per-word (or per-letter) spans.
+  // Element nodes (em, strong, br, span) are recursed into and preserved.
+  function splitText(el, mode = 'words') {
+    if (!el || el.dataset.split === mode) return;
+    const wrapToken = (text, isLetter) => {
+      const span = document.createElement('span');
+      span.className = isLetter ? 'split-letter' : 'split-word';
+      span.textContent = text;
+      return span;
+    };
+    const walk = (node) => {
+      const children = Array.from(node.childNodes);
+      children.forEach(child => {
+        if (child.nodeType === Node.TEXT_NODE) {
+          const text = child.nodeValue;
+          if (!text || !text.trim()) return; // keep whitespace as-is
+          const frag = document.createDocumentFragment();
+          if (mode === 'letters') {
+            // Split on words first, then per letter; preserve whitespace
+            const tokens = text.split(/(\s+)/);
+            tokens.forEach(tok => {
+              if (/^\s+$/.test(tok)) {
+                frag.appendChild(document.createTextNode(tok));
+              } else if (tok.length) {
+                // Wrap each letter, but group letters of one word inside a no-break wrapper
+                const wordWrap = document.createElement('span');
+                wordWrap.style.display = 'inline-block';
+                wordWrap.style.whiteSpace = 'nowrap';
+                [...tok].forEach(ch => wordWrap.appendChild(wrapToken(ch, true)));
+                frag.appendChild(wordWrap);
+              }
+            });
+          } else {
+            const tokens = text.split(/(\s+)/);
+            tokens.forEach(tok => {
+              if (/^\s+$/.test(tok)) {
+                frag.appendChild(document.createTextNode(tok));
+              } else if (tok.length) {
+                frag.appendChild(wrapToken(tok, false));
+              }
+            });
+          }
+          node.replaceChild(frag, child);
+        } else if (child.nodeType === Node.ELEMENT_NODE) {
+          // Don't split inside SVG, BR, or already-split spans
+          if (['BR', 'SVG'].includes(child.tagName)) return;
+          if (child.classList && (child.classList.contains('split-word') || child.classList.contains('split-letter'))) return;
+          walk(child);
+        }
+      });
+    };
+    walk(el);
+    el.dataset.split = mode;
+  }
+
+  function staggerReveal(el, mode, baseDelay, stagger, duration, travelY) {
+    if (!el) return;
+    if (reducedMotion) {
+      // Reduced motion: simple fade, no split
+      el.animate(kfFade, { delay: baseDelay, duration: duration * 0.6, easing: EASE, fill: 'both' });
+      return;
+    }
+    splitText(el, mode);
+    const cls = mode === 'letters' ? '.split-letter' : '.split-word';
+    const spans = el.querySelectorAll(cls);
+    const kf = mode === 'letters' ? kfLetter : kfWord(travelY ?? 32);
+    spans.forEach((s, i) => {
+      s.animate(kf, {
+        delay: baseDelay + i * stagger,
+        duration, easing: EASE, fill: 'both'
+      });
+    });
+  }
+
+  // ---------- Highlight reveal helpers ----------
+  function highlightKf(travelY, isDark) {
+    const hot = isDark ? '#e85a3c' : '#7a1f1f';
+    return [
+      { opacity: 0, transform: `translateY(${travelY}px)`, color: 'inherit' },
+      { opacity: 1, transform: 'translateY(0)', color: hot, offset: 0.7 },
+      { opacity: 1, transform: 'translateY(0)', color: hot, offset: 1 }
+    ];
+  }
+  function revealHighlight(el, baseDelay, stagger, duration, travelY, hlMatchers, isDark) {
+    if (!el) return;
+    if (reducedMotion) { el.animate(kfFade, {delay: baseDelay, duration: 400, easing: EASE, fill: 'both'}); return; }
+    splitText(el, 'words');
+    const spans = el.querySelectorAll('.split-word');
+    spans.forEach((s, i) => {
+      const cleaned = s.textContent.toLowerCase().replace(/[—,.;:!?'"\[\]…]/g, '').trim();
+      const isHl = hlMatchers.some(m => m === cleaned || cleaned.startsWith(m));
+      const kf = isHl ? highlightKf(travelY, isDark) : kfWord(travelY);
+      s.animate(kf, { delay: baseDelay + i * stagger, duration, easing: EASE, fill: 'both' });
+    });
+  }
+  // Two-stage word reveal split on a marker word (e.g. "[…]" or ";")
+  function revealHalves(el, marker, baseDelay, gap, stagger, duration, travelY, isDark) {
+    if (!el) return;
+    if (reducedMotion) { el.animate(kfFade, {delay: baseDelay, duration: 400, easing: EASE, fill: 'both'}); return; }
+    splitText(el, 'words');
+    const spans = Array.from(el.querySelectorAll('.split-word'));
+    const markerIdx = spans.findIndex(s => s.textContent.includes(marker));
+    spans.forEach((s, i) => {
+      const isAfter = markerIdx >= 0 && i > markerIdx;
+      const isMarker = i === markerIdx;
+      const delay = baseDelay + i * stagger + (isAfter ? gap : 0);
+      const kf = isMarker ? highlightKf(travelY, isDark) : kfWord(travelY);
+      s.animate(kf, { delay, duration, easing: EASE, fill: 'both' });
+    });
+  }
+
+  // ---------- Per-slide choreography ----------
+  function animateSlide(slide) {
+    const isDark = slide.querySelector('.slide.dark') || slide.querySelector('.slide').classList.contains('dark');
+
+    // Universal: chrome corners (every slide, but slightly varied direction creates rhythm)
+    play(slide.querySelector('.chrome-tl'), kfDown(40), 80, 700);
+    play(slide.querySelector('.chrome-tr'), kfDown(40), 140, 700);
+    play(slide.querySelector('.chrome-bl'), kfUp(40), 200, 700);
+    play(slide.querySelector('.chrome-br'), kfUp(40), 260, 700);
+
+    switch (current) {
+      case 0:  animTitle(slide); break;
+      case 1:  animBookCover(slide); break;
+      case 2:  animSolutionism(slide, isDark); break;
+      case 3:  animDobbins(slide); break;
+      case 4:  animConcept(slide); break;
+      case 5:  animExamples(slide); break;
+      case 6:  animImperfection(slide); break;
+      case 7:  animTaglines(slide); break;
+      case 8:  animAndreessen1(slide); break;
+      case 9:  animAndreessen2(slide); break;
+      case 10: animReframes(slide); break;
+      case 11: animSelfCard(slide); break;
+      case 12: animCritique(slide); break;
+      case 13: animCalifornian(slide, isDark); break;
+      case 14: animZuboff(slide); break;
+      case 15: animWhiteboard(slide); break;
+      case 16: animQuestionShift(slide); break;
+      case 17: animKranzberg(slide, isDark); break;
+      default: animDefaultQuote(slide);
+    }
+  }
+
+  // — 0: TITLE — letter typewriter, line-aware pauses, italic line slower (a deliberate writing-down)
+  function animTitle(slide) {
+    play(slide.querySelector('.title-eyebrow'), kfUp(30), 200, 600);
+    slide.querySelectorAll('.title-eyebrow .rule').forEach(r => play(r, kfRuleX, 320, 700));
+    const titleMain = slide.querySelector('.title-main');
+    if (titleMain) {
+      splitText(titleMain, 'letters');
+      let delay = 380;
+      const lineGap = 260;
+      const baseStg = 26;
+      const walk = (node, italicCtx) => {
+        if (node.nodeType !== Node.ELEMENT_NODE) return;
+        if (node.tagName === 'BR') { delay += lineGap; return; }
+        if (node.classList && node.classList.contains('split-letter')) {
+          node.animate(kfLetter, { delay, duration: italicCtx ? 700 : 600, easing: EASE, fill: 'both' });
+          delay += italicCtx ? baseStg + 6 : baseStg;
+          return;
+        }
+        const isEm = node.tagName === 'EM';
+        Array.from(node.childNodes).forEach(c => walk(c, italicCtx || isEm));
+      };
+      Array.from(titleMain.childNodes).forEach(c => walk(c, false));
+    }
+    play(slide.querySelector('.title-sub'), kfUp(30), 1700, 700);
+  }
+
+  // — 1: BOOK COVER — book rotates into place, info reads after
+  function animBookCover(slide) {
+    play(slide.querySelector('.book-mock'), kfBook, 220, 1100);
+    play(slide.querySelector('.book-info .label'), kfUp(30), 700, 600);
+    slide.querySelectorAll('.book-info .label .rule').forEach(r => play(r, kfRuleX, 800, 600));
+    const bookH = slide.querySelector('.book-info h2');
+    if (bookH) staggerReveal(bookH, 'words', 950, 50, 700, 28);
+    play(slide.querySelector('.book-info .by'), kfUp(20), 1700, 600);
+  }
+
+  // — 2: SOLUTIONISM QUOTE — three derogatory adjectives flash to accent (the venom is in those words)
+  function animSolutionism(slide, isDark) {
+    play(slide.querySelector('.quote-mark'), kfScaleIn, 220, 700);
+    const q = slide.querySelector('.quote');
+    revealHighlight(q, 380, 36, 700, 28, ['sexy', 'monumental', 'narrow-minded'], isDark);
+    const wordCount = q ? q.querySelectorAll('.split-word').length : 24;
+    const tail = 380 + wordCount * 36 + 700;
+    play(slide.querySelector('.attribution'), kfUp(30), tail, 600);
+    slide.querySelectorAll('.attribution .rule').forEach(r => play(r, kfRuleX, tail + 80, 600));
+  }
+
+  // — 3: DOBBINS — wrapping text fades, the QUOTED phrase types letter-by-letter (focus on the borrowed words)
+  function animDobbins(slide) {
+    const oneLine = slide.querySelector('.one-line');
+    if (oneLine) {
+      const quoted = oneLine.querySelector('.quoted');
+      if (quoted) {
+        // Wrap "Solutionism reaches" plus everything before .quoted in word spans
+        const beforeText = [];
+        let n = oneLine.firstChild;
+        while (n && n !== quoted) { beforeText.push(n); n = n.nextSibling; }
+        beforeText.forEach(node => {
+          if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim()) {
+            const tokens = node.nodeValue.split(/(\s+)/);
+            const frag = document.createDocumentFragment();
+            tokens.forEach(t => {
+              if (/^\s+$/.test(t)) frag.appendChild(document.createTextNode(t));
+              else if (t.length) {
+                const sp = document.createElement('span');
+                sp.className = 'split-word'; sp.textContent = t; frag.appendChild(sp);
+              }
+            });
+            node.parentNode.replaceChild(frag, node);
+          }
+        });
+        // Animate "Solutionism reaches" word stagger
+        const lead = oneLine.querySelectorAll(':scope > .split-word');
+        lead.forEach((s, i) => s.animate(kfWord(36), {delay: 280 + i * 90, duration: 700, easing: EASE, fill: 'both'}));
+        // Then letter-typewriter on the quoted phrase
+        splitText(quoted, 'letters');
+        const letters = quoted.querySelectorAll('.split-letter');
+        const accentBase = 280 + lead.length * 90 + 400;
+        letters.forEach((s, i) => s.animate(kfLetter, {delay: accentBase + i * 24, duration: 600, easing: EASE, fill: 'both'}));
+      } else {
+        staggerReveal(oneLine, 'words', 280, 50, 700, 36);
+      }
+    }
+    const att = slide.querySelector('.attribution');
+    if (att) play(att, kfUp(30), 3200, 600);
+  }
+
+  // — 4: CONCEPT (internet-centrism) — dictionary feel: term as block, divider draws, definition slow words
+  function animConcept(slide) {
+    play(slide.querySelector('.concept-label'), kfUp(30), 220, 600);
+    slide.querySelectorAll('.concept-label .rule').forEach(r => play(r, kfRuleX, 300, 600));
+    play(slide.querySelector('.concept-term'), kfScaleIn, 480, 800);  // single block reveal — definitional
+    play(slide.querySelector('.concept-divider'), kfRuleX, 1100, 700);
+    staggerReveal(slide.querySelector('.concept-def'), 'words', 1300, 60, 600, 24);  // slow, like reading a dictionary
+  }
+
+  // — 5: EXAMPLES — three specimens, mini cascade per item
+  function animExamples(slide) {
+    slide.querySelectorAll('.grid-3 .item').forEach((item, i) => {
+      const base = 220 + i * 220;
+      const ic = item.querySelector('.icon');
+      if (ic) play(ic, kfScaleIn, base, 700);
+      const tag = item.querySelector('.num-tag');
+      if (tag) play(tag, kfUp(20), base + 200, 500);
+      const lbl = item.querySelector('.label');
+      if (lbl) play(lbl, kfUp(30), base + 320, 600);
+      const sub = item.querySelector('.sub');
+      if (sub) play(sub, kfUp(20), base + 480, 600);
+    });
+  }
+
+  // — 6: IMPERFECTION — slow contemplative breath, each word arrives like a beat
+  function animImperfection(slide) {
+    play(slide.querySelector('.quote-mark'), kfScaleIn, 220, 700);
+    const q = slide.querySelector('.quote');
+    if (q) {
+      splitText(q, 'words');
+      const spans = q.querySelectorAll('.split-word');
+      spans.forEach((s, i) => {
+        s.animate(kfWord(20), { delay: 380 + i * 95, duration: 850, easing: EASE, fill: 'both' });
+      });
+      const tail = 380 + spans.length * 95 + 850;
+      play(slide.querySelector('.attribution'), kfUp(30), tail - 200, 700);
+      slide.querySelectorAll('.attribution .rule').forEach(r => play(r, kfRuleX, tail - 100, 700));
+    }
+  }
+
+  // — 7: THREE TAGLINES — three different motion gestures for three different "voices"
+  function animTaglines(slide) {
+    const rows = slide.querySelectorAll('.tagline-row');
+    rows.forEach((row, i) => {
+      const base = 220 + i * 360;
+      const parens = row.querySelectorAll('.paren');
+      const tag = row.querySelector('.tagline');
+      if (i === 0) {
+        // Voice 1: confident word stagger
+        parens.forEach(p => play(p, kfFade, base, 500));
+        if (tag) staggerReveal(tag, 'words', base + 100, 28, 500, 24);
+      } else if (i === 1) {
+        // Voice 2: scale-in as one block (slogan)
+        parens.forEach(p => play(p, kfFade, base, 500));
+        if (tag) play(tag, kfScaleIn, base + 100, 700);
+      } else {
+        // Voice 3: letter typewriter (clinical, faster)
+        parens.forEach(p => play(p, kfFade, base, 500));
+        if (tag) staggerReveal(tag, 'letters', base + 100, 18, 450);
+      }
+    });
+  }
+
+  // — 8: ANDREESSEN 1 — fast confident faith claim
+  function animAndreessen1(slide) {
+    play(slide.querySelector('.quote-mark'), kfScaleIn, 220, 600);
+    const q = slide.querySelector('.quote');
+    if (q) {
+      splitText(q, 'words');
+      q.querySelectorAll('.split-word').forEach((s, i) => {
+        s.animate(kfWord(24), { delay: 320 + i * 24, duration: 500, easing: EASE, fill: 'both' });
+      });
+      const tail = 320 + q.querySelectorAll('.split-word').length * 24 + 500;
+      play(slide.querySelector('.attribution'), kfUp(30), tail, 600);
+      slide.querySelectorAll('.attribution .rule').forEach(r => play(r, kfRuleX, tail + 80, 600));
+    }
+  }
+
+  // — 9: ANDREESSEN 2 — single slogan-block scale-in (aphorism)
+  function animAndreessen2(slide) {
+    play(slide.querySelector('.quote-mark'), kfScaleIn, 220, 600);
+    const q = slide.querySelector('.quote');
+    if (q) play(q, kfScaleIn, 380, 1000);
+    play(slide.querySelector('.attribution'), kfUp(30), 1500, 600);
+    slide.querySelectorAll('.attribution .rule').forEach(r => play(r, kfRuleX, 1580, 600));
+  }
+
+  // — 10: THREE REFRAMES — each row is a verdict: numeral, then bold subject, then arrow + analysis
+  function animReframes(slide) {
+    slide.querySelectorAll('.num-list .row').forEach((row, i) => {
+      const base = 220 + i * 380;
+      const n = row.querySelector('.n');
+      if (n) play(n, kfUp(40), base, 600);
+      // The bold subject (.text strong) gets emphasis treatment
+      const txt = row.querySelector('.text');
+      if (txt) {
+        const strong = txt.querySelector('strong');
+        if (strong) {
+          // Animate the strong as a block scale-in, then the rest of .text words
+          play(strong, kfScaleIn, base + 120, 600);
+          // Then split the rest of the text (everything that's not strong)
+          // Walk text node siblings of strong
+          let cursor = strong.nextSibling;
+          const restNodes = [];
+          while (cursor) { restNodes.push(cursor); cursor = cursor.nextSibling; }
+          restNodes.forEach(node => {
+            if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim()) {
+              const tokens = node.nodeValue.split(/(\s+)/);
+              const frag = document.createDocumentFragment();
+              tokens.forEach(t => {
+                if (/^\s+$/.test(t)) frag.appendChild(document.createTextNode(t));
+                else if (t.length) {
+                  const sp = document.createElement('span');
+                  sp.className = 'split-word reframe-rest'; sp.textContent = t; frag.appendChild(sp);
+                }
+              });
+              node.parentNode.replaceChild(frag, node);
+            }
+          });
+          const restWords = txt.querySelectorAll('.reframe-rest');
+          restWords.forEach((s, j) => s.animate(kfWord(24), {delay: base + 280 + j * 50, duration: 600, easing: EASE, fill: 'both'}));
+          // Arrow span
+          const arrow = txt.querySelector('.arrow');
+          if (arrow && !arrow.classList.contains('reframe-rest')) {
+            arrow.style.display = 'inline-block';
+            arrow.animate([{opacity:0, transform:'translateX(-12px)'},{opacity:1, transform:'translateX(0)'}],
+              {delay: base + 220, duration: 500, easing: EASE, fill: 'both'});
+          }
+        } else {
+          staggerReveal(txt, 'words', base + 120, 35, 600, 24);
+        }
+      }
+    });
+  }
+
+  // — 11: SELF CARD — top words, long pause, accent line letter typewriter (italic)
+  function animSelfCard(slide) {
+    const card = slide.querySelector('.self-card');
+    if (!card) return;
+    if (card.dataset.split !== 'custom') {
+      const accent = card.querySelector('.accent');
+      // Split top text nodes (everything before .accent) into word spans
+      let n = card.firstChild;
+      const topNodes = [];
+      while (n && n !== accent) {
+        if (n.nodeType === Node.TEXT_NODE && n.nodeValue.trim()) topNodes.push(n);
+        n = n.nextSibling;
+      }
+      topNodes.forEach(node => {
+        const tokens = node.nodeValue.split(/(\s+)/);
+        const frag = document.createDocumentFragment();
+        tokens.forEach(t => {
+          if (/^\s+$/.test(t)) frag.appendChild(document.createTextNode(t));
+          else if (t.length) {
+            const sp = document.createElement('span');
+            sp.className = 'split-word top-word'; sp.textContent = t; frag.appendChild(sp);
+          }
+        });
+        node.parentNode.replaceChild(frag, node);
+      });
+      if (accent) splitText(accent, 'letters');
+      card.dataset.split = 'custom';
+    }
+    const topWords = card.querySelectorAll('.top-word');
+    topWords.forEach((s, i) => s.animate(kfWord(40), {delay: 280 + i * 80, duration: 700, easing: EASE, fill: 'both'}));
+    const accent = card.querySelector('.accent');
+    if (accent) {
+      const letters = accent.querySelectorAll('.split-letter');
+      const baseDelay = 280 + topWords.length * 80 + 600; // long pause before italic accent
+      letters.forEach((s, i) => s.animate(kfLetter, {delay: baseDelay + i * 26, duration: 600, easing: EASE, fill: 'both'}));
+    }
+  }
+
+  // — 12: CRITIQUE LABELS — fast strikes, sharper rhythm
+  function animCritique(slide) {
+    slide.querySelectorAll('.crit').forEach((c, i) => {
+      const base = 220 + i * 200;
+      const idx = c.querySelector('.index');
+      if (idx) play(idx, kfUp(30), base, 450);
+      const lbl = c.querySelector('.label');
+      if (lbl) staggerReveal(lbl, 'words', base + 80, 22, 500, 22);
+    });
+  }
+
+  // — 13: CALIFORNIAN IDEOLOGY — two halves bridged by [...] which highlights at the bridge moment
+  function animCalifornian(slide, isDark) {
+    play(slide.querySelector('.quote-mark'), kfScaleIn, 220, 700);
+    const q = slide.querySelector('.quote');
+    revealHalves(q, '[…]', 380, 600, 36, 700, 28, isDark);
+    const wordCount = q ? q.querySelectorAll('.split-word').length : 25;
+    const tail = 380 + wordCount * 36 + 700 + 600; // extra gap for the pause
+    play(slide.querySelector('.attribution'), kfUp(30), tail, 600);
+    slide.querySelectorAll('.attribution .rule').forEach(r => play(r, kfRuleX, tail + 80, 600));
+  }
+
+  // — 14: ZUBOFF — full-screen quote, slow purposeful word stagger (the economics line lands heavily)
+  function animZuboff(slide) {
+    play(slide.querySelector('.quote-mark'), kfScaleIn, 220, 700);
+    const q = slide.querySelector('.quote');
+    if (q) {
+      splitText(q, 'words');
+      const spans = q.querySelectorAll('.split-word');
+      // Highlight the loaded words: "unilaterally", "claims", "free raw material", "behavioral data"
+      const hot = ['unilaterally', 'claims', 'free', 'raw', 'material'];
+      spans.forEach((s, i) => {
+        const cleaned = s.textContent.toLowerCase().replace(/[—,.;:!?'"\[\]…]/g, '').trim();
+        const isHl = hot.includes(cleaned);
+        const kf = isHl
+          ? [
+              {opacity:0, transform:'translateY(28px)', color:'inherit'},
+              {opacity:1, transform:'translateY(0)', color:'#e85a3c', offset:0.7},
+              {opacity:1, transform:'translateY(0)', color:'#e85a3c', offset:1}
+            ]
+          : kfWord(28);
+        s.animate(kf, { delay: 380 + i * 55, duration: 800, easing: EASE, fill: 'both' });
+      });
+      const tail = 380 + spans.length * 55 + 800;
+      play(slide.querySelector('.attribution'), kfUp(30), tail, 700);
+      slide.querySelectorAll('.attribution .rule').forEach(r => play(r, kfRuleX, tail + 80, 700));
+    }
+  }
+
+  // — 15: WHITEBOARD — slowest reveal in the deck, hand-written feel; oval draws via CSS
+  function animWhiteboard(slide) {
+    play(slide.querySelector('.whiteboard-eyebrow'), kfUp(30), 220, 600);
+    slide.querySelectorAll('.whiteboard-eyebrow .rule').forEach(r => play(r, kfRuleX, 300, 600));
+    const pq = slide.querySelector('.pull-quote');
+    if (pq) {
+      splitText(pq, 'words');
+      const spans = pq.querySelectorAll('.split-word');
+      spans.forEach((s, i) => {
+        s.animate(kfWord(36), { delay: 420 + i * 110, duration: 800, easing: EASE, fill: 'both' });
+      });
+    }
+  }
+
+  // — 16: QUESTION SHIFT — kill words, strike draws, connector, replace italic word stagger with bigger lift
+  function animQuestionShift(slide) {
+    const label = slide.querySelector('.roadmap .label');
+    if (label) play(label, kfUp(20), 220, 500);
+    const killed = slide.querySelector('.roadmap .killed');
+    if (killed) {
+      killed.classList.remove('struck');
+      staggerReveal(killed, 'words', 380, 55, 600, 28);
+      const total = 380 + (killed.querySelectorAll('.split-word').length || 4) * 55 + 600;
+      setTimeout(() => killed.classList.add('struck'), total + 200);
+    }
+    const connector = slide.querySelector('.roadmap .connector');
+    if (connector) play(connector, kfUp(20), 1500, 500);
+    slide.querySelectorAll('.roadmap .connector .rule').forEach(r => play(r, kfRuleX, 1650, 600));
+    const replaced = slide.querySelector('.roadmap .replaced');
+    if (replaced) {
+      splitText(replaced, 'words');
+      replaced.querySelectorAll('.split-word').forEach((s, i) => {
+        s.animate([
+          { opacity: 0, transform: 'translateY(50px) scale(0.96)' },
+          { opacity: 1, transform: 'translateY(0) scale(1)' }
+        ], { delay: 1850 + i * 65, duration: 800, easing: EASE, fill: 'both' });
+      });
+    }
+  }
+
+  // — 17: KRANZBERG — two clauses split at semicolon. Pause between honors the punctuation.
+  function animKranzberg(slide, isDark) {
+    play(slide.querySelector('.quote-mark'), kfScaleIn, 220, 700);
+    const q = slide.querySelector('.quote');
+    if (q) {
+      splitText(q, 'words');
+      const spans = Array.from(q.querySelectorAll('.split-word'));
+      // Find word containing semicolon
+      const semiIdx = spans.findIndex(s => s.textContent.includes(';'));
+      spans.forEach((s, i) => {
+        const isAfter = semiIdx >= 0 && i > semiIdx;
+        const delay = 380 + i * 70 + (isAfter ? 700 : 0);  // long pause at the semicolon
+        const dur = isAfter ? 800 : 600;
+        s.animate(kfWord(28), { delay, duration: dur, easing: EASE, fill: 'both' });
+      });
+      const tail = 380 + spans.length * 70 + 700 + 800;
+      play(slide.querySelector('.attribution'), kfUp(30), tail, 700);
+      slide.querySelectorAll('.attribution .rule').forEach(r => play(r, kfRuleX, tail + 80, 700));
+    }
+  }
+
+  // Default fallback (shouldn't fire — every slide has a case above)
+  function animDefaultQuote(slide) {
+    play(slide.querySelector('.quote-mark'), kfScaleIn, 220, 700);
+    staggerReveal(slide.querySelector('.quote'), 'words', 380, 36, 700, 28);
+    play(slide.querySelector('.attribution'), kfUp(30), 1200, 600);
+  }
+
   function toggleMode() {
     mode = mode === 'view' ? 'present' : 'view';
     deck.classList.toggle('present', mode === 'present');
     if (mode === 'present') showSlide(current);
-    else { slides.forEach(s => s.classList.remove('active')); counter.textContent = 'View all'; }
+    else {
+      slides.forEach(s => s.classList.remove('active'));
+      counter.textContent = 'View all';
+    }
   }
+
   function showSlide(i) {
     current = (i + slides.length) % slides.length;
-    slides.forEach((s, idx) => s.classList.toggle('active', idx === current));
-    counter.textContent = `${current + 1} / ${slides.length}`;
+    const target = slides[current];
+    slides.forEach(s => s.classList.remove('active'));
+    target.classList.add('active');
+    // Trigger animations on the next frame so the wrap fade-in starts first
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => animateSlide(target));
+    });
+    counter.textContent = `${String(current + 1).padStart(2,'0')} / ${slides.length}`;
   }
+
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && mode === 'present') toggleMode();
     if (mode !== 'present') return;
