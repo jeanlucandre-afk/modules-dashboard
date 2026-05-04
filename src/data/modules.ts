@@ -643,7 +643,7 @@ export const data: DashboardData = {
         'Specifics set by the lecturer (Fabian) — exact spec must be confirmed',
       ],
       deliverables: [
-        { name: '10-min video essay on Morozov, To Save Everything, Click Here (2013)', status: 'inprogress', notes: 'Script + slides finalised 2026-05-03. ~2,200 spoken words, 18-slide editorial deck (Instrument Serif + Manrope, cream/dark, oxblood accent), per-slide animations. All eight source quotes verified. Five critics triangulated (Brabazon, Nachtwey & Seidl, Manjoo, Payne, LibrarianShipwreck). Reading view at video_essay_script.html, deck at video_essay_slides.html. Records today; submits MP4 link by 2026-05-04.' },
+        { name: '10-min video essay on Morozov, To Save Everything, Click Here (2013)', status: 'done', notes: 'SUBMITTED ✓. Script + 18-slide deck recorded and uploaded.', url: 'https://drive.google.com/file/d/1Yqb1-IQ9CGMeXFNgeffvnAgq_GlEKRkl/view?usp=sharing' },
       ],
       level3Plan: [
         { step: 'Confirm exact assessment format from Fabian (presentation vs video essay, length, format)', why: 'Confirmed: 10-minute video essay, MP4 link, graded on understanding + critique + own opinion connected to STS themes', done: true },
@@ -651,8 +651,8 @@ export const data: DashboardData = {
         { step: 'Develop your own observations / criticisms / summaries', done: true },
         { step: 'Outline the video essay', done: true },
         { step: 'Build slides + script', done: true },
-        { step: 'Record + edit', done: false },
-        { step: 'Submit MP4 link by 2026-05-04', done: false },
+        { step: 'Record + edit', done: true },
+        { step: 'Submit MP4 link by 2026-05-04', done: true },
       ],
       checklist: [
         { label: 'Read all assigned materials thoroughly',            done: true },
@@ -663,10 +663,10 @@ export const data: DashboardData = {
         { label: 'Script written (~2,200 words, ~13 min)',            done: true },
         { label: 'Slides built (18-slide deck, animations)',          done: true },
         { label: 'All quote citations verified',                      done: true },
-        { label: 'Recorded',                                          done: false },
-        { label: 'MP4 submitted',                                     done: false },
+        { label: 'Recorded',                                          done: true },
+        { label: 'MP4 submitted',                                     done: true },
       ],
-      nextAction: 'Record the video essay today against the slides at deliverables/STS_04/video_essay_slides.html, then export MP4 and submit by 2026-05-04',
+      nextAction: 'COMPLETE ✓ — video essay recorded and submitted.',
       notes: 'Anchor: Morozov, To Save Everything, Click Here (2013). Read alongside Andreessen (Techno-Optimist Manifesto, 2023), Barbrook & Cameron (Californian Ideology, 1995), Zuboff (Surveillance Capitalism, 2019). Script + slides written entirely by Jean-Luc with research support. All deliverables in dashboard/deliverables/STS_04/.',
     },
 
