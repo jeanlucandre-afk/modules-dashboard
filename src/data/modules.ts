@@ -743,7 +743,7 @@ export const data: DashboardData = {
       deliverables: [
         { name: 'Poster 1 (PDF, APA 7th)',                                 status: 'done', notes: 'Submitted ✓' },
         { name: 'Poster 2 (PDF, APA 7th)',                                 status: 'done', notes: 'Submitted ✓' },
-        { name: 'Poster Presentation at Demo event (open audience)',       status: 'todo', notes: 'Demo is later — not yet scheduled' },
+        { name: 'Poster Presentation at Demo event (open audience)',       status: 'done', notes: 'Done ✓' },
         { name: '~500-word Reflective self-assessment (with Gibbs cycle)', status: 'done', notes: 'Submitted ✓' },
       ],
       level3Plan: [
@@ -754,7 +754,7 @@ export const data: DashboardData = {
         { step: 'Write ~500-word reflection: Gibbs cycle + self-assessed Level 3 with REASONING', why: 'Level 3 here is YOU declaring it — the reasoning is what justifies the grade', done: true },
         { step: 'Add APA 7th citations across both posters AND the reflection', why: 'Hard requirement', done: true },
         { step: 'Upload both posters as PDFs to Fuxam BEFORE the Demo event', done: true },
-        { step: 'Present at the Demo event (open audience)', done: false },
+        { step: 'Present at the Demo event (open audience)', done: true },
       ],
       checklist: [
         { label: 'Topic/area/project chosen',                                 done: true },
@@ -769,10 +769,10 @@ export const data: DashboardData = {
         { label: 'Reflection: personal reflection + Gibbs cycle',              done: true },
         { label: 'APA 7th citations across posters + reflection',              done: true },
         { label: 'Posters uploaded to Fuxam pre-Demo',                         done: true },
-        { label: 'Demo presentation delivered',                                done: false },
+        { label: 'Demo presentation delivered',                                done: true },
       ],
-      nextAction: 'All submitted ✓. Demo presentation is the only remaining step — date TBC.',
-      notes: 'Posters + reflection submitted ✓. Demo presentation pending (later date). Level 3 is self-declared in the 500-word reflection.',
+      nextAction: 'COMPLETE ✓ — all deliverables done.',
+      notes: 'COMPLETE ✓. Posters + reflection + Demo presentation all done. Level 3 self-declared in the 500-word reflection.',
     },
 
     /* ============================================================
